@@ -1,20 +1,20 @@
-function retornarLienzo(x)
+function returnCanvas(x)
 {
  var canvas = document.getElementById(x);
  if (canvas.getContext)
  {
- var lienzo = canvas.getContext("2d");
- return lienzo;
+ var can = canvas.getContext("2d");
+ return can;
  }
  else
  return false;
 }
-function dibujar()
+function draw()
 {
- var lienzo=retornarLienzo("lienzo1");
- if (lienzo)
+ var can=returnCanvas("canvas1");
+ if (can)
  {
- lienzo.fillStyle = "rgb(200,0,0)";
- lienzo.fillRect (10, 10, 100, 100);
+ can.fillStyle = "rgb(200,0,0)";
+ can.fillRect (10, 10, 100, 100);
  }
 }
