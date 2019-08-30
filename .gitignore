@@ -1,0 +1,17 @@
+UI/node_modules
+model/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+model/.apt_generated
+model/.classpath
+model/.factorypath
+model/.project
+model/.settings
+model/.springBeans
+
+### IntelliJ IDEA ###
+model/.idea
+*.iws
+*.iml
+*.ipr
