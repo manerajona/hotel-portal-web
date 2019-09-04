@@ -1,5 +1,6 @@
 package ar.edu.iua.portal.hotel.dao;
 
+import ar.edu.iua.portal.hotel.dao.impl.UserDaoImpl;
 import ar.edu.iua.portal.hotel.entity.User;
 import ar.edu.iua.portal.hotel.security.EncryptionHelper;
 import ar.edu.iua.portal.hotel.repository.UserRepository;

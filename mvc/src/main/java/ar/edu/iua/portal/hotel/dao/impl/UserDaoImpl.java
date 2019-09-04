@@ -1,5 +1,7 @@
-package ar.edu.iua.portal.hotel.dao;
+package ar.edu.iua.portal.hotel.dao.impl;
 
+import ar.edu.iua.portal.hotel.cons.Imessages;
+import ar.edu.iua.portal.hotel.dao.UserDao;
 import ar.edu.iua.portal.hotel.security.EncryptionHelper;
 import ar.edu.iua.portal.hotel.entity.User;
 import ar.edu.iua.portal.hotel.repository.UserRepository;
@@ -13,13 +15,13 @@ import java.security.NoSuchAlgorithmException;
 @Qualifier("userDaoImpl")
 public class UserDaoImpl implements UserDao {
 
-	@Autowired
+    @Autowired
 	private UserRepository userRepository;
 
     @Override
     public User getUser(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User with id " + id + " not found."));
+                .orElseThrow(() -> new RuntimeException(String.format(Imessages.USER_WITH_ID_NOT_FOUND, id)));
     }
 
     @Override
@@ -31,7 +33,7 @@ public class UserDaoImpl implements UserDao {
             genericMessage();
         }
         return userRepository.findByUserAndPassword(user, shaPassword)
-                .orElseThrow(() -> new RuntimeException("The username or password are incorrect."));
+                .orElseThrow(() -> new RuntimeException(Imessages.THE_USERNAME_OR_PASSWORD_ARE_INCORRECT));
     }
 
     @Override
@@ -51,6 +53,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     private void genericMessage() {
-        new RuntimeException("something went wrong please try again later.");
+        new RuntimeException(Imessages.SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER);
     }
 }
