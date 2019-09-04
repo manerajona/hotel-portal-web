@@ -11,6 +11,6 @@ public interface ReservationDao {
 
     Reservation updateReservation(String username, Timestamp newDateIn, Timestamp newDateOut, int newGuests);
 
-    void createReservation(Reservation message);
+    void createReservation(Reservation reservation);
 
 }
