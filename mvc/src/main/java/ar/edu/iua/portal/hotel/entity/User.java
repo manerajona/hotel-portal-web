@@ -1,6 +1,7 @@
 package ar.edu.iua.portal.hotel.entity;
 
 import ar.edu.iua.portal.hotel.security.EncryptionHelper;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -10,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 @Table(name = "user")
 public class User {
     @Id
+    @Column(name = "iduser")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -29,6 +31,9 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name="is_admin", columnDefinition = "TINYINT")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private boolean admin = false;
 
     public Long getId() {
         return id;
@@ -78,4 +83,11 @@ public class User {
         this.lastName = lastName;
     }
 
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
 }

@@ -1,5 +1,12 @@
 UI/node_modules
-model/target/
+### maven ###
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.logs
+
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
@@ -11,6 +18,7 @@ model/.settings
 model/.springBeans
 
 ### IntelliJ IDEA ###
+.idea/
 model/.idea
 *.iws
 *.iml
