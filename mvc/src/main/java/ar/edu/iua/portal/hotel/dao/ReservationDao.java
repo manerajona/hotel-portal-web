@@ -2,6 +2,7 @@ package ar.edu.iua.portal.hotel.dao;
 
 import ar.edu.iua.portal.hotel.entity.Reservation;
 
+import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -9,8 +10,10 @@ public interface ReservationDao {
 
     List<Reservation> getUserReservations(String username);
 
-    Reservation updateReservation(String username, Timestamp newDateIn, Timestamp newDateOut, int newGuests);
+    List<Reservation> getAllReservations();
 
-    void createReservation(Reservation reservation);
+    Reservation updateReservation(@NotBlank Integer id, @NotBlank Timestamp newDateIn, @NotBlank Timestamp newDateOut, @NotBlank Integer newGuests);
+
+    Reservation createReservation(Reservation reservation);
 
 }

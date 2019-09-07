@@ -2,7 +2,6 @@ package ar.edu.iua.portal.hotel.service;
 
 import ar.edu.iua.portal.hotel.dao.ReservationDao;
 import ar.edu.iua.portal.hotel.entity.Reservation;
-import ar.edu.iua.portal.hotel.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -21,12 +20,11 @@ public class ReservationService {
 		return reservationDao.getUserReservations(username);
 	}
 
-	public Reservation updateReservation(String username, Timestamp newDateIn, Timestamp newDateOut, int newGuests){
-		return this.updateReservation(username, newDateIn, newDateOut, newGuests);
+	public Reservation updateReservation(Integer id, Timestamp newDateIn, Timestamp newDateOut, int newGuests){
+		return reservationDao.updateReservation(id, newDateIn, newDateOut, newGuests);
 	}
 
 	public Reservation createReservation(Reservation reservation){
-		this.createReservation(reservation);
-		return reservation;
+		return reservationDao.createReservation(reservation);
 	}
 }

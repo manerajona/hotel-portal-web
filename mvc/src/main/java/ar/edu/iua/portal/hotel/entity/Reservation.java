@@ -11,15 +11,14 @@ public class Reservation {
     @Column(name = "idreservation")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotBlank
     @Column(name = "datein", nullable = false)
     private Timestamp dateIn;
-    @NotBlank
     @Column(name = "dateout", nullable = false)
     private Timestamp dateOut;
-    @NotBlank
     @Column(nullable = false)
     private Integer guests;
+    @Column(name="iduser", nullable = false)
+    private Integer idUser;
 
     public Integer getId() {
         return id;
@@ -51,5 +50,13 @@ public class Reservation {
 
     public void setGuests(Integer guests) {
         this.guests = guests;
+    }
+
+    public Integer getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Integer idUser) {
+        this.idUser = idUser;
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import javax.validation.constraints.NotBlank;
 import java.security.NoSuchAlgorithmException;
 
 @Repository
@@ -37,7 +38,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User updateUser(String username, String newPassword, String oldPassword) {
+    public User updateUser(String username, @NotBlank String newPassword, @NotBlank String oldPassword) {
         User usr = getUser(username, oldPassword);
         try {
             usr.setPassword(newPassword);
