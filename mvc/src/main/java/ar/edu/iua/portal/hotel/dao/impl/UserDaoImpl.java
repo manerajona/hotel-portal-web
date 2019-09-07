@@ -37,19 +37,19 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void updateUser(String username, String newPassword, String oldPassword) {
+    public User updateUser(String username, String newPassword, String oldPassword) {
         User usr = getUser(username, oldPassword);
         try {
             usr.setPassword(newPassword);
         } catch (NoSuchAlgorithmException e) {
             genericMessage();
         }
-        userRepository.save(usr);
+        return userRepository.save(usr);
     }
 
     @Override
-    public void createUser(User user) {
-        userRepository.save(user);
+    public User createUser(User user) {
+        return userRepository.save(user);
     }
 
     private void genericMessage() {

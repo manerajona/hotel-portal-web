@@ -21,11 +21,11 @@ public class UserService {
 		return this.userDao.getUser(user, password);
 	}
 
-	public void updateUser(String username, String newPassword, String oldPassword) {
-		this.userDao.updateUser(username, newPassword, oldPassword);
+	public User updateUser(String username, String newPassword, String oldPassword) {
+		return this.userDao.updateUser(username, newPassword, oldPassword);
 	}
 
-	public void createUser(User user) {
-		this.userDao.createUser(user);
+	public User createUser(User user) {
+		return this.userDao.createUser(user);
 	}
 }

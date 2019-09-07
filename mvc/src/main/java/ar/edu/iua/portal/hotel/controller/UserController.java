@@ -22,13 +22,12 @@ public class UserController {
 
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public User createUser(@RequestBody User user) {
-		this.userService.createUser(user);
-		return user;
+		return this.userService.createUser(user);
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void updateUser(@RequestBody PasswordForm form) {
-		this.userService.updateUser(form.getUsername(), form.getNewPassword(), form.getOldPassword());
+	public User updateUser(@RequestBody PasswordForm form) {
+		return this.userService.updateUser(form.getUsername(), form.getNewPassword(), form.getOldPassword());
 	}
 
 	protected static class PasswordForm {

@@ -8,6 +8,6 @@ public interface MessageDao {
 
     List<Message> getAllMessages();
 
-    void createMessage(Message message);
+    Message createMessage(Message message);
 
 }

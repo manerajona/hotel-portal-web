@@ -1,9 +1,7 @@
 package ar.edu.iua.portal.hotel.service;
 
 import ar.edu.iua.portal.hotel.dao.MessageDao;
-import ar.edu.iua.portal.hotel.dao.UserDao;
 import ar.edu.iua.portal.hotel.entity.Message;
-import ar.edu.iua.portal.hotel.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -18,11 +16,10 @@ public class MessageService {
 	private MessageDao messageDao;
 
 	public List<Message> getAllMessages(){
-		return this.getAllMessages();
+		return messageDao.getAllMessages();
 	}
 
 	public Message createMessage(Message message){
-		this.createMessage(message);
-		return message;
+		return messageDao.createMessage(message);
 	}
 }

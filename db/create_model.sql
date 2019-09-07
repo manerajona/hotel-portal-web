@@ -62,7 +62,6 @@ CREATE TABLE IF NOT EXISTS `hoteldb`.`message` (
   `iduser` INT NULL,
   PRIMARY KEY (`idmessage`),
   INDEX `fk_message_user_idx` (`iduser` ASC),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC),
   UNIQUE INDEX `idmessage_UNIQUE` (`idmessage` ASC),
   CONSTRAINT `fk_message_user`
     FOREIGN KEY (`iduser`)

@@ -8,8 +8,8 @@ public interface UserDao {
 
     User getUser(String user, String password);
 
-    void updateUser(String username, String newPassword, String oldPassword);
+    User updateUser(String username, String newPassword, String oldPassword);
 
-    void createUser(User user);
+    User createUser(User user);
 
 }
