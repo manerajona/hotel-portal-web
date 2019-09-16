@@ -10,16 +10,13 @@
 
   <title>Hotel portal web</title>
 
-  <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/landing-page.css" rel="stylesheet">
 
   <!-- Custom fonts for this template -->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
   <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-
-  <!-- Custom styles for this template -->
-  <link href="css/landing-page.min.css" rel="stylesheet">
 
 </head>
 
@@ -28,8 +25,8 @@
   <!-- Navigation -->
   <nav class="navbar navbar-light bg-light static-top">
     <div class="container">
-      <a class="navbar-brand" href="#">Córdoba Hotel</a>
-      <a class="btn btn-primary" href="#">Usuarios</a>
+      <a class="navbar-brand" href="#">Hotel Córdoba Inc.</a>
+      <a class="btn btn-primary" href="login">Usuarios</a>
     </div>
   </nav>
 
@@ -122,7 +119,7 @@
 
   <!-- map -->
   <section class="map">
-      <iframe style="width: 100%; height: 350px; overflow: hidden; padding: 10px;" src="https://maps.google.com/?ll=23.135249,-82.359685&z=14&t=m&output=embed"
+      <iframe style="width: 100%; height: 350px; overflow: hidden; padding: 10px;" src="https://maps.google.com/?ll=-31.4200787,-64.1909648&z=17&t=m&output=embed"
                   height="100" width="100" frameborder="0" scrolling="no"></iframe>
   </section>
 
@@ -135,17 +132,19 @@
           <h2 class="mb-5">Dejanos tu mensaje</h2>
         </div>
         <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-          <form>
+          <form id="createMessage" action="/">
             <div class="form-row">
               <div class="col-12 col-md-12 mb-2 mb-md-0">
-                <label>Nombre y Apellido</label><input name="name" class="form-control form-control-lg" type="text" /> <br/>
-                <label>Correo Electrónico</label><input name="mail" class="form-control form-control-lg" type="email" /> <br/>
-                <label>Teléfono de contacto</label><input name="phone" class="form-control form-control-lg" type="text"/> <br/>
+                <input name="id" type="hidden" value="-1">
+                <label>Nombre y Apellido</label><input name="name" class="form-control form-control-lg" type="text" required /> <br/>
+                <label>Asunto</label><input name="subject" class="form-control form-control-lg" type="text" required /> <br/>
+                <label>Correo Electrónico</label><input name="email" class="form-control form-control-lg" type="email" required /> <br/>
+                <label>Teléfono de contacto</label><input name="phone" class="form-control form-control-lg" type="text" required /> <br/>
                 <label>Mensaje</label><br />
-                <textarea class="form-control form-control-lg" cols="60" rows="4"></textarea><br />
+                <textarea name="content" class="form-control form-control-lg" cols="60" rows="4" required></textarea><br />
               </div>
               <div class="col-12 col-md-5">
-                <button type="submit" class="btn btn-block btn-lg btn-primary">Enviar</button>
+                <input type="submit" class="btn btn-block btn-lg btn-primary" value="Enviar">
               </div>
             </div>
           </form>
@@ -169,14 +168,14 @@
             </li>
             <li class="list-inline-item">&sdot;</li>
             <li class="list-inline-item">
-              <a href="#">Reservas</a>
+              <a href="#">Ubicación</a>
             </li>
             <li class="list-inline-item">&sdot;</li>
             <li class="list-inline-item">
-              <a href="#">Usuarios</a>
+              <a href="#">Reservas online</a>
             </li>
           </ul>
-          <p class="text-muted small mb-4 mb-lg-0">&copy; Córdoba Hotel Inc. 2019. Todos los derechos reservados.</p>
+          <p class="text-muted small mb-4 mb-lg-0">Hotel Córdoba Inc. 2019. Todos los derechos reservados.</p>
         </div>
         <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
           <ul class="list-inline mb-0">
@@ -204,7 +203,8 @@
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+  <!-- Controller -->
+  <script src="js/controller.js"></script>
 </body>
 
 </html>
