@@ -2,15 +2,15 @@ package ar.edu.iua.portal.hotel.dao.impl;
 
 import ar.edu.iua.portal.hotel.cons.Imessages;
 import ar.edu.iua.portal.hotel.dao.UserDao;
-import ar.edu.iua.portal.hotel.security.EncryptionHelper;
 import ar.edu.iua.portal.hotel.entity.User;
+import ar.edu.iua.portal.hotel.repository.RoleRepository;
 import ar.edu.iua.portal.hotel.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import javax.validation.constraints.NotBlank;
-import java.security.NoSuchAlgorithmException;
+import java.util.HashSet;
 
 @Repository
 @Qualifier("userDaoImpl")
@@ -19,6 +19,12 @@ public class UserDaoImpl implements UserDao {
     @Autowired
 	private UserRepository userRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public User getUser(Long id) {
         return userRepository.findById(id)
@@ -26,34 +32,29 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
     public User getUser(String user, String password) {
-        String shaPassword=null;
-        try {
-            shaPassword = EncryptionHelper.toSHA256(password);
-        } catch (NoSuchAlgorithmException e) {
-            genericMessage();
-        }
-        return userRepository.findByUserAndPassword(user, shaPassword)
+        String encode = bCryptPasswordEncoder.encode(password);
+        return userRepository.findByUserAndPassword(user, encode)
                 .orElseThrow(() -> new RuntimeException(Imessages.THE_USERNAME_OR_PASSWORD_ARE_INCORRECT));
     }
 
     @Override
-    public User updateUser(String username, @NotBlank String newPassword, @NotBlank String oldPassword) {
+    public User updateUser(String username, String newPassword, String oldPassword) {
         User usr = getUser(username, oldPassword);
-        try {
-            usr.setPassword(newPassword);
-        } catch (NoSuchAlgorithmException e) {
-            genericMessage();
-        }
+        usr.setPassword(bCryptPasswordEncoder.encode(newPassword));
         return userRepository.save(usr);
     }
 
     @Override
     public User createUser(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setRoles(new HashSet<>(roleRepository.findAll()));
         return userRepository.save(user);
     }
 
-    private void genericMessage() {
-        new RuntimeException(Imessages.SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER);
-    }
 }

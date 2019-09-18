@@ -1,8 +1,9 @@
 package ar.edu.iua.portal.hotel.controller;
 
+import ar.edu.iua.portal.hotel.dao.ReservationDao;
 import ar.edu.iua.portal.hotel.entity.Reservation;
-import ar.edu.iua.portal.hotel.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,20 +14,21 @@ import java.util.List;
 public class ReservationController {
 
     @Autowired
-    private ReservationService reservationService;
+    @Qualifier("reservationDaoImpl")
+    private ReservationDao reservationDao;
 
     @RequestMapping(value = "/{usr}", method = RequestMethod.GET)
     public List<Reservation> getUserReservations(@PathVariable("usr") String usuario) {
-        return this.reservationService.getUserReservations(usuario);
+        return reservationDao.getUserReservations(usuario);
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Reservation createReservation(@RequestBody Reservation reservation) {
-        return this.reservationService.createReservation(reservation);
+        return reservationDao.createReservation(reservation);
     }
 
     @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Reservation updateReservation(@RequestBody Reservation reservation) {
-        return this.reservationService.updateReservation(reservation.getId(), reservation.getDateIn(), reservation.getDateOut(), reservation.getGuests());
+        return reservationDao.updateReservation(reservation.getId(), reservation.getDateIn(), reservation.getDateOut(), reservation.getGuests());
     }
 }

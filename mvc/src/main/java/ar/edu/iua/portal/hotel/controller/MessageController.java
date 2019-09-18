@@ -1,8 +1,9 @@
 package ar.edu.iua.portal.hotel.controller;
 
+import ar.edu.iua.portal.hotel.dao.MessageDao;
 import ar.edu.iua.portal.hotel.entity.Message;
-import ar.edu.iua.portal.hotel.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,15 +17,16 @@ import java.util.List;
 public class MessageController {
 
     @Autowired
-    private MessageService messageService;
+    @Qualifier("messageDaoImpl")
+    private MessageDao messageDao;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Message> getAllMessages() {
-        return this.messageService.getAllMessages();
+        return messageDao.getAllMessages();
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Message createMessage(@RequestBody Message message) {
-        return this.messageService.createMessage(message);
+        return messageDao.createMessage(message);
     }
 }

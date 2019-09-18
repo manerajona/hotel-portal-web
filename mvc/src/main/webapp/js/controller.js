@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     var root = "http://localhost:8080";
-    var headers = {
+    var jsonHeader = {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
     };
@@ -30,16 +30,14 @@ $(document).ready(function () {
 
             // Send the data using post
             $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
+                headers: jsonHeader,
                 'type': 'POST',
                 'url': url,
                 'data': json,
                 'dataType': 'json',
                 'success': function() {
-                    $('#createMessage')[0].reset();
+                    $('#createUser').remove();
+                    $('.login-form').append('<p class="text-center"><a href="login">Click aquí para loguearse</a></p>');
                 }
             });
         });
@@ -68,10 +66,7 @@ $(document).ready(function () {
 
         // Send the data using post
         $.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
+            headers: jsonHeader,
             'type': 'POST',
             'url': url,
             'data': json,
@@ -86,5 +81,34 @@ $(document).ready(function () {
     **USER SERVICE**
     ******************/
     var reservation = "/reservation";
+
+    $("#createReservation").submit(function( event ) {
+        // Stop form from submitting normally
+        event.preventDefault();
+
+        var url = root + reservation;
+
+        var body = {
+            "id": $('input[name="id"]').val(),
+            "dateIn": $('input[name="dateIn"]').val(),
+            "dateOut": $('input[name="dateOut"]').val(),
+            "guests": $('input[name="guests "]').val(),
+            "idUser": $('input[name="user"]').val()
+        };
+
+        var json = JSON.stringify(body);
+
+        // Send the data using post
+        $.ajax({
+            headers: jsonHeader,
+            'type': 'POST',
+            'url': url,
+            'data': json,
+            'dataType': 'json',
+            'success': function() {
+                $('#createReservation')[0].reset();
+            }
+        });
+    });
 
 });

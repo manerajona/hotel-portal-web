@@ -1,7 +1,6 @@
 package ar.edu.iua.portal.hotel.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "message")
@@ -13,15 +12,12 @@ public class Message {
 
     private String name;
 
-    @NotBlank
     @Column(nullable = false)
     private String subject;
 
-    @NotBlank
     @Column(nullable = false)
     private String content;
 
-    @NotBlank
     @Column(nullable = false)
     private String email;
 

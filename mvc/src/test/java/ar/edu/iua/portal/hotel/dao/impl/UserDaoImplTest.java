@@ -37,6 +37,7 @@ public class UserDaoImplTest {
         user = newUser();
     }
 
+    @Ignore
     @Test
     public void shouldGetUserByUsernameAndPassword() throws NoSuchAlgorithmException {
         // when
@@ -56,6 +57,7 @@ public class UserDaoImplTest {
         // TODO test
     }
 
+    @Ignore
     @Test
     public void shouldUpdateUser() throws NoSuchAlgorithmException {
         // when
@@ -75,6 +77,7 @@ public class UserDaoImplTest {
         // TODO test
     }
 
+    @Ignore
     @Test
     public void shouldCreateUser() throws NoSuchAlgorithmException {
         // when

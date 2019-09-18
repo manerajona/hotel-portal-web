@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
 <!DOCTYPE html>
 <html>
 
@@ -7,7 +13,6 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
   <title>Hotel portal web</title>
 
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -25,7 +30,8 @@
   <!-- Navigation -->
   <nav class="navbar navbar-light bg-light static-top">
     <div class="container">
-      <a class="navbar-brand" href="#">Hotel Córdoba Inc.</a>
+      <a class="navbar-brand" href="index">Hotel Córdoba Inc.</a>
+      <p class="text-muted mb-4 mb-lg-0" style=${username==null?"display:none":"display:inline-block"}>Hola ${username}!</p>
       <a class="btn btn-primary" href="login">Usuarios</a>
     </div>
   </nav>
@@ -38,13 +44,16 @@
         <div class="col-xl-9 mx-auto">
           <h1 class="mb-5">Bienvenido!</h1>
         </div>
-        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+        <div class="col-md-12 col-lg-8 col-xl-7 mx-auto">
           <form>
             <div class="form-row">
-              <div class="col-12 col-md-9 mb-2 mb-md-0">
-                <input type="email" class="form-control form-control-lg" placeholder="Ingresa tu email...">
+              <div class="col-12 col-md-4 mb-2 mb-md-0">
+                <input type="date" class="form-control form-control-lg" placeholder="Fecha de llegada...">
               </div>
-              <div class="col-12 col-md-3">
+              <div class="col-12 col-md-4 mb-2 mb-md-0">
+                <input type="date" class="form-control form-control-lg" placeholder="Fecha de check...">
+              </div>
+              <div class="col-12 col-md-4">
                 <button type="submit" class="btn btn-block btn-lg btn-primary">Reservar</button>
               </div>
             </div>
@@ -205,6 +214,7 @@
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- Controller -->
   <script src="js/controller.js"></script>
+
 </body>
 
 </html>

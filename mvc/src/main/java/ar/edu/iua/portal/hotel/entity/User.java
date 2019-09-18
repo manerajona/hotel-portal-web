@@ -1,11 +1,10 @@
 package ar.edu.iua.portal.hotel.entity;
 
 import ar.edu.iua.portal.hotel.security.EncryptionHelper;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.security.NoSuchAlgorithmException;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -15,14 +14,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     @Column(nullable = false, updatable = false)
     private String username;
 
-    @NotBlank
     private String password;
 
-    @NotBlank
+    @Transient
+    private String passwordConfirm;
+
     private String email;
 
     @Column(name = "first_name")
@@ -31,9 +30,8 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name="is_admin", columnDefinition = "TINYINT")
-    @Type(type = "org.hibernate.type.NumericBooleanType")
-    private boolean admin = false;
+    @ManyToMany
+    private Set<Role> roles;
 
     public Long getId() {
         return id;
@@ -55,8 +53,9 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password) throws NoSuchAlgorithmException {
-        this.password = EncryptionHelper.toSHA256(password);
+    public void setPassword(String password) {
+        //this.password = EncryptionHelper.toSHA256(password);
+        this.password = password;
     }
 
     public String getEmail() {
@@ -83,11 +82,19 @@ public class User {
         this.lastName = lastName;
     }
 
-    public boolean isAdmin() {
-        return admin;
+    public String getPasswordConfirm() {
+        return passwordConfirm;
     }
 
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

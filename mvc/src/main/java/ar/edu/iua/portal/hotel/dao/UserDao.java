@@ -12,4 +12,6 @@ public interface UserDao {
 
     User createUser(User user);
 
+    User findByUsername(String username);
+
 }

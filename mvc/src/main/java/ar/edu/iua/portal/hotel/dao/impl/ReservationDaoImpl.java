@@ -17,10 +17,10 @@ import java.util.List;
 @Qualifier("reservationDaoImpl")
 public class ReservationDaoImpl implements ReservationDao {
 
-    protected static final int ZERO = 0;
+    private static final int ZERO = 0;
 
     @Autowired
-    ReservationRepository reservationRepository;
+    private ReservationRepository reservationRepository;
 
     @Override
     public List<Reservation> getUserReservations(String username) {
@@ -39,7 +39,7 @@ public class ReservationDaoImpl implements ReservationDao {
                 .orElseThrow(() -> new RuntimeException(String.format(Imessages.RESERVATION_WITH_ID_NOT_FOUND, id)));
         reservation.setDateIn(newDateIn);
         reservation.setDateOut(newDateOut);
-        reservation.setGuests(newGuests.intValue());
+        reservation.setGuests(newGuests);
         return checkReservationPreconditionsAndSave(reservation);
     }
 

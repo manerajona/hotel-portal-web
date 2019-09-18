@@ -1,7 +1,6 @@
 package ar.edu.iua.portal.hotel.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 
 @Entity
@@ -11,12 +10,16 @@ public class Reservation {
     @Column(name = "idreservation")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(name = "datein", nullable = false)
     private Timestamp dateIn;
+
     @Column(name = "dateout", nullable = false)
     private Timestamp dateOut;
+
     @Column(nullable = false)
     private Integer guests;
+
     @Column(name="iduser", nullable = false)
     private Integer idUser;
 
