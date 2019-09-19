@@ -1,6 +1,8 @@
 package ar.edu.iua.portal.hotel.controller;
 
+import ar.edu.iua.portal.hotel.entity.Message;
 import ar.edu.iua.portal.hotel.entity.User;
+import ar.edu.iua.portal.hotel.service.MessageService;
 import ar.edu.iua.portal.hotel.service.SecurityService;
 import ar.edu.iua.portal.hotel.service.UserService;
 import ar.edu.iua.portal.hotel.validator.UserValidator;
@@ -17,29 +19,31 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class WebController {
 
     @Autowired
-    @Qualifier("userServiceImpl")
-    private UserService userService;
+    private SecurityService securityService;
 
     @Autowired
-    private SecurityService securityService;
+    @Qualifier("messageServiceImpl")
+    private MessageService messageService;
+
+    @Autowired
+    @Qualifier("userServiceImpl")
+    private UserService userService;
 
     @Autowired
     private UserValidator userValidator;
 
     @GetMapping({"/", "/index"})
     public String indexHandler(Model model) {
+        model.addAttribute("messageForm", new Message());
+        model.addAttribute("userForm", new User());
         return "index";
     }
 
-    @GetMapping("/login")
-    public String loginHandler(Model model, String error, String logout) {
-        if (error != null)
-            model.addAttribute("error", "Your username and password is invalid.");
-
-        if (logout != null)
-            model.addAttribute("message", "You have been logged out successfully.");
-
-        return "sites/login";
+    @PostMapping("/index")
+    public String indexHandler(@ModelAttribute("messageForm") Message messageForm, Model model) {
+        messageService.save(messageForm);
+        model.addAttribute("messageForm", new Message());
+        return "index";
     }
 
     @GetMapping("/register")
@@ -55,7 +59,6 @@ public class WebController {
         if (bindingResult.hasErrors()) {
             return "sites/register";
         }
-
         userService.save(userForm);
 
         securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
@@ -63,8 +66,15 @@ public class WebController {
         return "redirect:/index";
     }
 
-    @GetMapping("/reservation")
-    public String reservationHandler(Model model) {
-        return "sites/reservation";
+    @GetMapping("/login")
+    public String loginHandler(Model model, String error, String logout) {
+        if (error != null)
+            model.addAttribute("error", "Your username and password is invalid.");
+
+        if (logout != null)
+            model.addAttribute("message", "You have been logged out successfully.");
+
+        return "sites/login";
     }
+
 }

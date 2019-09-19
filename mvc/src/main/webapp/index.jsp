@@ -31,8 +31,15 @@
   <nav class="navbar navbar-light bg-light static-top">
     <div class="container">
       <a class="navbar-brand" href="index">Hotel Córdoba Inc.</a>
-      <p class="text-muted mb-4 mb-lg-0" style=${username==null?"display:none":"display:inline-block"}>Hola ${username}!</p>
-      <a class="btn btn-primary" href="login">Usuarios</a>
+      <c:if test="${pageContext.request.userPrincipal.name != null}">
+        <form id="logoutForm" method="POST" action="${contextPath}/logout">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <input type="submit" onclick="document.forms['logoutForm'].submit()" value="Logout : ${pageContext.request.userPrincipal.name}" />
+        </form>
+      </c:if>
+      <c:if test="${pageContext.request.userPrincipal.name == null}">
+        <a class="btn btn-primary" href="login">Usuarios</a>
+      </c:if>
     </div>
   </nav>
 
@@ -141,22 +148,42 @@
           <h2 class="mb-5">Dejanos tu mensaje</h2>
         </div>
         <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-          <form id="createMessage" action="/">
+
+          <form:form method="POST" modelAttribute="messageForm" >
             <div class="form-row">
               <div class="col-12 col-md-12 mb-2 mb-md-0">
-                <input name="id" type="hidden" value="-1">
-                <label>Nombre y Apellido</label><input name="name" class="form-control form-control-lg" type="text" required /> <br/>
-                <label>Asunto</label><input name="subject" class="form-control form-control-lg" type="text" required /> <br/>
-                <label>Correo Electrónico</label><input name="email" class="form-control form-control-lg" type="email" required /> <br/>
-                <label>Teléfono de contacto</label><input name="phone" class="form-control form-control-lg" type="text" required /> <br/>
-                <label>Mensaje</label><br />
-                <textarea name="content" class="form-control form-control-lg" cols="60" rows="4" required></textarea><br />
+                <spring:bind path="name">
+                    <label>Nombre y Apellido</label><form:input path="name" class="form-control form-control-lg"
+                        type="text" required="required"></form:input> <br/>
+                </spring:bind>
+
+                <spring:bind path="subject">
+                    <label>Asunto</label><form:input path="subject" class="form-control form-control-lg"
+                        type="text" required="required"></form:input> <br/>
+                </spring:bind>
+
+                <spring:bind path="email">
+                    <label>Correo Electrónico</label><form:input path="email" class="form-control form-control-lg"
+                        type="email" required="required"></form:input> <br/>
+                </spring:bind>
+
+                <spring:bind path="phone">
+                    <label>Teléfono de contacto</label><form:input path="phone" class="form-control form-control-lg"
+                        type="text" required="required"></form:input> <br/>
+                </spring:bind>
+
+                <spring:bind path="content">
+                    <label>Mensaje</label><br/>
+                    <form:textarea path="content" class="form-control form-control-lg" cols="60" rows="4" required="required"/><br/>
+                </spring:bind>
+
               </div>
               <div class="col-12 col-md-5">
                 <input type="submit" class="btn btn-block btn-lg btn-primary" value="Enviar">
               </div>
             </div>
-          </form>
+          </form:form>
+
         </div>
       </div>
     </div>
