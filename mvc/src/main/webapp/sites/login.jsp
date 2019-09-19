@@ -44,11 +44,11 @@
                 <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
             </div>
             <div class="clearfix">
-                <label class="pull-left checkbox-inline"><input type="checkbox"> Recuérdame</label>
-                <a href="#" class="pull-right">Olvidé mi contraseña</a>
+                <a href="#" class="pull-left">Olvidé mi contraseña</a>
             </div>
         </form>
-        <p class="text-center"><a href="register">Nuevo usuario</a></p>
+        <p class="text-center">Todavía no estás registrado?</p>
+        <p class="text-center"><a href="registration">Nuevo usuario</a></p>
     </div>
 
 	<script src ="vendor/jquery/jquery.min.js"></script>

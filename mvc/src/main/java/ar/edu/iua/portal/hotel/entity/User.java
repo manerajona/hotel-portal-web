@@ -1,16 +1,13 @@
 package ar.edu.iua.portal.hotel.entity;
 
-import ar.edu.iua.portal.hotel.security.EncryptionHelper;
-
 import javax.persistence.*;
-import java.security.NoSuchAlgorithmException;
 import java.util.Set;
 
 @Entity
 @Table(name = "user")
 public class User {
     @Id
-    @Column(name = "iduser")
+    @Column(name = "id_user")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -54,7 +51,6 @@ public class User {
     }
 
     public void setPassword(String password) {
-        //this.password = EncryptionHelper.toSHA256(password);
         this.password = password;
     }
 

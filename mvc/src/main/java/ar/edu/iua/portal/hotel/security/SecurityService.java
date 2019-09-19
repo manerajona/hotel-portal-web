@@ -1,4 +1,4 @@
-package ar.edu.iua.portal.hotel.service;
+package ar.edu.iua.portal.hotel.security;
 
 public interface SecurityService {
 

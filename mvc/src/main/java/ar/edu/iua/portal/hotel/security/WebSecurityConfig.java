@@ -1,4 +1,4 @@
-package ar.edu.iua.portal.hotel;
+package ar.edu.iua.portal.hotel.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

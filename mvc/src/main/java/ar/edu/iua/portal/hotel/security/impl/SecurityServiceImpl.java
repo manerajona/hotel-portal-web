@@ -1,6 +1,6 @@
-package ar.edu.iua.portal.hotel.service.impl;
+package ar.edu.iua.portal.hotel.security.impl;
 
-import ar.edu.iua.portal.hotel.service.SecurityService;
+import ar.edu.iua.portal.hotel.security.SecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

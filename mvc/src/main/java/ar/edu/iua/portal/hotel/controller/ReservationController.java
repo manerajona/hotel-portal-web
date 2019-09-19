@@ -29,6 +29,6 @@ public class ReservationController {
 
     @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Reservation updateReservation(@RequestBody Reservation reservation) {
-        return reservationDao.updateReservation(reservation.getId(), reservation.getDateIn(), reservation.getDateOut(), reservation.getGuests());
+        return reservationDao.updateReservation(reservation.getId().longValue(), reservation.getCheckIn(), reservation.getCheckOut(), reservation.getGuests());
     }
 }

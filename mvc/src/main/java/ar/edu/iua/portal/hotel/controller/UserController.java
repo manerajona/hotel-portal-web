@@ -17,9 +17,9 @@ public class UserController {
     @Qualifier("userDaoImpl")
     private UserDao userDao;
 
-    @RequestMapping(value = "/{usr}/{pass}", method = RequestMethod.GET)
-    public User getUserById(@PathVariable("usr") String usuario, @PathVariable("pass") String password) {
-        return userDao.getUser(usuario, password);
+    @RequestMapping(value = "/{usr}", method = RequestMethod.GET)
+    public User getUserById(@PathVariable("usr") String usuario) {
+        return userDao.findByUsername(usuario);
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -61,7 +61,7 @@
                 <input type="date" class="form-control form-control-lg" placeholder="Fecha de check...">
               </div>
               <div class="col-12 col-md-4">
-                <button type="submit" class="btn btn-block btn-lg btn-primary">Reservar</button>
+                <a class="btn btn-block btn-lg btn-primary" href="reservation">Reservar</a>
               </div>
             </div>
           </form>
@@ -178,7 +178,7 @@
                 </spring:bind>
 
               </div>
-              <div class="col-12 col-md-5">
+              <div class="col-xl-8 mx-auto">
                 <input type="submit" class="btn btn-block btn-lg btn-primary" value="Enviar">
               </div>
             </div>

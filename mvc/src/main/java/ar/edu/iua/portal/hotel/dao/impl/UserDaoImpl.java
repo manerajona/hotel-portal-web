@@ -26,7 +26,7 @@ public class UserDaoImpl implements UserDao {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public User getUser(Long id) {
+    public User findUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(String.format(Imessages.USER_WITH_ID_NOT_FOUND, id)));
     }
@@ -37,17 +37,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User getUser(String user, String password) {
-        String encode = bCryptPasswordEncoder.encode(password);
-        return userRepository.findByUserAndPassword(user, encode)
-                .orElseThrow(() -> new RuntimeException(Imessages.THE_USERNAME_OR_PASSWORD_ARE_INCORRECT));
-    }
-
-    @Override
     public User updateUser(String username, String newPassword, String oldPassword) {
-        User usr = getUser(username, oldPassword);
-        usr.setPassword(bCryptPasswordEncoder.encode(newPassword));
-        return userRepository.save(usr);
+        User user = findByUsername(username);
+        user.setPassword(bCryptPasswordEncoder.encode(newPassword));
+        user.setRoles(new HashSet<>(roleRepository.findAll()));
+        return userRepository.save(user);
     }
 
     @Override

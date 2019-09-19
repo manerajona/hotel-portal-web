@@ -1,4 +1,4 @@
-package ar.edu.iua.portal.hotel.service.impl;
+package ar.edu.iua.portal.hotel.security.impl;
 
 import ar.edu.iua.portal.hotel.entity.Role;
 import ar.edu.iua.portal.hotel.entity.User;

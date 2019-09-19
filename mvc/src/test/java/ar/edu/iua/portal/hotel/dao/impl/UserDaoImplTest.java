@@ -1,19 +1,17 @@
 package ar.edu.iua.portal.hotel.dao.impl;
 
 import ar.edu.iua.portal.hotel.entity.User;
+import ar.edu.iua.portal.hotel.repository.RoleRepository;
 import ar.edu.iua.portal.hotel.repository.UserRepository;
-import ar.edu.iua.portal.hotel.security.EncryptionHelper;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -26,7 +24,13 @@ public class UserDaoImplTest {
     private User user;
 
     @Mock
-    UserRepository userRepository;
+    private UserRepository userRepository;
+
+    @Mock
+    private RoleRepository roleRepository;
+
+    @Mock
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @InjectMocks
     private UserDaoImpl userDao;
@@ -37,60 +41,53 @@ public class UserDaoImplTest {
         user = newUser();
     }
 
-    @Ignore
     @Test
-    public void shouldGetUserByUsernameAndPassword() throws NoSuchAlgorithmException {
+    public void shouldGetUserByUsername() {
         // when
-        Mockito.doReturn(Optional.of(user)).when(userRepository).findByUserAndPassword(anyString(), anyString());
-        User usr = userDao.getUser(userMockData.USER, userMockData.PASSWORD);
+        Mockito.doReturn(user).when(userRepository).findByUsername(anyString());
+        User usr = userDao.findByUsername(userMockData.USER);
         // then
         assertNotNull(usr);
         assertEquals(userMockData.ID, usr.getId());
         assertEquals(userMockData.USER, usr.getUsername());
-        Assert.assertEquals(EncryptionHelper.toSHA256(userMockData.PASSWORD), usr.getPassword());
+        assertEquals(userMockData.PASSWORD, usr.getPassword());
         assertEquals(userMockData.EMAIL, usr.getEmail());
     }
 
-    @Ignore
     @Test
-    public void shouldThrowExceptionOnGetUserByUsernameAndPassword() {
-        // TODO test
-    }
-
-    @Ignore
-    @Test
-    public void shouldUpdateUser() throws NoSuchAlgorithmException {
+    public void shouldUpdateUser() {
         // when
+        String encodedPassword = new BCryptPasswordEncoder().encode(userMockData.NEW_PASSWORD);
+        Mockito.doReturn(encodedPassword).when(bCryptPasswordEncoder).encode(anyString());
+
         Mockito.when(userRepository.save(any(User.class))).thenReturn(user);
-        Mockito.doReturn(Optional.of(user)).when(userRepository).findByUserAndPassword(anyString(), anyString());
+        Mockito.doReturn(user).when(userRepository).findByUsername(anyString());
         User usr = userDao.updateUser(userMockData.USER, userMockData.NEW_PASSWORD, userMockData.PASSWORD);
         // then
+        assertNotNull(usr);
         assertEquals(userMockData.ID, usr.getId());
         assertEquals(userMockData.USER, usr.getUsername());
-        Assert.assertEquals(EncryptionHelper.toSHA256(userMockData.NEW_PASSWORD), usr.getPassword());
+        assertEquals(encodedPassword, usr.getPassword());
         assertEquals(userMockData.EMAIL, usr.getEmail());
     }
 
-    @Ignore
-    @Test
-    public void shouldThrowExceptionOUpdateUser() {
-        // TODO test
-    }
-
-    @Ignore
     @Test
     public void shouldCreateUser() throws NoSuchAlgorithmException {
         // when
+        String encodedPassword = new BCryptPasswordEncoder().encode(userMockData.NEW_PASSWORD);
+        Mockito.doReturn(encodedPassword).when(bCryptPasswordEncoder).encode(anyString());
+
         Mockito.when(userRepository.save(any(User.class))).thenReturn(user);
         User usr = userDao.createUser(user);
         // then
+        assertNotNull(usr);
         assertEquals(userMockData.ID, usr.getId());
         assertEquals(userMockData.USER, usr.getUsername());
-        Assert.assertEquals(EncryptionHelper.toSHA256(userMockData.PASSWORD), usr.getPassword());
+        assertEquals(encodedPassword, usr.getPassword());
         assertEquals(userMockData.EMAIL, usr.getEmail());
     }
 
-    private User newUser() throws NoSuchAlgorithmException {
+    private User newUser() {
         User user = new User();
         user.setId(userMockData.ID);
         user.setUsername(userMockData.USER);

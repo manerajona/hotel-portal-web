@@ -27,65 +27,65 @@
         </div>
       </nav>
 
-    <div class="login-form">
-        <form:form method="POST" modelAttribute="userForm">
+    <div class="reservation-form">
+        <form:form method="POST" modelAttribute="userForm" class="reservation-form">
             <h2 class="text-center">Usuario</h2>
-
+            <div class="row">
             <spring:bind path="username">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
+                <div class="col-xl-6 ${status.error ? 'has-error' : ''}">
                     <label>Username</label><form:input path="username" type="text" class="form-control"
-                        required="required" autofocus="true"></form:input>
+                        required="required" autofocus="true"></form:input> <br/>
                     <form:errors path="username"></form:errors>
                 </div>
             </spring:bind>
 
+            <spring:bind path="email">
+                            <div class="col-xl-6">
+                                <label>Correo electrónico</label><form:input path="email" type="email" class="form-control"
+                                    required="required"></form:input> <br/>
+                            </div>
+                        </spring:bind>
+
             <spring:bind path="firstName">
-                <div class="form-group">
+                <div class="col-xl-6">
                     <label>Nombre</label><form:input path="firstName" type="text" class="form-control"
-                        required="required"></form:input>
+                        required="required"></form:input> <br/>
                 </div>
             </spring:bind>
 
             <spring:bind path="lastName">
-                <div class="form-group">
+                <div class="col-xl-6">
                     <label>Apellido</label><form:input path="lastName" type="text" class="form-control"
-                        required="required"></form:input>
-                </div>
-            </spring:bind>
-
-            <spring:bind path="email">
-                <div class="form-group">
-                    <label>Correo electrónico</label><form:input path="email" type="email" class="form-control"
-                        required="required"></form:input>
+                        required="required"></form:input> <br/>
                 </div>
             </spring:bind>
 
             <spring:bind path="password">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
+                <div class="col-xl-6 ${status.error ? 'has-error' : ''}">
                     <label>Nuevo password</label><form:input path="password" type="password" class="form-control"
-                        required="required"></form:input>
+                        required="required"></form:input> <br/>
                     <form:errors path="password"></form:errors>
                 </div>
             </spring:bind>
 
             <spring:bind path="passwordConfirm">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
+                <div class="col-xl-6 ${status.error ? 'has-error' : ''}">
                     <label>Confirmar password</label><form:input path="passwordConfirm" type="password" class="form-control"
-                        required="required"></form:input>
+                        required="required"></form:input> <br/>
                     <form:errors path="passwordConfirm"></form:errors>
                 </div>
             </spring:bind>
 
             <spring:bind path="username">
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+            <div class="col-xl-3 mx-auto">
+                <button type="submit" class="btn btn-primary btn-block">Guardar</button> </br>
             </div>
             </spring:bind>
-
-            <div class="clearfix">
-                <label class="pull-left checkbox-inline">
-                <input type="checkbox" required="required"> Acepto términos y condiciones</label>
             </div>
+            <div class="col-xl-6 mx-auto">
+                            <label class="checkbox-inline">
+                            <input type="checkbox" required="required"> Acepto términos y condiciones</label>
+                        </div>
         </form:form>
     </div>
 

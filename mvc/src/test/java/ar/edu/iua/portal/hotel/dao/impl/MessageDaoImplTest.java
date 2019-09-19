@@ -51,6 +51,10 @@ public class MessageDaoImplTest {
         Message message = messageDao.createMessage(mockMessage);
         // Then
         Assert.assertEquals(messageMockData.M1_ID, message.getId());
+        Assert.assertEquals(messageMockData.M1_CONTENT , message.getContent());
+        Assert.assertEquals(messageMockData.M1_EMAIL, message.getEmail());
+        Assert.assertEquals(messageMockData.M1_PHONE, message.getPhone());
+        Assert.assertEquals(messageMockData.M1_SUBJECT, message.getSubject());
     }
 
     protected interface messageMockData {

@@ -4,9 +4,7 @@ import ar.edu.iua.portal.hotel.entity.User;
 
 public interface UserDao {
 
-    User getUser(Long id);
-
-    User getUser(String user, String password);
+    User findUserById(Long id);
 
     User updateUser(String username, String newPassword, String oldPassword);
 

@@ -90,8 +90,8 @@ $(document).ready(function () {
 
         var body = {
             "id": $('input[name="id"]').val(),
-            "dateIn": $('input[name="dateIn"]').val(),
-            "dateOut": $('input[name="dateOut"]').val(),
+            "checkIn": $('input[name="checkIn"]').val(),
+            "checkOut": $('input[name="checkOut"]').val(),
             "guests": $('input[name="guests "]').val(),
             "idUser": $('input[name="user"]').val()
         };

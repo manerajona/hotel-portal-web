@@ -7,20 +7,20 @@ import java.sql.Timestamp;
 @Table(name = "reservation")
 public class Reservation {
     @Id
-    @Column(name = "idreservation")
+    @Column(name = "id_reservation")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "datein", nullable = false)
-    private Timestamp dateIn;
+    @Column(name = "check_in", nullable = false)
+    private Timestamp checkIn;
 
-    @Column(name = "dateout", nullable = false)
-    private Timestamp dateOut;
+    @Column(name = "check_out", nullable = false)
+    private Timestamp checkOut;
 
     @Column(nullable = false)
     private Integer guests;
 
-    @Column(name="iduser", nullable = false)
+    @Column(name="id_user", nullable = false)
     private Integer idUser;
 
     public Integer getId() {
@@ -31,20 +31,20 @@ public class Reservation {
         this.id = id;
     }
 
-    public Timestamp getDateIn() {
-        return dateIn;
+    public Timestamp getCheckIn() {
+        return checkIn;
     }
 
-    public void setDateIn(Timestamp dateIn) {
-        this.dateIn = dateIn;
+    public void setCheckIn(Timestamp checkIn) {
+        this.checkIn = checkIn;
     }
 
-    public Timestamp getDateOut() {
-        return dateOut;
+    public Timestamp getCheckOut() {
+        return checkOut;
     }
 
-    public void setDateOut(Timestamp dateOut) {
-        this.dateOut = dateOut;
+    public void setCheckOut(Timestamp checkOut) {
+        this.checkOut = checkOut;
     }
 
     public Integer getGuests() {
