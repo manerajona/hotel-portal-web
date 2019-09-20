@@ -1,4 +1,4 @@
-package ar.edu.iua.portal.hotel.controller;
+package ar.edu.iua.portal.hotel.controller.rest;
 
 import ar.edu.iua.portal.hotel.dao.UserDao;
 import ar.edu.iua.portal.hotel.entity.User;
