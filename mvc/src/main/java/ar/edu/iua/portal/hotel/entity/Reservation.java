@@ -1,7 +1,7 @@
 package ar.edu.iua.portal.hotel.entity;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.sql.Date;
 
 @Entity
 @Table(name = "reservation")
@@ -12,16 +12,19 @@ public class Reservation {
     private Integer id;
 
     @Column(name = "check_in", nullable = false)
-    private Timestamp checkIn;
+    private Date checkIn;
 
     @Column(name = "check_out", nullable = false)
-    private Timestamp checkOut;
+    private Date checkOut;
 
     @Column(nullable = false)
     private Integer guests;
 
-    @Column(name="id_user", nullable = false)
-    private Integer idUser;
+    @Column(name="room_type", nullable=false)
+    private String roomType;
+
+    @Column(nullable = false)
+    private String username;
 
     public Integer getId() {
         return id;
@@ -31,19 +34,19 @@ public class Reservation {
         this.id = id;
     }
 
-    public Timestamp getCheckIn() {
+    public Date getCheckIn() {
         return checkIn;
     }
 
-    public void setCheckIn(Timestamp checkIn) {
+    public void setCheckIn(Date checkIn) {
         this.checkIn = checkIn;
     }
 
-    public Timestamp getCheckOut() {
+    public Date getCheckOut() {
         return checkOut;
     }
 
-    public void setCheckOut(Timestamp checkOut) {
+    public void setCheckOut(Date checkOut) {
         this.checkOut = checkOut;
     }
 
@@ -55,11 +58,19 @@ public class Reservation {
         this.guests = guests;
     }
 
-    public Integer getIdUser() {
-        return idUser;
+    public String getRoomType() {
+        return roomType;
     }
 
-    public void setIdUser(Integer idUser) {
-        this.idUser = idUser;
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.List;
 
 @Repository
@@ -30,12 +30,13 @@ public class ReservationDaoImpl implements ReservationDao {
     }
 
     @Override
-    public Reservation updateReservation(Long id, Timestamp newCheckIn, Timestamp newCheckOut, Integer newGuests) {
+    public Reservation updateReservation(Long id, Date newCheckIn, Date newCheckOut, Integer newGuests, String newRoom) {
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(String.format(Imessages.RESERVATION_WITH_ID_NOT_FOUND, id)));
         reservation.setCheckIn(newCheckIn);
         reservation.setCheckOut(newCheckOut);
         reservation.setGuests(newGuests);
+        reservation.setRoomType(newRoom);
         return reservationRepository.save(reservation);
     }
 

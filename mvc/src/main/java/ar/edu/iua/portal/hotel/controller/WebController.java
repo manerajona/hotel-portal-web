@@ -18,10 +18,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.logging.Logger;
+
 import static ar.edu.iua.portal.hotel.cons.IWeb.*;
+import static ar.edu.iua.portal.hotel.cons.Imessages.*;
 
 @Controller
 public class WebController {
+
+    public static final String ANONYMOUS_USER = "anonymousUser";
+    static Logger logger = Logger.getLogger(WebController.class.getName());
 
     @Autowired
     private SecurityService securityService;
@@ -71,6 +77,9 @@ public class WebController {
 
     @PostMapping("/registration")
     public String registrationHandler(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
+        String userName = securityService.findLoggedInUsername();
+        logger.info("posting registration for user : " + userName + "...");
+
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -85,11 +94,15 @@ public class WebController {
 
     @GetMapping("/login")
     public String loginHandler(Model model, String error, String logout) {
-        if (error != null)
-            model.addAttribute("error", "Your username and password is invalid.");
+        String userName = securityService.findLoggedInUsername();
+        logger.info("getting log in for user : " + userName + "...");
 
-        if (logout != null)
-            model.addAttribute("message", "You have been logged out successfully.");
+        if (error != null) {
+            model.addAttribute("error", YOUR_USERNAME_AND_PASSWORD_IS_INVALID);
+        }
+        if (logout != null) {
+            model.addAttribute("message", YOU_HAVE_BEEN_LOGGED_OUT_SUCCESSFULLY);
+        }
 
         return LOGIN;
     }
@@ -101,11 +114,22 @@ public class WebController {
     }
 
     @PostMapping("/reservation")
-    public String reservationHandler(@ModelAttribute("reservationForm") Reservation reservationForm, BindingResult bindingResult) {
-        reservationValidator.validate(reservationForm, bindingResult);
+    public String reservationHandler(@ModelAttribute("reservationForm") Reservation reservationForm, BindingResult bindingResult, Model model) {
 
-        if (!bindingResult.hasErrors()) {
-            reservationService.save(reservationForm);
+        String userName = securityService.findLoggedInUsername();
+        logger.info("posting reservation for user : " + userName + "...");
+        if(!ANONYMOUS_USER.equals(userName)) {
+            reservationForm.setUsername(userName);
+
+            reservationValidator.validate(reservationForm, bindingResult);
+
+            if (!bindingResult.hasErrors()) {
+                reservationService.save(reservationForm);
+                model.addAttribute("message", THE_RESERVATION_WAS_REGISTERED);
+                model.addAttribute("reservationForm", new Reservation());
+            }
+        } else {
+            model.addAttribute("error", PLEASE_REGISTER_YOUR_USER);
         }
 
         return SITES_RESERVATION;

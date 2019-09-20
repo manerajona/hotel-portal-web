@@ -45,27 +45,29 @@ public class ReservationDaoImplTest {
         Assert.assertFalse(reservationList.isEmpty());
         Reservation reservation = reservationList.get(0);
         Assert.assertEquals(reservationMockData.ID, reservation.getId());
-        Assert.assertEquals(toTimestamp(reservationMockData.CHECK_IN), reservation.getCheckIn());
-        Assert.assertEquals(toTimestamp(reservationMockData.CHECK_OUT), reservation.getCheckOut());
+        Assert.assertEquals(toSDate(reservationMockData.CHECK_IN), reservation.getCheckIn());
+        Assert.assertEquals(toSDate(reservationMockData.CHECK_OUT), reservation.getCheckOut());
         Assert.assertEquals(reservationMockData.GUESTS, reservation.getGuests());
-        Assert.assertEquals(reservationMockData.ID_USER, reservation.getIdUser());
+        Assert.assertEquals(reservationMockData.ROOM_TIPE, reservation.getRoomType());
+        Assert.assertEquals(reservationMockData.USERNAME, reservation.getUsername());
     }
 
     @Test
     public void shouldUpdateReservation() {
         // Given
-        Timestamp in = toTimestamp(reservationMockData.CHECK_IN);
-        Timestamp out = toTimestamp(reservationMockData.CHECK_OUT);
+        java.sql.Date in = toSDate(reservationMockData.CHECK_IN);
+        java.sql.Date out = toSDate(reservationMockData.CHECK_OUT);
         // When
         Mockito.when(reservationRepository.findById(any(Long.class))).thenReturn(Optional.of(reservationMock));
         Mockito.when(reservationRepository.save(any(Reservation.class))).thenReturn(reservationMock);
-        Reservation reservation = reservationDao.updateReservation(reservationMockData.ID.longValue(), in, out, reservationMockData.GUESTS);
+        Reservation reservation = reservationDao.updateReservation(reservationMockData.ID.longValue(), in, out, reservationMockData.GUESTS, reservationMockData.ROOM_TIPE);
         // Then
         Assert.assertEquals(reservationMockData.ID, reservation.getId());
         Assert.assertEquals(in, reservation.getCheckIn());
         Assert.assertEquals(out, reservation.getCheckOut());
         Assert.assertEquals(reservationMockData.GUESTS, reservation.getGuests());
-        Assert.assertEquals(reservationMockData.ID_USER, reservation.getIdUser());
+        Assert.assertEquals(reservationMockData.ROOM_TIPE, reservation.getRoomType());
+        Assert.assertEquals(reservationMockData.USERNAME, reservation.getUsername());
     }
 
     @Test
@@ -75,39 +77,42 @@ public class ReservationDaoImplTest {
         Reservation reservation = reservationDao.createReservation(reservationMock);
         // Then
         Assert.assertEquals(reservationMockData.ID, reservation.getId());
-        Assert.assertEquals(toTimestamp(reservationMockData.CHECK_IN), reservation.getCheckIn());
-        Assert.assertEquals(toTimestamp(reservationMockData.CHECK_OUT), reservation.getCheckOut());
+        Assert.assertEquals(toSDate(reservationMockData.CHECK_IN), reservation.getCheckIn());
+        Assert.assertEquals(toSDate(reservationMockData.CHECK_OUT), reservation.getCheckOut());
         Assert.assertEquals(reservationMockData.GUESTS, reservation.getGuests());
-        Assert.assertEquals(reservationMockData.ID_USER, reservation.getIdUser());
+        Assert.assertEquals(reservationMockData.ROOM_TIPE, reservation.getRoomType());
+        Assert.assertEquals(reservationMockData.USERNAME, reservation.getUsername());
     }
 
     private Reservation newReservation() {
         Reservation reservation = new Reservation();
         reservation.setId(reservationMockData.ID);
-        reservation.setCheckIn(toTimestamp(reservationMockData.CHECK_IN));
-        reservation.setCheckOut(toTimestamp(reservationMockData.CHECK_OUT));
+        reservation.setCheckIn(toSDate(reservationMockData.CHECK_IN));
+        reservation.setCheckOut(toSDate(reservationMockData.CHECK_OUT));
         reservation.setGuests(reservationMockData.GUESTS);
-        reservation.setIdUser(reservationMockData.ID_USER);
+        reservation.setUsername(reservationMockData.USERNAME);
+        reservation.setRoomType(reservationMockData.ROOM_TIPE);
         return reservation;
     }
 
     protected interface reservationMockData {
         Integer ID = 1;
-        String CHECK_IN = "2020-04-26 18:25:43.511";
-        String CHECK_OUT = "2020-04-27 18:25:43.511";
+        String CHECK_IN = "2020-04-26";
+        String CHECK_OUT = "2020-04-27";
+        String ROOM_TIPE = "Laxaries Room";
         Integer GUESTS = 3;
-        Integer ID_USER = 1;
+        String USERNAME = "myUser";
     }
 
-    protected Timestamp toTimestamp(String t) {
-        Timestamp timestamp = null;
+    protected java.sql.Date toSDate(String t) {
+        java.sql.Date date = null;
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date parsedDate = dateFormat.parse(t);
-            timestamp = new java.sql.Timestamp(parsedDate.getTime());
+            date = new java.sql.Date(parsedDate.getTime());
         } catch(Exception e) {
             e.printStackTrace();
         }
-        return timestamp;
+        return date;
     }
 }
