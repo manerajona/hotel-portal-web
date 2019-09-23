@@ -21,9 +21,12 @@
 <body>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-light bg-light static-top">
-        <div class="container">
-            <a class="navbar-brand" href="index">Hotel Córdoba Inc.</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navegacion">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="navbar-brand" href="index">Hotel Córdoba Inc.</a>
+            </ul>
         </div>
     </nav>
 
@@ -35,7 +38,8 @@
                 <spring:bind path="firstName">
                     <div class="col-xl-6">
                         <label>Nombre</label>
-                        <form:input path="firstName" type="text" class="form-control" required="required" />
+                        <form:input path="firstName" type="text" class="form-control" required="required"
+                            autofocus="true" />
                         <br />
                     </div>
                 </spring:bind>
@@ -51,8 +55,7 @@
                 <spring:bind path="username">
                     <div class="col-xl-6 ${status.error ? 'has-error' : ''}">
                         <label>Username</label>
-                        <form:input path="username" type="text" class="form-control" required="required"
-                            autofocus="true" /><br />
+                        <form:input path="username" type="text" class="form-control" required="required" /><br />
                         <form:errors path="username"></form:errors>
                     </div>
                 </spring:bind>
@@ -83,7 +86,6 @@
                     </div>
                 </spring:bind>
 
-
                 <div class="col-xl-3 mx-auto">
                     <button type="submit" class="btn btn-primary btn-block">Guardar</button> </br>
                 </div>
@@ -93,6 +95,10 @@
                     <input type="checkbox" required="required"> Acepto términos y condiciones</label>
             </div>
         </form:form>
+
+        <p class="text-center">¿Ya estás registrado?</p>
+        <p class="text-center"><a href="login">Log in</a></p>
+
     </div>
 
     <script src="vendor/jquery/jquery.min.js"></script>

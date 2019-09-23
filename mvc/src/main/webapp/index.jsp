@@ -21,28 +21,36 @@
   <!-- Custom fonts for this template -->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
   <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
-    type="text/css">
 
 </head>
 
 <body>
 
   <!-- Navigation -->
-  <nav class="navbar navbar-light bg-light static-top">
-    <div class="container">
-      <a class="navbar-brand" href="index">Hotel Córdoba Inc.</a>
-      <c:if test="${pageContext.request.userPrincipal.name != null}">
-        <form id="logoutForm" method="POST" action="${contextPath}/logout">
-          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-          <input type="submit" onclick="document.forms['logoutForm'].submit()"
-            value="Logout : ${pageContext.request.userPrincipal.name}" />
-        </form>
-      </c:if>
-      <c:if test="${pageContext.request.userPrincipal.name == null}">
-        <a class="btn btn-primary" href="login">Usuarios</a>
-      </c:if>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navegacion">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="navbar-brand" href="index">Hotel Córdoba Inc.</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="reservation">Reservas online</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="audit">Auditoría</a>
+        </li>
+      </ul>
     </div>
+    <c:if test="${pageContext.request.userPrincipal.name != null}">
+      <form id="logoutForm" method="POST" action="${contextPath}/logout">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        <input type="submit" onclick="document.forms['logoutForm'].submit()"
+          value="Logout | ${pageContext.request.userPrincipal.name}" />
+      </form>
+    </c:if>
+    <c:if test="${pageContext.request.userPrincipal.name == null}">
+      <a class="btn btn-primary" href="login">Usuarios</a>
+    </c:if>
   </nav>
 
   <!-- Masthead -->
@@ -141,14 +149,26 @@
     </div>
   </section>
 
-  <!-- map -->
-  <section class="map">
-    <iframe style="width: 100%; height: 350px; overflow: hidden; padding: 10px;"
-      src="https://maps.google.com/?ll=-31.4200787,-64.1909648&z=17&t=m&output=embed" height="100" width="100"
-      frameborder="0" scrolling="no"></iframe>
+  <!-- Map -->
+  <section class="map bg-light">
+    <div class="row">
+      <div class="col-xl-8">
+        <iframe style="width: 100%; height: 350px; overflow: hidden; padding: 10px;"
+          src="https://maps.google.com/?ll=-31.4200787,-64.1909648&z=17&t=m&output=embed" height="100" width="100"
+          frameborder="0" scrolling="no"></iframe>
+      </div>
+      <div class="col-xl-4 order-lg-1 my-auto showcase-text">
+        <h4>Dirección:</h4>
+        <p class=" lead mb-0">Marcelo T Alvear 341</p>
+        <p class=" lead mb-0">Córdoba, Argentina</p>
+        <hr>
+        <h4>Teléfono:</h4>
+        <p class="lead mb-0">(0351) 4220033</p>
+      </div>
+    </div>
   </section>
 
-  <!-- Call to Action -->
+  <!-- Message -->
   <section class="call-to-action text-white text-center">
     <div class="overlay"></div>
     <div class="container">
@@ -163,32 +183,32 @@
               <div class="col-12 col-md-12 mb-2 mb-md-0">
                 <spring:bind path="name">
                   <label>Nombre y Apellido</label>
-                  <form:input path="name" class="form-control form-control-lg" type="text" required="required"/>
-                  <br/>
+                  <form:input path="name" class="form-control form-control-lg" type="text" required="required" />
+                  <br />
                 </spring:bind>
 
                 <spring:bind path="subject">
                   <label>Asunto</label>
-                  <form:input path="subject" class="form-control form-control-lg" type="text" required="required"/>
-                  <br/>
+                  <form:input path="subject" class="form-control form-control-lg" type="text" required="required" />
+                  <br />
                 </spring:bind>
 
                 <spring:bind path="email">
                   <label>Correo Electrónico</label>
-                  <form:input path="email" class="form-control form-control-lg" type="email" required="required"/>
-                  <br/>
+                  <form:input path="email" class="form-control form-control-lg" type="email" required="required" />
+                  <br />
                 </spring:bind>
 
                 <spring:bind path="phone">
                   <label>Teléfono de contacto</label>
-                  <form:input path="phone" class="form-control form-control-lg" type="text" required="required"/>
-                  <br/>
+                  <form:input path="phone" class="form-control form-control-lg" type="text" required="required" />
+                  <br />
                 </spring:bind>
 
                 <spring:bind path="content">
                   <label>Mensaje</label><br />
                   <form:textarea path="content" class="form-control form-control-lg" cols="60" rows="4"
-                    required="required"/> <br/>
+                    required="required" /> <br />
                 </spring:bind>
 
               </div>
@@ -210,7 +230,7 @@
         <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
           <ul class="list-inline mb-2">
             <li class="list-inline-item">
-              <a href="#">Sobre nosotros</a>
+              <a href="index">Home</a>
             </li>
             <li class="list-inline-item">&sdot;</li>
             <li class="list-inline-item">
@@ -218,11 +238,11 @@
             </li>
             <li class="list-inline-item">&sdot;</li>
             <li class="list-inline-item">
-              <a href="#">Ubicación</a>
+              <a href="reservation">Reservas online</a>
             </li>
             <li class="list-inline-item">&sdot;</li>
             <li class="list-inline-item">
-              <a href="#">Reservas online</a>
+              <a href="audit">Auditoría</a>
             </li>
           </ul>
           <p class="text-muted small mb-4 mb-lg-0">Hotel Córdoba Inc. 2019. Todos los derechos reservados.</p>

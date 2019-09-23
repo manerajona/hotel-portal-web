@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
+import java.util.List;
 
 @Repository
 @Qualifier("userDaoImpl")
@@ -37,17 +38,22 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
     public User updateUser(String username, String newPassword, String oldPassword) {
         User user = findByUsername(username);
         user.setPassword(bCryptPasswordEncoder.encode(newPassword));
-        user.setRoles(new HashSet<>(roleRepository.findAll()));
+        //user.setRoles(new HashSet<>(roleRepository.findAll()));
         return userRepository.save(user);
     }
 
     @Override
     public User createUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(new HashSet<>(roleRepository.findAll()));
+        //user.setRoles(new HashSet<>(roleRepository.findAll()));
         return userRepository.save(user);
     }
 

@@ -10,6 +10,6 @@ public interface Imessages {
     String PLEASE_REGISTER_YOUR_USER = "Por favor, registrate para hacer tu reserva.";
     String YOUR_USERNAME_AND_PASSWORD_IS_INVALID = "Username o password invalidos.";
     String YOU_HAVE_BEEN_LOGGED_OUT_SUCCESSFULLY = "You have been logged out successfully.";
-    String THE_RESERVATION_WAS_REGISTERED = "Su reserva ha sido registrada.";
+    String THE_RESERVATION_WAS_REGISTERED = "Tu reserva ha sido registrada.";
     String CHECK_IN_MUST_BE_BEFORE_TODAY = "La fecha de check in debe ser posterior a hoy";
 }

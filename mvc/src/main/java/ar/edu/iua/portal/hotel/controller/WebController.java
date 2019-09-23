@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import static ar.edu.iua.portal.hotel.cons.IWeb.*;
@@ -26,7 +27,9 @@ import static ar.edu.iua.portal.hotel.cons.Imessages.*;
 @Controller
 public class WebController {
 
-    public static final String ANONYMOUS_USER = "anonymousUser";
+    static final String ANONYMOUS_USER = "anonymousUser";
+    static final String ADMIN = "admin";
+
     static Logger logger = Logger.getLogger(WebController.class.getName());
 
     @Autowired
@@ -64,6 +67,10 @@ public class WebController {
 
     @PostMapping("/index")
     public String indexHandler(@ModelAttribute("messageForm") Message messageForm, Model model) {
+        String username = securityService.findLoggedInUsername();
+        logger.info("posting message for user : " + username + "...");
+
+        messageForm.setUsername(username);
         messageService.save(messageForm);
         model.addAttribute("messageForm", new Message());
         return INDEX;
@@ -77,8 +84,8 @@ public class WebController {
 
     @PostMapping("/registration")
     public String registrationHandler(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
-        String userName = securityService.findLoggedInUsername();
-        logger.info("posting registration for user : " + userName + "...");
+        String username = userForm.getUsername();
+        logger.info("posting registration for user : " + username + "...");
 
         userValidator.validate(userForm, bindingResult);
 
@@ -89,13 +96,13 @@ public class WebController {
 
         securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
 
-        return REDIRECT_INDEX;
+        return redirectIndex();
     }
 
     @GetMapping("/login")
     public String loginHandler(Model model, String error, String logout) {
-        String userName = securityService.findLoggedInUsername();
-        logger.info("getting log in for user : " + userName + "...");
+        String username = securityService.findLoggedInUsername();
+        logger.info("getting log in for user : " + username + "...");
 
         if (error != null) {
             model.addAttribute("error", YOUR_USERNAME_AND_PASSWORD_IS_INVALID);
@@ -115,24 +122,37 @@ public class WebController {
 
     @PostMapping("/reservation")
     public String reservationHandler(@ModelAttribute("reservationForm") Reservation reservationForm, BindingResult bindingResult, Model model) {
+        String username = securityService.findLoggedInUsername();
+        logger.info("posting reservation for user : " + username + "...");
 
-        String userName = securityService.findLoggedInUsername();
-        logger.info("posting reservation for user : " + userName + "...");
-        if(!ANONYMOUS_USER.equals(userName)) {
-            reservationForm.setUsername(userName);
+        reservationForm.setUsername(username);
 
-            reservationValidator.validate(reservationForm, bindingResult);
+        reservationValidator.validate(reservationForm, bindingResult);
 
-            if (!bindingResult.hasErrors()) {
-                reservationService.save(reservationForm);
-                model.addAttribute("message", THE_RESERVATION_WAS_REGISTERED);
-                model.addAttribute("reservationForm", new Reservation());
-            }
-        } else {
-            model.addAttribute("error", PLEASE_REGISTER_YOUR_USER);
+        if (!bindingResult.hasErrors()) {
+            reservationService.save(reservationForm);
+            model.addAttribute("message", THE_RESERVATION_WAS_REGISTERED);
+            model.addAttribute("reservationForm", new Reservation());
         }
-
         return SITES_RESERVATION;
+
+    }
+
+    @GetMapping({"/audit"})
+    public String auditnHandler(Model model) {
+        String username = securityService.findLoggedInUsername();
+        logger.info("getting audit for user : " + username + "...");
+
+        List<Message> messages = messageService.findAllMessages();
+        model.addAttribute("messages", messages);
+
+        List<Reservation> reservations = reservationService.findAllReservations();
+        model.addAttribute("reservations", reservations);
+
+        List<User> users = userService.findAllUsers();
+        model.addAttribute("users", users);
+
+        return "sites/audit";
     }
 
 }

@@ -3,7 +3,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <!DOCTYPE html>
@@ -22,10 +21,18 @@
 <body>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-light bg-light static-top">
-        <div class="container">
-            <a class="navbar-brand" href="index">Hotel Córdoba Inc.</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navegacion">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="navbar-brand" href="index">Hotel Córdoba Inc.</a>
+            </ul>
         </div>
+            <form id="logoutForm" method="POST" action="${contextPath}/logout">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                <input type="submit" onclick="document.forms['logoutForm'].submit()"
+                    value="Logout | ${pageContext.request.userPrincipal.name}" />
+            </form>
     </nav>
 
     <div class="reservation-form">
@@ -37,7 +44,7 @@
                     <div class="col-xl-6 ${status.error ? 'has-error' : ''}">
                         <label>Fecha de Check in</label>
                         <form:input path="checkIn" type="date" class="form-control form-control-lg"
-                            placeholder="Check in" pattern="dd/MM/yyyy" required="required" />
+                            placeholder="Check in" pattern="dd/MM/yyyy" required="required" autofocus="true" />
                         <form:errors path="checkIn"></form:errors><br />
                     </div>
                 </spring:bind>
@@ -78,7 +85,7 @@
                     </div>
                 </spring:bind>
             </div>
-            <span>${error}</span><br/>
+
             <div class="row">
                 <div class="col-xl-3 mx-auto">
                     <button type="submit" class="btn btn-primary btn-block">Aceptar</button>
@@ -86,10 +93,6 @@
             </div>
         </form:form>
     </div>
-    <c:if test="${pageContext.request.userPrincipal.name == null}">
-        <p class="text-center">¿Todavía no estás registrado?</p>
-        <p class="text-center"><a href="login">Log in</a></p>
-    </c:if>
 
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>

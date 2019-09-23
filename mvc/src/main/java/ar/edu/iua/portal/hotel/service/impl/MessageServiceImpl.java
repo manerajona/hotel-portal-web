@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Qualifier("messageServiceImpl")
 public class MessageServiceImpl implements MessageService {
@@ -18,6 +20,11 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public void save(Message message) {
         messageDao.createMessage(message);
+    }
+
+    @Override
+    public List<Message> findAllMessages() {
+        return messageDao.getAllMessages();
     }
 
 }
