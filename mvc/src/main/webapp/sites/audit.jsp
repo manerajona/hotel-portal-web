@@ -111,6 +111,7 @@
                     <th scope="col">Apellido</th>
                     <th scope="col">E-mail</th>
                     <th scope="col">Usuario</th>
+                    <th scope="col">Rol</th>
                 </tr>
             </thead>
             <tbody>
@@ -120,6 +121,7 @@
                         <td>${user.lastName}</td>
                         <td>${user.email}</td>
                         <td>${user.username}</td>
+                        <td><c:forEach var="role" items="${user.roles}"> ${role.role} </c:forEach></td>
                     </tr>
                 </c:forEach>
             </tbody>

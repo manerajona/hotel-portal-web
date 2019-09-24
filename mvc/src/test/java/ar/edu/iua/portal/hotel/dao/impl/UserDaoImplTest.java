@@ -12,6 +12,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -44,8 +45,21 @@ public class UserDaoImplTest {
     @Test
     public void shouldGetUserByUsername() {
         // when
-        Mockito.doReturn(user).when(userRepository).findByUsername(anyString());
+        Mockito.doReturn(Optional.of(user)).when(userRepository).findByUsername(anyString());
         User usr = userDao.findByUsername(userMockData.USER);
+        // then
+        assertNotNull(usr);
+        assertEquals(userMockData.ID, usr.getId());
+        assertEquals(userMockData.USER, usr.getUsername());
+        assertEquals(userMockData.PASSWORD, usr.getPassword());
+        assertEquals(userMockData.EMAIL, usr.getEmail());
+    }
+
+    @Test
+    public void shouldGetUserByEmail() {
+        // when
+        Mockito.doReturn(Optional.of(user)).when(userRepository).findByEmail(anyString());
+        User usr = userDao.findByEmail(userMockData.USER);
         // then
         assertNotNull(usr);
         assertEquals(userMockData.ID, usr.getId());
@@ -61,7 +75,7 @@ public class UserDaoImplTest {
         Mockito.doReturn(encodedPassword).when(bCryptPasswordEncoder).encode(anyString());
 
         Mockito.when(userRepository.save(any(User.class))).thenReturn(user);
-        Mockito.doReturn(user).when(userRepository).findByUsername(anyString());
+        Mockito.doReturn(Optional.of(user)).when(userRepository).findByUsername(anyString());
         User usr = userDao.updateUser(userMockData.USER, userMockData.NEW_PASSWORD, userMockData.PASSWORD);
         // then
         assertNotNull(usr);

@@ -49,7 +49,8 @@ function filterUser(event) {
         var c2 = rows[i].cells[1].textContent.toUpperCase();
         var c3 = rows[i].cells[2].textContent.toUpperCase();
         var c4 = rows[i].cells[3].textContent.toUpperCase();
-        if ((c1.indexOf(filter) * c2.indexOf(filter) * c3.indexOf(filter) * c4.indexOf(filter)) == 0) {
+        var c5 = rows[i].cells[4].textContent.toUpperCase();
+        if ((c1.indexOf(filter) * c2.indexOf(filter) * c3.indexOf(filter) * c4.indexOf(filter) * c5.indexOf(filter)) == 0) {
             rows[i].style.display = "";
         } else {
             rows[i].style.display = "none";
