@@ -116,7 +116,6 @@ public class WebController {
         if (logout != null) {
             model.addAttribute("message", getSourcedMessage("YOU_HAVE_BEEN_LOGGED_OUT_SUCCESSFULLY"));
         }
-
         return LOGIN;
     }
 
@@ -141,7 +140,6 @@ public class WebController {
             model.addAttribute("reservationForm", new Reservation());
         }
         return SITES_RESERVATION;
-
     }
 
     @GetMapping({"/audit"})

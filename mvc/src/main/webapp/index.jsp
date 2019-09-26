@@ -34,6 +34,9 @@
           <a class="navbar-brand" href="index">Hotel Córdoba Inc.</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="#" data-toggle="modal" data-target="#aboutModal">Acerca del Hotel</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="reservation">Reservas online</a>
         </li>
         <li class="nav-item">
@@ -49,11 +52,11 @@
       </form>
     </c:if>
     <c:if test="${pageContext.request.userPrincipal.name == null}">
-      <a class="btn btn-primary" href="login">Usuarios</a>
+      <a class="btn btn-primary" href="login">LogIn</a>
     </c:if>
   </nav>
 
-  <!-- Masthead -->
+  <!-- call to action -->
   <header class="masthead text-white text-center">
     <div class="overlay"></div>
     <div class="container">
@@ -152,18 +155,10 @@
   <!-- Map -->
   <section class="map bg-light">
     <div class="row">
-      <div class="col-xl-8">
+      <div class="col-xl-12">
         <iframe style="width: 100%; height: 350px; overflow: hidden; padding: 10px;"
           src="https://maps.google.com/?ll=-31.4200787,-64.1909648&z=17&t=m&output=embed" height="100" width="100"
           frameborder="0" scrolling="no"></iframe>
-      </div>
-      <div class="col-xl-4 order-lg-1 my-auto showcase-text">
-        <h4>Dirección:</h4>
-        <p class=" lead mb-0">Marcelo T Alvear 341</p>
-        <p class=" lead mb-0">Córdoba, Argentina</p>
-        <hr>
-        <h4>Teléfono:</h4>
-        <p class="lead mb-0">(0351) 4220033</p>
       </div>
     </div>
   </section>
@@ -230,7 +225,7 @@
         <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
           <ul class="list-inline mb-2">
             <li class="list-inline-item">
-              <a href="index">Home</a>
+              <a href="#" data-toggle="modal" data-target="#aboutModal">Acerca del Hotel</a>
             </li>
             <li class="list-inline-item">&sdot;</li>
             <li class="list-inline-item">
@@ -270,9 +265,44 @@
     </div>
   </footer>
 
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-  <script src="vendor/popper/umd/popper.min.js"></script>
+  <!-- Modal -->
+  <div id="aboutModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class=row>
+            <div class="col-xl-6 my-auto showcase-text">
+              <img src="img/HC-Logo.png" alt="logo" class="img-thumbnail">
+              <hr>
+              <h4>Dirección:</h4>
+              <p class=" lead mb-0">Marcelo T Alvear 400</p>
+              <p class=" lead mb-0">Córdoba, Argentina</p>
+              <hr>
+              <h4>Teléfono:</h4>
+              <p class="lead mb-0">(0351) 4220033</p>
+            </div>
+            <div class="col-xl-6 my-auto showcase-text">
+              <p>La estratégica ubicación del Hotel le permite un acceso inmediato a
+                los centros comerciales y culturales más destacados de la ciudad
+                de Córdoba. Tiendas de diseño y antigüedades, artesanías,
+                museos y el arroyo La Cañada, son parte del paisaje que lo rodea.
+                Disfrutar desde sus ventanales, con vista al arroyo La Cañada, le
+                otorga un sentido de identidad al hotel y a la capital mediterránea.</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+
+      <script src="vendor/jquery/jquery.min.js"></script>
+      <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+      <script src="vendor/popper/umd/popper.min.js"></script>
 
 </body>
 
