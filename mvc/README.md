@@ -30,9 +30,11 @@ $ mvn clean spring-boot:run
 ```
 
 
-### Modo Admin
+## Modo Admin
 
 Para ingresar en modo admin acceder a http://localhost:8080/login con las siguientes credenciales:
 
-- username: admin
-- password: admin123
+| Username | Password |
+| -------- | -------- |
+| admin    | admin123 |
+
