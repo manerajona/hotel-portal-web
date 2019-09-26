@@ -1,80 +1,38 @@
-# API overview
+# Overview
+ 
+- Backend: Spring Boot, Spring Security, JPA, Hibernate, MySQL, Maven, Java 1.8.
+- Frontend: JSP, jslt, Spring Framework, Bootstrap, HTML5, CSS, javascript.
 
-The API is RESTFUL and returns results in JSON.
+### Crear esquema
 
-### Resource methods
+- Crear una base de datos Mysql con el nombre "hoteldb":
 
-| resource               | method | description                                       |
-|:-----------------------|:-------|:--------------------------------------------------|
-| `/user/{usr}/{pass}`   | GET    | This method validates and returns the user data.  |
-| `/user`                | POST   | This method creates a new user.                   |
-| `/user`                | PUT    | This method updates the user's password.          |
+```sh
+CREATE DATABASE hoteldb;
+```
+- Agregar la usuario y password para hoteldb en resources/aplication.properties. Debería quedar algo así:
 
+```sh
+spring.datasource.url=jdbc:mysql://localhost:3306/hoteldb?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+spring.datasource.username=root
+spring.datasource.password=root_pass
+```
 
-### Path variables
+### Build & run
+
 The path can be used in conjunction with variables to retrieve the metadata.
 
-| Parameter | field    | type     |
-|:----------|:---------|:---------|
-| `{usr}`   | username | String   |
-| `{pass}`  | password | String   |
-
-Example query using URI 
-
-- Request: 
-http://localhost:8080/user/panchov/jamon123
-
-- Response:
 ```sh
-{
-    "id": 9,
-    "username": "panchov",
-    "password": "edde0aa0be04ade2ccbb008e7f2f177c7999daf1c3c301b8ced9398ffcae9ef1",
-    "email": "panchov@gmail.com",
-    "firstName": "Pancho",
-    "lastName": "Villa"
-}
+$ cd mvc
+$ mvn compile
+$ mvn install
+$ mvn clean spring-boot:run
 ```
 
 
-### Request body
-The request can be passed as a JSON in the body of the request.
+### Modo Admin
 
-| resource | method | Request body                                                               |
-|:---------|:-------|:---------------------------------------------------------------------------|
-| `/user`  | POST   | User : [ "id", "username", "password", "email", "firstName", "lastName" ]  |
-| `/user`  | PUT    | PasswordForm : [ "username", "newPassword", "oldPassword", "email" ]       |
+Para ingresar en modo admin acceder a http://localhost:8080/login con las siguientes credenciales:
 
-
-Example query using POST 
-
-```sh
-{
-	"id": -1,
-	"username": "jm",
-	"email": "jm@gmail.com",
-	"password": "dollar60",
-        "firstName": "Juan",
-	"lastName": "Martin"
-}
-```
-
-Example query using PUT 
-
-```sh
-{
-	"username": "jm",
-	"newPassword": "dollar70",
-	"oldPassword": "dollar60",
-	"email": "jm@hotmail.com"
-}
-```
-
-
-## Headers
-
-| Key                   | Value                 |
-|:----------------------|:----------------------|
-| Content-Type          | application/json      |
-
-
+- username: admin
+- password: admin123
