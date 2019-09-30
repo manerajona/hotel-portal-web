@@ -25,7 +25,6 @@ Verificar que la versión de Apache Maven sea 3.6.0 ```$ mvn -v ```. Luego ejecu
 ```sh
 $ cd mvc
 $ mvn compile
-$ mvn install
 $ mvn clean spring-boot:run
 ```
 
