@@ -10,16 +10,15 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
-model/.apt_generated
-model/.classpath
-model/.factorypath
-model/.project
-model/.settings
-model/.springBeans
+mvc/.apt_generated
+mvc/.classpath
+mvc/.factorypath
+mvc/.project
+mvc/.settings
+mvc/.springBeans
 
 ### IntelliJ IDEA ###
 .idea/
-model/.idea
 *.iws
 *.iml
 *.ipr
