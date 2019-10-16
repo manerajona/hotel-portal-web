@@ -9,6 +9,8 @@ import ar.edu.iua.portal.hotel.service.ReservationService;
 import ar.edu.iua.portal.hotel.service.UserService;
 import ar.edu.iua.portal.hotel.validator.ReservationValidator;
 import ar.edu.iua.portal.hotel.validator.UserValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
@@ -17,23 +19,24 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Logger;
 
 @Controller
 public class WebController {
 
     private static final String INDEX = "index";
-    private static final String REGISTRATION = "sites/registration";
-    private static final String LOGIN = "sites/login";
-    private static final String SITES_RESERVATION = "sites/reservation";
     private static final String REDIRECT_INDEX = "redirect:/index";
+    private static final String SITES_REGISTRATION = "sites/registration";
+    private static final String SITES_LOGIN = "sites/login";
+    private static final String SITES_RESERVATION = "sites/reservation";
     private static final String SITES_AUDIT = "sites/audit";
+    private static final String REDIRECT_AUDIT = "redirect:/audit";
 
-    private static Logger logger = Logger.getLogger(WebController.class.getName());
+    private static Logger logger = LoggerFactory.getLogger(WebController.class);
 
     @Autowired
     private SecurityService securityService;
@@ -85,7 +88,7 @@ public class WebController {
     @GetMapping("/registration")
     public String registrationHandler(Model model) {
         model.addAttribute("userForm", new User());
-        return REGISTRATION;
+        return SITES_REGISTRATION;
     }
 
     @PostMapping("/registration")
@@ -96,7 +99,7 @@ public class WebController {
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return REGISTRATION;
+            return SITES_REGISTRATION;
         }
         userService.save(userForm);
 
@@ -105,18 +108,26 @@ public class WebController {
         return redirectIndex();
     }
 
+    @PostMapping("/registration/{username}/update")
+    public String updateUser(@PathVariable("username") String username, Model model) {
+        //userService. TODO update password
+        return REDIRECT_AUDIT;
+    }
+
     @GetMapping("/login")
     public String loginHandler(Model model, String error, String logout) {
         String username = securityService.findLoggedInUsername();
         logger.info(getSourcedMessage("GET_INFO", new Object[]{"logIn", username}));
 
         if (error != null) {
+            model.addAttribute("css", "danger");
             model.addAttribute("error", getSourcedMessage("YOUR_USERNAME_AND_PASSWORD_IS_INVALID"));
         }
         if (logout != null) {
+            model.addAttribute("css", "success");
             model.addAttribute("message", getSourcedMessage("YOU_HAVE_BEEN_LOGGED_OUT_SUCCESSFULLY"));
         }
-        return LOGIN;
+        return SITES_LOGIN;
     }
 
     @GetMapping({"/reservation"})
@@ -126,7 +137,8 @@ public class WebController {
     }
 
     @PostMapping("/reservation")
-    public String reservationHandler(@ModelAttribute("reservationForm") Reservation reservationForm, BindingResult bindingResult, Model model) {
+    public String reservationHandler(@ModelAttribute("reservationForm") Reservation reservationForm,
+                                     BindingResult bindingResult, Model model) {
         String username = securityService.findLoggedInUsername();
         logger.info(getSourcedMessage("POST_INFO", new Object[]{"reservation", username}));
 
@@ -136,6 +148,7 @@ public class WebController {
 
         if (!bindingResult.hasErrors()) {
             reservationService.save(reservationForm);
+            model.addAttribute("css", "success");
             model.addAttribute("message", getSourcedMessage("THE_RESERVATION_WAS_REGISTERED"));
             model.addAttribute("reservationForm", new Reservation());
         }
@@ -157,6 +170,40 @@ public class WebController {
         model.addAttribute("users", users);
 
         return SITES_AUDIT;
+    }
+
+    @PostMapping("/audit/message/{id}/delete")
+    public String deleteMessage(@PathVariable("id") Long id, Model model) {
+        String username = securityService.findLoggedInUsername();
+        logger.info(getSourcedMessage("POST_INFO", new Object[]{"audit", username}));
+        messageService.deleteMessage(id);
+        return REDIRECT_AUDIT;
+    }
+
+    @PostMapping("/audit/reservation/{id}/delete")
+    public String deleteReservation(@PathVariable("id") Long id, Model model) {
+        String username = securityService.findLoggedInUsername();
+        logger.info(getSourcedMessage("POST_INFO", new Object[]{"audit", username}));
+        reservationService.deleteReservation(id);
+        return REDIRECT_AUDIT;
+    }
+
+    @PostMapping("/audit/user/{id}/delete")
+    public String deleteUser(@PathVariable("id") Long id, Model model) {
+        String username = securityService.findLoggedInUsername();
+        logger.info(getSourcedMessage("POST_INFO", new Object[]{"audit", username}));
+        userService.deleteUser(id);
+        return REDIRECT_AUDIT;
+    }
+
+    @PostMapping("/audit/reservation/{id}/update")
+    public String updateReservation(@PathVariable("id") Long id, @ModelAttribute("reservationForm") Reservation reservationForm, BindingResult bindingResult, Model model) {
+        reservationValidator.validate(reservationForm, bindingResult);
+        if (!bindingResult.hasErrors()) {
+            reservationService.updateReservation(
+                    reservationForm.getId(), reservationForm.getCheckIn(), reservationForm.getCheckOut(), reservationForm.getGuests(), reservationForm.getRoomType());
+        }
+        return REDIRECT_AUDIT;
     }
 
     private String getSourcedMessage(String s) {

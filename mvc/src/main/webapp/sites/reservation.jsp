@@ -8,37 +8,25 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Reservation</title>
-
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/sites.css" rel="stylesheet">
-    <link href="css/landing-page.css" rel="stylesheet">
-</head>
+<jsp:include page="fragments/header.jsp">
+<jsp:param name="title" value="Reservación" />
+</jsp:include>
 
 <body>
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="collapse navbar-collapse" id="navegacion">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="navbar-brand" href="index">Hotel Córdoba Inc.</a>
-            </ul>
-        </div>
-            <form id="logoutForm" method="POST" action="${contextPath}/logout">
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                <input type="submit" onclick="document.forms['logoutForm'].submit()"
-                    value="Logout | ${pageContext.request.userPrincipal.name}" />
-            </form>
-    </nav>
-
     <div class="reservation-form">
+
+        <c:if test="${not empty message}">
+            <div class="alert alert-${css} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <strong>${message}</strong>
+            </div>
+        </c:if>
+
         <form:form method="POST" modelAttribute="reservationForm" class="form-reservation">
             <h2 class="text-center">Hace tu reserva</h2>
-            <span>${message}</span>
             <div class="row">
                 <spring:bind path="checkIn">
                     <div class="col-xl-6 ${status.error ? 'has-error' : ''}">
@@ -94,9 +82,7 @@
         </form:form>
     </div>
 
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="vendor/popper/umd/popper.min.js"></script>
+    <jsp:include page="fragments/footer.jsp" />
 
 </body>
 

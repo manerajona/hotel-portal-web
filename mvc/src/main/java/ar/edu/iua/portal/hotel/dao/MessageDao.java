@@ -10,4 +10,6 @@ public interface MessageDao {
 
     Message createMessage(Message message);
 
+    void deleteMessageById(Long id);
+
 }

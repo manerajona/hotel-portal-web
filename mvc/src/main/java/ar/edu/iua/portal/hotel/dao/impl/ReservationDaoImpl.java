@@ -33,13 +33,13 @@ public class ReservationDaoImpl implements ReservationDao {
     }
 
     @Override
-    public Reservation updateReservation(Long id, Date newCheckIn, Date newCheckOut, Integer newGuests, String newRoom) {
+    public Reservation updateReservation(Long id, Date checkIn, Date checkOut, Integer guests, String newRoom) {
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(messageSource.getMessage(
                         "RESERVATION_WITH_ID_NOT_FOUND", new Object[]{id}, Locale.getDefault())));
-        reservation.setCheckIn(newCheckIn);
-        reservation.setCheckOut(newCheckOut);
-        reservation.setGuests(newGuests);
+        reservation.setCheckIn(checkIn);
+        reservation.setCheckOut(checkOut);
+        reservation.setGuests(guests);
         reservation.setRoomType(newRoom);
         return reservationRepository.save(reservation);
     }
@@ -49,4 +49,8 @@ public class ReservationDaoImpl implements ReservationDao {
         return reservationRepository.save(reservation);
     }
 
+    @Override
+    public void deleteReservationById(Long id) {
+        reservationRepository.deleteById(id);
+    }
 }

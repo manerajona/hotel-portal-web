@@ -12,4 +12,8 @@ public interface UserService {
     User findByEmail(String email);
 
     List<User> findAllUsers();
+
+    void deleteUser(Long id);
+
+    User updateUser(String username, String newPassword, String oldPassword);
 }

@@ -8,27 +8,11 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Usuario nuevo</title>
-
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/sites.css" rel="stylesheet">
-    <link href="css/landing-page.css" rel="stylesheet">
-</head>
+<jsp:include page="fragments/header.jsp">
+<jsp:param name="title" value="Registración" />
+</jsp:include>
 
 <body>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="collapse navbar-collapse" id="navegacion">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="navbar-brand" href="index">Hotel Córdoba Inc.</a>
-            </ul>
-        </div>
-    </nav>
 
     <div class="reservation-form">
         <form:form method="POST" modelAttribute="userForm" class="reservation-form">
@@ -101,9 +85,7 @@
 
     </div>
 
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="vendor/popper/umd/popper.min.js"></script>
+    <jsp:include page="fragments/footer.jsp" />
 
 </body>
 

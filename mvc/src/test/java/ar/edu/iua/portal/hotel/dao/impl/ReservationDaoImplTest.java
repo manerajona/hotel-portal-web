@@ -96,7 +96,7 @@ public class ReservationDaoImplTest {
     }
 
     protected interface reservationMockData {
-        Integer ID = 1;
+        Long ID = 1L;
         String CHECK_IN = "2020-04-26";
         String CHECK_OUT = "2020-04-27";
         String ROOM_TIPE = "Laxaries Room";

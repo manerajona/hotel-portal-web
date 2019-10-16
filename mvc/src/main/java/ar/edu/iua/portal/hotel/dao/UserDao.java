@@ -16,4 +16,5 @@ public interface UserDao {
 
     List<User> findAllUsers();
 
+    void deleteUserById(Long id);
 }

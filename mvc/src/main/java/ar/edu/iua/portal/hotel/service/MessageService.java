@@ -9,4 +9,6 @@ public interface MessageService {
     void save(Message message);
 
     List<Message> findAllMessages();
+
+    void deleteMessage(Long id);
 }

@@ -27,6 +27,11 @@ public class UserController {
         return userDao.createUser(user);
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{userId}")
+    public void deleteUser(@PathVariable("userId") Long userId) {
+        userDao.deleteUserById(userId);
+    }
+
     @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public User updateUser(@RequestBody PasswordForm form) {
         return userDao.updateUser(form.getUsername(), form.getNewPassword(), form.getOldPassword());

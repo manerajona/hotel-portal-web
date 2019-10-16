@@ -12,8 +12,9 @@ public interface ReservationDao {
 
     List<Reservation> getAllReservations();
 
-    Reservation updateReservation(Long id, Date newCheckIn, Date newCheckOut, Integer newGuests, String roomType);
+    Reservation updateReservation(Long id, Date checkIn, Date checkOut, Integer guests, String roomType);
 
     Reservation createReservation(Reservation reservation);
 
+    void deleteReservationById(Long id);
 }

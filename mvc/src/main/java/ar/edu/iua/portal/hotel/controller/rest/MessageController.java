@@ -5,10 +5,7 @@ import ar.edu.iua.portal.hotel.entity.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,4 +26,10 @@ public class MessageController {
     public Message createMessage(@RequestBody Message message) {
         return messageDao.createMessage(message);
     }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{messageId}")
+    public void deleteMessage(@PathVariable("messageId") Long messageId) {
+        messageDao.deleteMessageById(messageId);
+    }
+
 }

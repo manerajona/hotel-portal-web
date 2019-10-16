@@ -27,4 +27,8 @@ public class MessageServiceImpl implements MessageService {
         return messageDao.getAllMessages();
     }
 
+    @Override
+    public void deleteMessage(Long id) {
+        messageDao.deleteMessageById(id);
+    }
 }

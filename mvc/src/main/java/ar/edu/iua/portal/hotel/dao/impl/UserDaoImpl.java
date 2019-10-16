@@ -48,4 +48,8 @@ public class UserDaoImpl implements UserDao {
         return userRepository.save(user);
     }
 
+    @Override
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
+    }
 }

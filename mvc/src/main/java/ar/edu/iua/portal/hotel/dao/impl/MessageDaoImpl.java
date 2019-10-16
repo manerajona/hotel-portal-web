@@ -25,4 +25,9 @@ public class MessageDaoImpl implements MessageDao {
     public Message createMessage(Message message) {
         return messageRepository.save(message);
     }
+
+    @Override
+    public void deleteMessageById(Long id) {
+        messageRepository.deleteById(id);
+    }
 }

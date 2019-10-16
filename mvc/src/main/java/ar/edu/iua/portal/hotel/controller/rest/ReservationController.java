@@ -17,7 +17,7 @@ public class ReservationController {
     @Qualifier("reservationDaoImpl")
     private ReservationDao reservationDao;
 
-    @RequestMapping(value = "/{usr}", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET, value = "/{usr}")
     public List<Reservation> getUserReservations(@PathVariable("usr") String usuario) {
         return reservationDao.getUserReservations(usuario);
     }
@@ -30,5 +30,10 @@ public class ReservationController {
     @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Reservation updateReservation(@RequestBody Reservation reservation) {
         return reservationDao.updateReservation(reservation.getId().longValue(), reservation.getCheckIn(), reservation.getCheckOut(), reservation.getGuests(), reservation.getRoomType());
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{reservationId}")
+    public void deleteReservation(@PathVariable("reservationId") Long reservationId) {
+        reservationDao.deleteReservationById(reservationId);
     }
 }

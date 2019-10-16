@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -25,5 +26,15 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<Reservation> findAllReservations() {
         return reservationDao.getAllReservations();
+    }
+
+    @Override
+    public void deleteReservation(Long id) {
+        reservationDao.deleteReservationById(id);
+    }
+
+    @Override
+    public Reservation updateReservation(Long id, Date newCheckIn, Date newCheckOut, Integer newGuests, String newRoomType) {
+        return reservationDao.updateReservation(id, newCheckIn, newCheckOut, newGuests, newRoomType);
     }
 }
