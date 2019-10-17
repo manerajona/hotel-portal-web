@@ -9,52 +9,9 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Córdoba Hotel - Home</title>
-
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/landing-page.css" rel="stylesheet">
-
-  <!-- Custom fonts for this template -->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-  <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
-
-</head>
-
-<body>
-
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="collapse navbar-collapse" id="navegacion">
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="navbar-brand" href="index">Hotel Córdoba Inc.</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" data-toggle="modal" data-target="#aboutModal">Acerca del Hotel</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="reservation">Reservas online</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="audit">Auditoría</a>
-        </li>
-      </ul>
-    </div>
-    <c:if test="${pageContext.request.userPrincipal.name != null}">
-      <form id="logoutForm" method="POST" action="${contextPath}/logout">
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-        <input type="submit" onclick="document.forms['logoutForm'].submit()"
-          value="Logout | ${pageContext.request.userPrincipal.name}" />
-      </form>
-    </c:if>
-    <c:if test="${pageContext.request.userPrincipal.name == null}">
-      <a class="btn btn-primary" href="login">LogIn</a>
-    </c:if>
-  </nav>
+<jsp:include page="sites/fragments/header.jsp">
+<jsp:param name="title" value="Home" />
+</jsp:include>
 
   <!-- call to action -->
   <header class="masthead text-white text-center">
@@ -218,92 +175,7 @@
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="footer bg-light">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
-          <ul class="list-inline mb-2">
-            <li class="list-inline-item">
-              <a href="#" data-toggle="modal" data-target="#aboutModal">Acerca del Hotel</a>
-            </li>
-            <li class="list-inline-item">&sdot;</li>
-            <li class="list-inline-item">
-              <a href="mailto:hello@cordobahotel.com.ar?Subject=Nueva%20consulta" target="_top">Contacto</a>
-            </li>
-            <li class="list-inline-item">&sdot;</li>
-            <li class="list-inline-item">
-              <a href="reservation">Reservas online</a>
-            </li>
-            <li class="list-inline-item">&sdot;</li>
-            <li class="list-inline-item">
-              <a href="audit">Auditoría</a>
-            </li>
-          </ul>
-          <p class="text-muted small mb-4 mb-lg-0">Hotel Córdoba Inc. 2019. Todos los derechos reservados.</p>
-        </div>
-        <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
-          <ul class="list-inline mb-0">
-            <li class="list-inline-item mr-3">
-              <a href="#">
-                <i class="fab fa-facebook fa-2x fa-fw"></i>
-              </a>
-            </li>
-            <li class="list-inline-item mr-3">
-              <a href="#">
-                <i class="fab fa-twitter-square fa-2x fa-fw"></i>
-              </a>
-            </li>
-            <li class="list-inline-item">
-              <a href="#">
-                <i class="fab fa-instagram fa-2x fa-fw"></i>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Modal -->
-  <div id="aboutModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <div class="modal-body">
-          <div class=row>
-            <div class="col-xl-6 my-auto showcase-text">
-              <img src="img/HC-Logo.png" alt="logo" class="img-thumbnail">
-              <hr>
-              <h4>Dirección:</h4>
-              <p class=" lead mb-0">Marcelo T Alvear 400</p>
-              <p class=" lead mb-0">Córdoba, Argentina</p>
-              <hr>
-              <h4>Teléfono:</h4>
-              <p class="lead mb-0">(0351) 4220033</p>
-            </div>
-            <div class="col-xl-6 my-auto showcase-text">
-              <p>La estratégica ubicación del Hotel le permite un acceso inmediato a
-                los centros comerciales y culturales más destacados de la ciudad
-                de Córdoba. Tiendas de diseño y antigüedades, artesanías,
-                museos y el arroyo La Cañada, son parte del paisaje que lo rodea.
-                Disfrutar desde sus ventanales, con vista al arroyo La Cañada, le
-                otorga un sentido de identidad al hotel y a la capital mediterránea.</p>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-
-      <script src="vendor/jquery/jquery.min.js"></script>
-      <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-      <script src="vendor/popper/umd/popper.min.js"></script>
+<jsp:include page="sites/fragments/footer.jsp" />
 
 </body>
-
 </html>

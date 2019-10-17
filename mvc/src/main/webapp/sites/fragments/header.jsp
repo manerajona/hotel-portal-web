@@ -21,20 +21,32 @@
 <spring:url value="/" var="urlHome" />
 <spring:url value="/users/add" var="urlAddUser" />
 
-<!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="collapse navbar-collapse" id="navegacion">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="navbar-brand" href="index">Hotel Córdoba Inc.</a>
-                </li>
-            </ul>
-        </div>
-        <c:if test="${pageContext.request.userPrincipal.name != null}">
-            <form id="logoutForm" method="POST" action="${contextPath}/logout">
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                <input type="submit" onclick="document.forms['logoutForm'].submit()"
-                    value="Logout | ${pageContext.request.userPrincipal.name}" />
-            </form>
-        </c:if>
-    </nav>
+ <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navegacion">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="navbar-brand" href="index">Hotel Córdoba Inc.</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-toggle="modal" data-target="#aboutModal">Acerca del Hotel</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="reservation">Reservas online</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="audit">Auditoría</a>
+        </li>
+      </ul>
+    </div>
+    <c:if test="${pageContext.request.userPrincipal.name != null}">
+      <form id="logoutForm" method="POST" action="${contextPath}/logout">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        <input type="submit" onclick="document.forms['logoutForm'].submit()"
+          value="Logout | ${pageContext.request.userPrincipal.name}" />
+      </form>
+    </c:if>
+    <c:if test="${pageContext.request.userPrincipal.name == null}">
+      <a class="btn btn-primary" href="login">LogIn</a>
+    </c:if>
+  </nav>

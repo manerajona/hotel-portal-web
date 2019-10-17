@@ -12,8 +12,6 @@
 <jsp:param name="title" value="Reservación" />
 </jsp:include>
 
-<body>
-
     <div class="reservation-form">
 
         <c:if test="${not empty message}">
@@ -85,5 +83,4 @@
     <jsp:include page="fragments/footer.jsp" />
 
 </body>
-
 </html>

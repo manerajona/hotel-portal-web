@@ -14,8 +14,6 @@
 <jsp:param name="title" value="Auditoría" />
 </jsp:include>
 
-<body>
-
     <div class="container">
 
         <div id="message-table">
@@ -149,5 +147,4 @@
     <script src="js/audit.js"></script>
 
 </body>
-
 </html>

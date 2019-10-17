@@ -12,8 +12,6 @@
 <jsp:param name="title" value="Registración" />
 </jsp:include>
 
-<body>
-
     <div class="reservation-form">
         <form:form method="POST" modelAttribute="userForm" class="reservation-form">
             <h2 class="text-center">Usuario</h2>
@@ -88,5 +86,4 @@
     <jsp:include page="fragments/footer.jsp" />
 
 </body>
-
 </html>

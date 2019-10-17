@@ -5,12 +5,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
+<html>
 
 <jsp:include page="sites/fragments/header.jsp">
 <jsp:param name="title" value="Error" />
 </jsp:include>
-
-<body>
 
 	<div class="container">
 

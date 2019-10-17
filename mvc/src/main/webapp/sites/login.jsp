@@ -12,8 +12,6 @@
 <jsp:param name="title" value="Log In" />
 </jsp:include>
 
-<body>
-
     <div class="login-form">
         <form method="POST" action="${contextPath}/login" class="form-signin">
 
@@ -48,5 +46,4 @@
     <jsp:include page="fragments/footer.jsp" />
 
 </body>
-
 </html>
