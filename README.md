@@ -7,7 +7,9 @@
 
 Crear una base de datos Mysql, por ejemplo "hoteldb":
 
- CREATE DATABASE hoteldb;
+```sh
+  CREATE DATABASE hoteldb;
+```
  
 Agregar la usuario y password para hoteldb en resources/aplication.properties. Debería quedar algo así:
 
