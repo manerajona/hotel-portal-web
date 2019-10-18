@@ -5,11 +5,10 @@
 
 ### Crear esquema
 
-Crear una base de datos Mysql con el nombre "hoteldb":
+Crear una base de datos Mysql, por ejemplo "hoteldb":
 
-```sh
-CREATE DATABASE hoteldb;
-```
+ CREATE DATABASE hoteldb;
+ 
 Agregar la usuario y password para hoteldb en resources/aplication.properties. Debería quedar algo así:
 
 ```sh
@@ -20,7 +19,9 @@ spring.datasource.password=root_pass
 
 ### Build & run
 
-Verificar que la versión de Apache Maven sea 3.6.0 ```$ mvn -v ```. Luego ejecutar:
+Verificar que la versión de Apache Maven sea 3.6.+ ```$ mvn -v ```. 
+
+Ejecutar:
 
 ```sh
 $ cd mvc
