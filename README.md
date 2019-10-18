@@ -7,9 +7,7 @@
 
 Crear una base de datos Mysql, por ejemplo "hoteldb":
 
-```sh
-  CREATE DATABASE hoteldb;
-```
+```CREATE DATABASE hoteldb;```
  
 Agregar la usuario y password para hoteldb en resources/aplication.properties. Debería quedar algo así:
 
@@ -25,7 +23,7 @@ Verificar que la versión de Apache Maven sea 3.6.+
 
 ```$ mvn -v ```
 
-Ejecutar:
+Ejecutar en terminal:
 
 ```sh
 $ cd mvc
@@ -33,7 +31,9 @@ $ mvn compile
 $ mvn clean spring-boot:run
 ```
 
-Ingresar en el browser http://localhost:8081/index 
+Ingresar en el browser:
+
+```http://localhost:8081/index``` 
 
 ## Modo Admin
 
