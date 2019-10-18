@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface ReservationDao {
 
-    List<Reservation> getUserReservations(String username);
+    Reservation findById(Long id);
 
     List<Reservation> getAllReservations();
 
     Reservation updateReservation(Long id, Date checkIn, Date checkOut, Integer guests, String roomType);
 
-    Reservation createReservation(Reservation reservation);
+    Reservation createOrUpdateReservation(Reservation reservation);
 
     void deleteReservationById(Long id);
 }

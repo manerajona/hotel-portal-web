@@ -7,8 +7,6 @@ import ar.edu.iua.portal.hotel.security.SecurityService;
 import ar.edu.iua.portal.hotel.service.MessageService;
 import ar.edu.iua.portal.hotel.service.ReservationService;
 import ar.edu.iua.portal.hotel.service.UserService;
-import ar.edu.iua.portal.hotel.validator.ReservationValidator;
-import ar.edu.iua.portal.hotel.validator.UserValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +29,10 @@ public class WebController {
     private static final String INDEX = "index";
     private static final String REDIRECT_INDEX = "redirect:/index";
     private static final String SITES_REGISTRATION = "sites/registration";
+    private static final String REDIRECT_REGISTRATION = "redirect:/registration";
     private static final String SITES_LOGIN = "sites/login";
     private static final String SITES_RESERVATION = "sites/reservation";
+    private static final String REDIRECT_RESERVATION = "redirect:/reservation";
     private static final String SITES_AUDIT = "sites/audit";
     private static final String REDIRECT_AUDIT = "redirect:/audit";
 
@@ -54,12 +54,6 @@ public class WebController {
     private ReservationService reservationService;
 
     @Autowired
-    private UserValidator userValidator;
-
-    @Autowired
-    private ReservationValidator reservationValidator;
-
-    @Autowired
     private MessageSource messageSource;
 
     @GetMapping("/")
@@ -78,10 +72,9 @@ public class WebController {
     public String indexHandler(@ModelAttribute("messageForm") Message messageForm, Model model) {
         String username = securityService.findLoggedInUsername();
         logger.info(getSourcedMessage("POST_INFO", new Object[]{"message", username}));
-
-        messageForm.setUsername(username);
-        messageService.save(messageForm);
-        model.addAttribute("messageForm", new Message());
+        messageService.save(messageForm, username, model);
+        model.addAttribute("css", "success");
+        model.addAttribute("message", getSourcedMessage("MESSAGE_SENT"));
         return INDEX;
     }
 
@@ -96,22 +89,13 @@ public class WebController {
         String username = userForm.getUsername();
         logger.info(getSourcedMessage("POST_INFO", new Object[]{"registration", username}));
 
-        userValidator.validate(userForm, bindingResult);
-
-        if (bindingResult.hasErrors()) {
+        boolean hasErrors = userService.createOrUpdate(userForm, bindingResult);
+        if (hasErrors) {
             return SITES_REGISTRATION;
         }
-        userService.save(userForm);
-
         securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
 
         return redirectIndex();
-    }
-
-    @PostMapping("/registration/{username}/update")
-    public String updateUser(@PathVariable("username") String username, Model model) {
-        //userService. TODO update password
-        return REDIRECT_AUDIT;
     }
 
     @GetMapping("/login")
@@ -121,11 +105,7 @@ public class WebController {
 
         if (error != null) {
             model.addAttribute("css", "danger");
-            model.addAttribute("error", getSourcedMessage("YOUR_USERNAME_AND_PASSWORD_IS_INVALID"));
-        }
-        if (logout != null) {
-            model.addAttribute("css", "success");
-            model.addAttribute("message", getSourcedMessage("YOU_HAVE_BEEN_LOGGED_OUT_SUCCESSFULLY"));
+            model.addAttribute("message", getSourcedMessage("YOUR_USERNAME_AND_PASSWORD_IS_INVALID"));
         }
         return SITES_LOGIN;
     }
@@ -142,16 +122,8 @@ public class WebController {
         String username = securityService.findLoggedInUsername();
         logger.info(getSourcedMessage("POST_INFO", new Object[]{"reservation", username}));
 
-        reservationForm.setUsername(username);
+        reservationService.createOrUpdate(reservationForm, username, bindingResult, model, messageSource);
 
-        reservationValidator.validate(reservationForm, bindingResult);
-
-        if (!bindingResult.hasErrors()) {
-            reservationService.save(reservationForm);
-            model.addAttribute("css", "success");
-            model.addAttribute("message", getSourcedMessage("THE_RESERVATION_WAS_REGISTERED"));
-            model.addAttribute("reservationForm", new Reservation());
-        }
         return SITES_RESERVATION;
     }
 
@@ -196,14 +168,15 @@ public class WebController {
         return REDIRECT_AUDIT;
     }
 
-    @PostMapping("/audit/reservation/{id}/update")
+    @GetMapping("/audit/reservation/{id}/update")
     public String updateReservation(@PathVariable("id") Long id, @ModelAttribute("reservationForm") Reservation reservationForm, BindingResult bindingResult, Model model) {
-        reservationValidator.validate(reservationForm, bindingResult);
-        if (!bindingResult.hasErrors()) {
-            reservationService.updateReservation(
-                    reservationForm.getId(), reservationForm.getCheckIn(), reservationForm.getCheckOut(), reservationForm.getGuests(), reservationForm.getRoomType());
-        }
-        return REDIRECT_AUDIT;
+        String username = securityService.findLoggedInUsername();
+        logger.info(getSourcedMessage("GET_INFO", new Object[]{"audit", username}));
+
+        Reservation reservation = reservationService.findById(id);
+        model.addAttribute("reservationForm", reservation);
+
+        return SITES_RESERVATION;
     }
 
     private String getSourcedMessage(String s) {

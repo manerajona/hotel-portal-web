@@ -10,15 +10,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.*;
 
 public class ReservationDaoImplTest {
 
@@ -37,13 +33,11 @@ public class ReservationDaoImplTest {
     }
 
     @Test
-    public void shouldGetUserReservations() {
+    public void shouldGetReservation() {
         // When
-        Mockito.when(reservationRepository.findByUsername(anyString())).thenReturn(Optional.of(Arrays.asList(reservationMock)));
-        List<Reservation> reservationList = reservationDao.getUserReservations(anyString());
+        Mockito.when(reservationRepository.findById(anyLong())).thenReturn(Optional.of(reservationMock));
+        Reservation reservation = reservationDao.findById(anyLong());
         // Then
-        Assert.assertFalse(reservationList.isEmpty());
-        Reservation reservation = reservationList.get(0);
         Assert.assertEquals(reservationMockData.ID, reservation.getId());
         Assert.assertEquals(toSDate(reservationMockData.CHECK_IN), reservation.getCheckIn());
         Assert.assertEquals(toSDate(reservationMockData.CHECK_OUT), reservation.getCheckOut());
@@ -74,7 +68,7 @@ public class ReservationDaoImplTest {
     public void shouldCreateReservation() {
         // When
         Mockito.when(reservationRepository.save(any(Reservation.class))).thenReturn(reservationMock);
-        Reservation reservation = reservationDao.createReservation(reservationMock);
+        Reservation reservation = reservationDao.createOrUpdateReservation(reservationMock);
         // Then
         Assert.assertEquals(reservationMockData.ID, reservation.getId());
         Assert.assertEquals(toSDate(reservationMockData.CHECK_IN), reservation.getCheckIn());

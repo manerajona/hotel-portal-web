@@ -36,14 +36,14 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User updateUser(String username, String newPassword, String oldPassword) {
+    public User updatePassword(String username, String newPassword, String oldPassword) {
         User user = findByUsername(username);
         user.setPassword(bCryptPasswordEncoder.encode(newPassword));
         return userRepository.save(user);
     }
 
     @Override
-    public User createUser(User user) {
+    public User createOrUpdateUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }

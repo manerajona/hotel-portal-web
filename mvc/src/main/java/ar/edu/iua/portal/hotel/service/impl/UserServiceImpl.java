@@ -3,9 +3,11 @@ package ar.edu.iua.portal.hotel.service.impl;
 import ar.edu.iua.portal.hotel.dao.UserDao;
 import ar.edu.iua.portal.hotel.entity.User;
 import ar.edu.iua.portal.hotel.service.UserService;
+import ar.edu.iua.portal.hotel.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
 
@@ -17,9 +19,17 @@ public class UserServiceImpl implements UserService {
     @Qualifier("userDaoImpl")
     private UserDao userDao;
 
+    @Autowired
+    private UserValidator userValidator;
+
     @Override
-    public void save(User user) {
-        userDao.createUser(user);
+    public boolean createOrUpdate(User user, BindingResult bindingResult) {
+        userValidator.validate(user, bindingResult);
+        if (!bindingResult.hasErrors()) {
+            userDao.createOrUpdateUser(user);
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -43,7 +53,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(String username, String newPassword, String oldPassword) {
-        return userDao.updateUser(username, newPassword, oldPassword);
+    public User updatePassword(String username, String newPassword, String oldPassword) {
+        return userDao.updatePassword(username, newPassword, oldPassword);
     }
 }

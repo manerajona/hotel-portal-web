@@ -23,8 +23,8 @@ public class ReservationDaoImpl implements ReservationDao {
     private MessageSource messageSource;
 
     @Override
-    public List<Reservation> getUserReservations(String username) {
-        return reservationRepository.findByUsername(username).get();
+    public Reservation findById(Long id) {
+        return reservationRepository.findById(id).get();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ReservationDaoImpl implements ReservationDao {
     }
 
     @Override
-    public Reservation createReservation(Reservation reservation) {
+    public Reservation createOrUpdateReservation(Reservation reservation) {
         return reservationRepository.save(reservation);
     }
 

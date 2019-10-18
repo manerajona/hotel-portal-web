@@ -1,11 +1,12 @@
 package ar.edu.iua.portal.hotel.service.impl;
 
-import ar.edu.iua.portal.hotel.dao.impl.MessageDaoImpl;
+import ar.edu.iua.portal.hotel.dao.MessageDao;
 import ar.edu.iua.portal.hotel.entity.Message;
 import ar.edu.iua.portal.hotel.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.util.List;
 
@@ -15,11 +16,13 @@ public class MessageServiceImpl implements MessageService {
 
     @Autowired
     @Qualifier("messageDaoImpl")
-    private MessageDaoImpl messageDao;
+    private MessageDao messageDao;
 
     @Override
-    public void save(Message message) {
+    public void save(Message message, String username, Model model) {
+        message.setUsername(username);
         messageDao.createMessage(message);
+        model.addAttribute("messageForm", new Message());
     }
 
     @Override

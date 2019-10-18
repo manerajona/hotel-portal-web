@@ -1,17 +1,25 @@
 package ar.edu.iua.portal.hotel.service;
 
 import ar.edu.iua.portal.hotel.entity.Reservation;
+import org.springframework.context.MessageSource;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
 import java.sql.Date;
 import java.util.List;
 
 public interface ReservationService {
 
-    void save(Reservation reservation);
+    boolean createOrUpdate(Reservation reservation,
+              String username,
+              BindingResult bindingResult,
+              Model model,
+              MessageSource messageSource);
 
     List<Reservation> findAllReservations();
 
-    void deleteReservation(Long id);
+    Reservation findById(Long id);
 
-    Reservation updateReservation(Long id, Date newCheckIn, Date newCheckOut, Integer newGuests, String newRoomType);
+    void deleteReservation(Long id);
+    
 }

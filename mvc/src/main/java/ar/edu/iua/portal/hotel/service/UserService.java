@@ -1,11 +1,13 @@
 package ar.edu.iua.portal.hotel.service;
 
 import ar.edu.iua.portal.hotel.entity.User;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
 
 public interface UserService {
-    void save(User user);
+
+    boolean createOrUpdate(User user, BindingResult bindingResult);
 
     User findByUsername(String username);
 
@@ -15,5 +17,5 @@ public interface UserService {
 
     void deleteUser(Long id);
 
-    User updateUser(String username, String newPassword, String oldPassword);
+    User updatePassword(String username, String newPassword, String oldPassword);
 }

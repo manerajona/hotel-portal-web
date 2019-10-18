@@ -8,23 +8,24 @@
 <html>
 
 <jsp:include page="sites/fragments/header.jsp">
-<jsp:param name="title" value="Error" />
+	<jsp:param name="title" value="Error" />
 </jsp:include>
 
-	<div class="container">
+<div class="container">
 
-		<h1>Algo salió mal :´(</h1>
+	<h1>Algo salió mal :´(</h1>
 
-		<p>${exception.message}</p>
+	<p>${exception.message}</p>
 
-		  	<c:forEach items="${exception.stackTrace}" var="stackTrace"> 
-				${stackTrace} 
-			</c:forEach>
+	<c:forEach items="${exception.stackTrace}" var="stackTrace">
+		${stackTrace}
+	</c:forEach>
 
 
-	</div>
+</div>
 
-	<jsp:include page="sites/fragments/footer.jsp" />
+<jsp:include page="sites/fragments/footer.jsp" />
 
 </body>
+
 </html>

@@ -1,6 +1,7 @@
 package ar.edu.iua.portal.hotel.dao.impl;
 
 import ar.edu.iua.portal.hotel.entity.Message;
+
 import ar.edu.iua.portal.hotel.repository.MessageRepository;
 import org.junit.Assert;
 import org.junit.Before;

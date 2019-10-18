@@ -76,7 +76,7 @@ public class UserDaoImplTest {
 
         Mockito.when(userRepository.save(any(User.class))).thenReturn(user);
         Mockito.doReturn(Optional.of(user)).when(userRepository).findByUsername(anyString());
-        User usr = userDao.updateUser(userMockData.USER, userMockData.NEW_PASSWORD, userMockData.PASSWORD);
+        User usr = userDao.updatePassword(userMockData.USER, userMockData.NEW_PASSWORD, userMockData.PASSWORD);
         // then
         assertNotNull(usr);
         assertEquals(userMockData.ID, usr.getId());
@@ -92,7 +92,7 @@ public class UserDaoImplTest {
         Mockito.doReturn(encodedPassword).when(bCryptPasswordEncoder).encode(anyString());
 
         Mockito.when(userRepository.save(any(User.class))).thenReturn(user);
-        User usr = userDao.createUser(user);
+        User usr = userDao.createOrUpdateUser(user);
         // then
         assertNotNull(usr);
         assertEquals(userMockData.ID, usr.getId());
