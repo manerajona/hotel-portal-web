@@ -21,8 +21,10 @@ spring.datasource.password=root_pass
 
 Verificar que la versión de Apache Maven sea 3.6.+ y java 1.8.
 
-```$ mvn -v ```
-```$ java -version ```
+```sh
+$ mvn -v 
+$ java -version 
+```
 
 Ejecutar en terminal:
 
