@@ -21,7 +21,9 @@ spring.datasource.password=root_pass
 
 ### Build & run
 
-Verificar que la versión de Apache Maven sea 3.6.+ ```$ mvn -v ```. 
+Verificar que la versión de Apache Maven sea 3.6.+
+
+```$ mvn -v ```
 
 Ejecutar:
 
