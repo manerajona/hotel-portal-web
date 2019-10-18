@@ -5,11 +5,11 @@
 
 ### Crear esquema
 
-Crear una base de datos Mysql, por ejemplo "hoteldb":
+Crear una base de datos Mysql, por ejemplo ```hoteldb```:
 
 ```CREATE DATABASE hoteldb;```
  
-Agregar la usuario y password para hoteldb en resources/aplication.properties. Debería quedar algo así:
+Agregar la usuario y password para ```hoteldb``` en ```resources/aplication.properties```. Debería quedar algo así:
 
 ```sh
 spring.datasource.url=jdbc:mysql://localhost:3306/hoteldb?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
