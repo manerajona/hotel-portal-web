@@ -33,10 +33,11 @@ $ mvn compile
 $ mvn clean spring-boot:run
 ```
 
+Ingresar en el browser http://localhost:8081/index 
 
 ## Modo Admin
 
-Para ingresar en modo admin acceder a http://localhost:8080/login con las siguientes credenciales:
+Para ingresar en modo admin acceder a http://localhost:8081/login con las siguientes credenciales:
 
 | Username | Password |
 | -------- | -------- |
