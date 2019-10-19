@@ -9,13 +9,13 @@
   <title>Córdoba Hotel - ${param.title}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/landing-page.css" rel="stylesheet">
-  <link href="css/sites.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/css/landing-page.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/css/sites.css" rel="stylesheet">
 
   <!-- Custom fonts for this template -->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-  <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+  <link href="${pageContext.request.contextPath}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
 </head>
 
 <spring:url value="/" var="urlHome" />
@@ -26,16 +26,16 @@
   <div class="collapse navbar-collapse" id="navegacion">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="navbar-brand" href="index">Hotel Córdoba Inc.</a>
+        <a class="navbar-brand" href="${pageContext.request.contextPath}/index">Hotel Córdoba Inc.</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#" data-toggle="modal" data-target="#aboutModal">Acerca del Hotel</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="reservation">Reservas online</a>
+        <a class="nav-link" href="${pageContext.request.contextPath}/reservation">Reservas online</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="audit">Auditoría</a>
+        <a class="nav-link" href="${pageContext.request.contextPath}/audit">Auditoría</a>
       </li>
     </ul>
   </div>
@@ -50,6 +50,6 @@
     </form>
   </c:if>
   <c:if test="${pageContext.request.userPrincipal.name == null}">
-    <a class="btn btn-primary" href="login">LogIn</a>
+    <a class="btn btn-primary" href="${pageContext.request.contextPath}/login">LogIn</a>
   </c:if>
 </nav>

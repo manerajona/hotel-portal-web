@@ -15,10 +15,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Locale;
@@ -85,23 +82,27 @@ public class WebController {
     }
 
     @PostMapping("/registration")
-    public String registrationHandler(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
-        String username = userForm.getUsername();
-        logger.info(getSourcedMessage("POST_INFO", new Object[]{"registration", username}));
+    public String registrationHandler(@ModelAttribute("userForm") User userForm, Model model, BindingResult bindingResult) {
+        Object[] params = new Object[]{"registration", securityService.findLoggedInUsername()};
+        logger.info(getSourcedMessage("POST_INFO", params));
 
         boolean hasErrors = userService.createOrUpdate(userForm, bindingResult);
         if (hasErrors) {
             return SITES_REGISTRATION;
         }
-        securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
-
-        return redirectIndex();
+        if(securityService.isAutenticated()) {
+            securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
+            return REDIRECT_INDEX;
+        }
+        model.addAttribute("css", "success");
+        model.addAttribute("message", getSourcedMessage("THE_USER_WAS_REGISTERED"));
+        return SITES_REGISTRATION;
     }
 
     @GetMapping("/login")
     public String loginHandler(Model model, String error, String logout) {
-        String username = securityService.findLoggedInUsername();
-        logger.info(getSourcedMessage("GET_INFO", new Object[]{"logIn", username}));
+        Object[] params = new Object[]{"login", securityService.findLoggedInUsername()};
+        logger.info(getSourcedMessage("GET_INFO", params));
 
         if (error != null) {
             model.addAttribute("css", "danger");
@@ -129,8 +130,8 @@ public class WebController {
 
     @GetMapping({"/audit"})
     public String auditnHandler(Model model) {
-        String username = securityService.findLoggedInUsername();
-        logger.info(getSourcedMessage("GET_INFO", new Object[]{"audit", username}));
+        Object[] params = new Object[]{"audit", securityService.findLoggedInUsername()};
+        logger.info(getSourcedMessage("GET_INFO", params));
 
         List<Message> messages = messageService.findAllMessages();
         model.addAttribute("messages", messages);
@@ -144,39 +145,50 @@ public class WebController {
         return SITES_AUDIT;
     }
 
-    @PostMapping("/audit/message/{id}/delete")
+    @PostMapping("/message/{id}/delete")
     public String deleteMessage(@PathVariable("id") Long id, Model model) {
-        String username = securityService.findLoggedInUsername();
-        logger.info(getSourcedMessage("POST_INFO", new Object[]{"audit", username}));
+        Object[] params = new Object[]{"audit", securityService.findLoggedInUsername()};
+        logger.info(getSourcedMessage("POST_INFO", params));
         messageService.deleteMessage(id);
         return REDIRECT_AUDIT;
     }
 
-    @PostMapping("/audit/reservation/{id}/delete")
+    @PostMapping("/reservation/{id}/delete")
     public String deleteReservation(@PathVariable("id") Long id, Model model) {
-        String username = securityService.findLoggedInUsername();
-        logger.info(getSourcedMessage("POST_INFO", new Object[]{"audit", username}));
+        Object[] params = new Object[]{"audit", securityService.findLoggedInUsername()};
+        logger.info(getSourcedMessage("POST_INFO", params));
         reservationService.deleteReservation(id);
         return REDIRECT_AUDIT;
     }
 
-    @PostMapping("/audit/user/{id}/delete")
+    @PostMapping("/user/{id}/delete")
     public String deleteUser(@PathVariable("id") Long id, Model model) {
-        String username = securityService.findLoggedInUsername();
-        logger.info(getSourcedMessage("POST_INFO", new Object[]{"audit", username}));
+        Object[] params = new Object[]{"audit", securityService.findLoggedInUsername()};
+        logger.info(getSourcedMessage("POST_INFO", params));
         userService.deleteUser(id);
         return REDIRECT_AUDIT;
     }
 
-    @GetMapping("/audit/reservation/{id}/update")
-    public String updateReservation(@PathVariable("id") Long id, @ModelAttribute("reservationForm") Reservation reservationForm, BindingResult bindingResult, Model model) {
-        String username = securityService.findLoggedInUsername();
-        logger.info(getSourcedMessage("GET_INFO", new Object[]{"audit", username}));
+    @RequestMapping(value="/reservation/{id}/update", method = RequestMethod.GET)
+    public String updateReservation(@PathVariable("id") Long id, Model model) {
+        Object[] params = new Object[]{"audit", securityService.findLoggedInUsername()};
+        logger.info(getSourcedMessage("GET_INFO", params));
 
         Reservation reservation = reservationService.findById(id);
         model.addAttribute("reservationForm", reservation);
 
         return SITES_RESERVATION;
+    }
+
+    @RequestMapping(value="/user/{username}/update", method = RequestMethod.GET)
+    public String updateUser(@PathVariable("username") String username, Model model) {
+        Object[] params = new Object[]{"audit", securityService.findLoggedInUsername()};
+        logger.info(getSourcedMessage("GET_INFO", params));
+
+        User user = userService.findByUsername(username);
+        model.addAttribute("userForm", user);
+
+        return SITES_REGISTRATION;
     }
 
     private String getSourcedMessage(String s) {

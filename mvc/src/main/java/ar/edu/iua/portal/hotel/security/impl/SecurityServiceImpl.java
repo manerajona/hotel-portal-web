@@ -33,6 +33,11 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
+    public boolean isAutenticated() {
+        return SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
+    }
+
+    @Override
     public void autoLogin(String username, String password) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =

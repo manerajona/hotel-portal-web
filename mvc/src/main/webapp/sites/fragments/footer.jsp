@@ -19,11 +19,11 @@
           </li>
           <li class="list-inline-item">&sdot;</li>
           <li class="list-inline-item">
-            <a href="reservation">Reservas online</a>
+            <a href="${pageContext.request.contextPath}/reservation">Reservas online</a>
           </li>
           <li class="list-inline-item">&sdot;</li>
           <li class="list-inline-item">
-            <a href="audit">Auditoría</a>
+            <a href="${pageContext.request.contextPath}/audit">Auditoría</a>
           </li>
         </ul>
         <p class="text-muted small mb-4 mb-lg-0">Hotel Córdoba Inc. 2019. Todos los derechos reservados.</p>
@@ -62,7 +62,7 @@
       <div class="modal-body">
         <div class=row>
           <div class="col-xl-6 my-auto showcase-text">
-            <img src="img/HC-Logo.png" alt="logo" class="img-thumbnail">
+            <img src="${pageContext.request.contextPath}/img/HC-Logo.png" alt="logo" class="img-thumbnail">
             <hr>
             <h4>Dirección:</h4>
             <p class=" lead mb-0">Marcelo T Alvear 400</p>
@@ -86,9 +86,9 @@
       </div>
     </div>
 
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="vendor/popper/umd/popper.min.js"></script>
-    <script src="https://code.iconify.design/1/1.0.3/iconify.min.js"></script>
+    <script src="${pageContext.request.contextPath}/vendor/jquery/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/vendor/popper/umd/popper.min.js"></script>
+    <script src="${pageContext.request.contextPath}/vendor/iconify/dist/iconify.min.js"></script>
 
   </div>
