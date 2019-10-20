@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,11 +29,9 @@ public class WebController {
     private static final String REDIRECT_INDEX = "redirect:/index";
     private static final String SITES_REGISTRATION = "sites/registration";
     private static final String SITES_LOGIN = "sites/login";
-    private static final String REDIRECT_LOGIN = "redirect:/login";
     private static final String SITES_RESERVATION = "sites/reservation";
     private static final String SITES_AUDIT = "sites/audit";
-    private static final String REDIRECT_AUDIT = "redirect:/audit";
-    private static final String SITES_MY_RESERV = "sites/my-reserv";
+    private static final String SITES_MY_RESERVE = "sites/reservation-me";
 
     private static Logger logger = LoggerFactory.getLogger(WebController.class);
 
@@ -117,6 +116,15 @@ public class WebController {
         return SITES_RESERVATION;
     }
 
+    @PostMapping({"/reservation/{dateIn}/{dateOut}"})
+    public String reservationHandler(@PathVariable("dateIn") Date dateIn, @PathVariable("dateOut") Date dateOut, Model model) {
+        Reservation reservation = new Reservation();
+        reservation.setCheckIn(dateIn);
+        reservation.setCheckOut(dateOut);
+        model.addAttribute("reservationForm", reservation);
+        return SITES_RESERVATION;
+    }
+
     @PostMapping("/reservation")
     public String reservationHandler(@ModelAttribute("reservationForm") Reservation reservationForm,
                                      BindingResult bindingResult, Model model) {
@@ -149,7 +157,7 @@ public class WebController {
         return SITES_AUDIT;
     }
 
-    @GetMapping("/my-reserv")
+    @GetMapping("/reservation/me")
     public String myReservHandler(Model model) {
         String username = securityService.findLoggedInUsername();
         logger.info(getSourcedMessage("Info.Get", new Object[]{"audit", username}));
@@ -157,7 +165,7 @@ public class WebController {
         List<Reservation> reservations = reservationService.findReservationsByUsername(username);
         model.addAttribute("reservations", reservations);
 
-        return SITES_MY_RESERV;
+        return SITES_MY_RESERVE;
     }
 
     @PostMapping("/message/{id}/delete")
@@ -208,19 +216,24 @@ public class WebController {
         Object[] params = new Object[]{"login", securityService.findLoggedInUsername()};
         logger.info(getSourcedMessage("Info.Post", params));
 
-        boolean passMatches = passwordForm.getNewPassword().equals(passwordForm.getPasswordConfirm());
-        if (!passMatches) {
-            model.addAttribute("css", "danger");
-            model.addAttribute("message", getSourcedMessage("Diff.userForm.passwordConfirm"));
-            return SITES_LOGIN;
-        }
+        boolean success;
+        String css = "success";
+        String messageKey = "Success.password.change";
 
-        boolean success = userService.updatePassword(passwordForm.getUsername(), passwordForm.getNewPassword(), passwordForm.getOldPassword());
+        success = passwordForm.getNewPassword().equals(passwordForm.getPasswordConfirm());
         if (!success) {
-            model.addAttribute("css", "danger");
-            model.addAttribute("message", getSourcedMessage("Invalid.UsernameOrPassword"));
+            css = "danger";
+            messageKey = "Diff.userForm.passwordConfirm";
+        } else {
+            success = userService.updatePassword(passwordForm.getUsername(), passwordForm.getNewPassword(), passwordForm.getOldPassword());
+            if (!success) {
+                css = "danger";
+                messageKey = "Invalid.UsernameOrPassword";
+            }
         }
-        return REDIRECT_LOGIN;
+        model.addAttribute("css", css);
+        model.addAttribute("message", getSourcedMessage(messageKey));
+        return SITES_LOGIN;
     }
 
     private String getOriginReq(HttpServletRequest request) {

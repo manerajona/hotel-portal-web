@@ -10,7 +10,7 @@
 
 <form:form method="POST" modelAttribute="userForm" class="site-form" action="${registrationUrl}">
     <h2 class="text-center">Nuevo Usuario</h2>
-    
+
     <div class="row">
 
         <form:hidden path="id" />
@@ -74,7 +74,7 @@
             <button type="submit" class="btn btn-primary btn-block">Guardar</button>
         </div>
     </div>
-    <div class="col-xl-6 mx-auto my-3">
+    <div class="col-xl-6 mx-auto mt-3">
         <label class="checkbox-inline">
             <input type="checkbox" required="required"> Acepto términos y condiciones</label>
     </div>

@@ -70,15 +70,16 @@
                     <form:option value="4">4</form:option>
                 </form:select>
                 <strong>
-                    <form:errors path="guests"></form:errors><strong>
+                    <form:errors path="guests"></form:errors>
+                </strong>
             </div>
         </spring:bind>
     </div>
-    
+
     <div class="row">
         <div class="col-xl-6 mx-auto my-4">
             <button type="submit" class="btn btn-primary btn-block">Aceptar</button>
         </div>
     </div>
-    
+
 </form:form>

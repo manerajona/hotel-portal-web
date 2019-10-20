@@ -13,12 +13,12 @@
     <jsp:param name="title" value="Auditoría" />
 </jsp:include>
 
-<div class="container">
-
-<jsp:include page="fragments/tables/message-table.jsp" />
-<jsp:include page="fragments/tables/reservation-table.jsp" />
-<jsp:include page="fragments/tables/user-table.jsp" />
-
+<div class="site-container">
+    <jsp:include page="fragments/tables/message-table.jsp" />
+    <jsp:include page="fragments/tables/reservation-table.jsp">
+        <jsp:param name="isEditable" value="false" />
+    </jsp:include>
+    <jsp:include page="fragments/tables/user-table.jsp" />
 </div>
 
 <jsp:include page="fragments/footer.jsp" />

@@ -24,7 +24,7 @@
           </li>
           <li class="list-inline-item">&sdot;</li>
           <li class="list-inline-item">
-            <a href="${contextPath}/audit">Auditoría</a>
+            <a href="${contextPath}/audit">Administración</a>
           </li>
         </ul>
         <p class="text-muted small mb-4 mb-lg-0">Hotel Córdoba Inc. 2019. Todos los derechos reservados.</p>

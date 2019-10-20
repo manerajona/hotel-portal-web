@@ -6,6 +6,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+
 <!DOCTYPE html>
 <html>
 
@@ -13,16 +15,17 @@
     <jsp:param name="title" value="Mis reservas" />
 </jsp:include>
 
-<div class="container">
+<div class="site-container">
 
-<jsp:include page="fragments/tables/reservation-table.jsp" />
-
+    <jsp:include page="fragments/tables/reservation-table.jsp">
+        <jsp:param name="isEditable" value="true" />
+    </jsp:include>
 </div>
 
 <jsp:include page="fragments/footer.jsp" />
 
-<script src="js/audit.js"></script>
-<script src="js/controller.js"></script>
+<script src="${contextPath}/js/audit.js"></script>
+<script src="${contextPath}/js/controller.js"></script>
 
 </body>
 
