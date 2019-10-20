@@ -6,6 +6,7 @@ import ar.edu.iua.portal.hotel.service.UserService;
 import ar.edu.iua.portal.hotel.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -22,14 +23,17 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserValidator userValidator;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public boolean createOrUpdate(User user, BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
-        if (!bindingResult.hasErrors()) {
+        boolean success = !(bindingResult.hasErrors());
+        if(success) {
             userDao.createOrUpdateUser(user);
-            return false;
         }
-        return true;
+        return success;
     }
 
     @Override
@@ -53,7 +57,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updatePassword(String username, String newPassword, String oldPassword) {
-        return userDao.updatePassword(username, newPassword, oldPassword);
+    public boolean updatePassword(String username, String newPassword, String oldPassword) {
+        User user = userDao.findByUsername(username);
+        boolean success = bCryptPasswordEncoder.matches(oldPassword, user.getPassword());
+        if(success) {
+            userDao.updatePassword(user, newPassword);
+        }
+        return success;
     }
+
+
 }

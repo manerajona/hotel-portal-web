@@ -6,11 +6,13 @@ import java.util.List;
 
 public interface UserDao {
 
-    User updatePassword(String username, String newPassword, String oldPassword);
+    User updatePassword(User user, String newPassword);
 
     User createOrUpdateUser(User user);
 
     User findByUsername(String username);
+
+    User findByUserAndPassword(String username, String password);
 
     User findByEmail(String email);
 

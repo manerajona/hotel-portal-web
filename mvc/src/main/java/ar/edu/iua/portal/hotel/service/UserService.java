@@ -17,5 +17,5 @@ public interface UserService {
 
     void deleteUser(Long id);
 
-    User updatePassword(String username, String newPassword, String oldPassword);
+    boolean updatePassword(String username, String newPassword, String oldPassword);
 }

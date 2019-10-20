@@ -36,7 +36,7 @@ public class ReservationDaoImpl implements ReservationDao {
     public Reservation updateReservation(Long id, Date checkIn, Date checkOut, Integer guests, String newRoom) {
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(messageSource.getMessage(
-                        "RESERVATION_WITH_ID_NOT_FOUND", new Object[]{id}, Locale.getDefault())));
+                        "NotFound.Reservation", new Object[]{id}, Locale.getDefault())));
         reservation.setCheckIn(checkIn);
         reservation.setCheckOut(checkOut);
         reservation.setGuests(guests);

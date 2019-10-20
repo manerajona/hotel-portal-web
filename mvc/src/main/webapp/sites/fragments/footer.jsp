@@ -3,6 +3,7 @@
 <%@ page session="false"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <!-- Footer -->
 <footer class="footer bg-light">
@@ -19,11 +20,11 @@
           </li>
           <li class="list-inline-item">&sdot;</li>
           <li class="list-inline-item">
-            <a href="${pageContext.request.contextPath}/reservation">Reservas online</a>
+            <a href="${contextPath}/reservation">Reservas online</a>
           </li>
           <li class="list-inline-item">&sdot;</li>
           <li class="list-inline-item">
-            <a href="${pageContext.request.contextPath}/audit">Auditoría</a>
+            <a href="${contextPath}/audit">Auditoría</a>
           </li>
         </ul>
         <p class="text-muted small mb-4 mb-lg-0">Hotel Córdoba Inc. 2019. Todos los derechos reservados.</p>
@@ -54,7 +55,6 @@
 <!-- Modal -->
 <div id="aboutModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
-
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -62,7 +62,7 @@
       <div class="modal-body">
         <div class=row>
           <div class="col-xl-6 my-auto showcase-text">
-            <img src="${pageContext.request.contextPath}/img/HC-Logo.png" alt="logo" class="img-thumbnail">
+            <img src="${contextPath}/img/HC-Logo.png" alt="logo" class="img-thumbnail">
             <hr>
             <h4>Dirección:</h4>
             <p class=" lead mb-0">Marcelo T Alvear 400</p>
@@ -85,10 +85,12 @@
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
-
-    <script src="${pageContext.request.contextPath}/vendor/jquery/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/vendor/popper/umd/popper.min.js"></script>
-    <script src="${pageContext.request.contextPath}/vendor/iconify/dist/iconify.min.js"></script>
-
   </div>
+</div>
+
+<script src="${contextPath}/vendor/jquery/jquery.min.js"></script>
+<script src="${contextPath}/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="${contextPath}/vendor/popper/umd/popper.min.js"></script>
+<script src="${contextPath}/vendor/iconify/dist/iconify.min.js"></script>
+
+</div>

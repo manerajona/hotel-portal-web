@@ -39,7 +39,7 @@ public class ReservationServiceImpl implements ReservationService {
         if (!bindingResult.hasErrors()) {
             reservationDao.createOrUpdateReservation(reservation);
             model.addAttribute("css", "success");
-            model.addAttribute("message", messageSource.getMessage("THE_RESERVATION_WAS_REGISTERED", null, Locale.getDefault()));
+            model.addAttribute("message", messageSource.getMessage("Success.Reservation", null, Locale.getDefault()));
             model.addAttribute("reservationForm", new Reservation());
             return false;
         }

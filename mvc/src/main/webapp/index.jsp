@@ -14,13 +14,13 @@
 </jsp:include>
 
 <c:if test="${not empty message}">
-                <div class="alert alert-${css} alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                    <strong>${message}</strong>
-                </div>
-            </c:if>
+  <div class="alert alert-${css} alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+    <strong>${message}</strong>
+  </div>
+</c:if>
 
 <!-- call to action -->
 <header class="masthead text-white text-center">
@@ -138,7 +138,7 @@
         <h2 class="mb-5">Dejanos tu mensaje</h2>
       </div>
       <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-            <jsp:include page="sites/fragments/message-form.jsp" />
+        <jsp:include page="sites/fragments/message-form.jsp" />
       </div>
     </div>
   </div>

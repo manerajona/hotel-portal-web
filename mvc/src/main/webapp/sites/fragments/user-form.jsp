@@ -8,77 +8,77 @@
 
 <spring:url value="/registration" var="registrationUrl" />
 
-    <form:form method="POST" modelAttribute="userForm" class="site-form" action="${registrationUrl}">
-        <h2 class="text-center">Usuario</h2>
-         <c:if test="${not empty message}">
-                        <div class="alert alert-${css} alert-dismissible" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                            <strong>${message}</strong>
-                        </div>
-                    </c:if>
-        <div class="row">
+<form:form method="POST" modelAttribute="userForm" class="site-form" action="${registrationUrl}">
+    <h2 class="text-center">Usuario</h2>
+    <c:if test="${passwordForm!=null}">
 
-            <form:hidden path="id" />
+    </c:if>
+    <div class="row">
 
-            <spring:bind path="firstName">
-                <div class="col-xl-6">
-                    <label>Nombre</label>
-                    <form:input path="firstName" type="text" class="form-control" required="required"
-                        autofocus="true" />
-                    <br />
-                </div>
-            </spring:bind>
+        <form:hidden path="id" />
 
-            <spring:bind path="lastName">
-                <div class="col-xl-6">
-                    <label>Apellido</label>
-                    <form:input path="lastName" type="text" class="form-control" required="required" />
-                    <br />
-                </div>
-            </spring:bind>
-
-            <spring:bind path="username">
-                <div class="col-xl-6 ${status.error ? 'has-error' : ''}">
-                    <label>Username</label>
-                    <form:input path="username" type="text" class="form-control" required="required" /><br />
-                    <form:errors path="username"></form:errors>
-                </div>
-            </spring:bind>
-
-            <spring:bind path="email">
-                <div class="col-xl-6">
-                    <label>Correo electrónico</label>
-                    <form:input path="email" type="email" class="form-control" required="required" />
-                    <br />
-                </div>
-            </spring:bind>
-
-            <spring:bind path="password">
-                <div class="col-xl-6 ${status.error ? 'has-error' : ''}">
-                    <label>Nuevo password</label>
-                    <form:input path="password" type="password" class="form-control" required="required" />
-                    <br />
-                    <form:errors path="password"></form:errors>
-                </div>
-            </spring:bind>
-
-            <spring:bind path="passwordConfirm">
-                <div class="col-xl-6 ${status.error ? 'has-error' : ''}">
-                    <label>Confirmar password</label>
-                    <form:input path="passwordConfirm" type="password" class="form-control" required="required" />
-                    <br />
-                    <form:errors path="passwordConfirm"></form:errors>
-                </div>
-            </spring:bind>
-
-            <div class="col-xl-3 mx-auto">
-                <button type="submit" class="btn btn-primary btn-block">Guardar</button> </br>
+        <spring:bind path="firstName">
+            <div class="col-xl-6 mt-3">
+                <label>Nombre</label>
+                <form:input path="firstName" type="text" class="form-control" required="required" autofocus="true" />
             </div>
+        </spring:bind>
+
+        <spring:bind path="lastName">
+            <div class="col-xl-6 mt-3">
+                <label>Apellido</label>
+                <strong>
+                    <form:input path="lastName" type="text" class="form-control" required="required" /></strong>
+            </div>
+        </spring:bind>
+
+        <spring:bind path="username">
+            <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
+                <label>Username</label>
+                <form:input path="username" type="text" class="form-control" required="required" />
+                <strong>
+                    <form:errors path="username"></form:errors>
+                </strong>
+            </div>
+        </spring:bind>
+
+        <spring:bind path="email">
+            <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
+                <label>Correo electrónico</label>
+                <form:input path="email" type="email" class="form-control" required="required" />
+                <strong>
+                    <form:errors path="email"></form:errors>
+                </strong>
+            </div>
+        </spring:bind>
+
+        <spring:bind path="password">
+            <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
+                <label>Nuevo password</label>
+                <form:input path="password" type="password" class="form-control" required="required" />
+                <strong>
+                    <form:errors path="password"></form:errors>
+                </strong>
+            </div>
+        </spring:bind>
+
+        <spring:bind path="passwordConfirm">
+            <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
+                <label>Confirmar password</label>
+                <form:input path="passwordConfirm" type="password" class="form-control" required="required" />
+                <strong>
+                    <form:errors path="passwordConfirm"></form:errors>
+                </strong>
+            </div>
+        </spring:bind>
+
+        <div class="col-xl-6 mx-auto my-3">
+            <button type="submit" class="btn btn-primary btn-block">Guardar</button>
         </div>
-        <div class="col-xl-6 mx-auto">
-            <label class="checkbox-inline">
-                <input type="checkbox" required="required"> Acepto términos y condiciones</label>
-        </div>
-    </form:form>
+    </div>
+    <div class="col-xl-6 mx-auto my-3">
+        <label class="checkbox-inline">
+            <input type="checkbox" required="required"> Acepto términos y condiciones</label>
+    </div>
+
+</form:form>

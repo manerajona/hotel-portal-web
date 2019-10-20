@@ -56,10 +56,23 @@ public class UserDaoImplTest {
     }
 
     @Test
+    public void shouldGetUserByUserAndPassword() {
+        // when
+        Mockito.doReturn(user).when(userRepository).findByUserAndPassword(anyString(), anyString());
+        User usr = userDao.findByUserAndPassword(userMockData.USER, userMockData.PASSWORD);
+        // then
+        assertNotNull(usr);
+        assertEquals(userMockData.ID, usr.getId());
+        assertEquals(userMockData.USER, usr.getUsername());
+        assertEquals(userMockData.PASSWORD, usr.getPassword());
+        assertEquals(userMockData.EMAIL, usr.getEmail());
+    }
+
+    @Test
     public void shouldGetUserByEmail() {
         // when
-        Mockito.doReturn(Optional.of(user)).when(userRepository).findByEmail(anyString());
-        User usr = userDao.findByEmail(userMockData.USER);
+        Mockito.doReturn(user).when(userRepository).findByEmail(anyString());
+        User usr = userDao.findByEmail(userMockData.EMAIL);
         // then
         assertNotNull(usr);
         assertEquals(userMockData.ID, usr.getId());
@@ -76,7 +89,7 @@ public class UserDaoImplTest {
 
         Mockito.when(userRepository.save(any(User.class))).thenReturn(user);
         Mockito.doReturn(Optional.of(user)).when(userRepository).findByUsername(anyString());
-        User usr = userDao.updatePassword(userMockData.USER, userMockData.NEW_PASSWORD, userMockData.PASSWORD);
+        User usr = userDao.updatePassword(user, userMockData.NEW_PASSWORD);
         // then
         assertNotNull(usr);
         assertEquals(userMockData.ID, usr.getId());

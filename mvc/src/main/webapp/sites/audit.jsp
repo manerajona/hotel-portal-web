@@ -16,7 +16,7 @@
 <div class="container">
 
     <div id="message-table">
-        <br>
+
         <h4>Mensajes</h4>
 
         <div class="table table-sm">
@@ -59,7 +59,7 @@
     </div>
 
     <div id="reservation-table">
-        <br>
+
         <h4>Reservas</h4>
         <div class="table table-sm">
             <input id="txtReservation" type="text" class="form-control form-control-sm"
@@ -103,7 +103,7 @@
     </div>
 
     <div id="user-table">
-        <br>
+
         <h4>Usuarios</h4>
         <div class="table table-sm">
             <input id="txtUser" type="text" class="form-control form-control-sm" onkeyup="filterUser(event)"
@@ -133,7 +133,7 @@
                             <td>
 
                                 <spring:url value="/user/${user.id}/delete" var="deleteUrl" />
-                                <spring:url value="/user/${user.username}/update" var="updateUrl" />
+                                <spring:url value="#" var="updateUrl" />
                                 <c:if test="${user.username!='admin'}">
                                     <button class="btn btn-danger btn-lg"
                                         onclick="this.disabled=true;post('${deleteUrl}')">

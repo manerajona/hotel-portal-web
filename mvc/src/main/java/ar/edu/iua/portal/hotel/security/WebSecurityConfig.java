@@ -31,6 +31,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/index").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/user/password").permitAll()
+                .antMatchers("/user/password/update").permitAll()
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/audit/**").hasAuthority("ADMIN").anyRequest()
                 .authenticated().and().csrf().disable().formLogin()

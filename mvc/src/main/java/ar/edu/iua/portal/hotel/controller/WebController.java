@@ -26,10 +26,9 @@ public class WebController {
     private static final String INDEX = "index";
     private static final String REDIRECT_INDEX = "redirect:/index";
     private static final String SITES_REGISTRATION = "sites/registration";
-    private static final String REDIRECT_REGISTRATION = "redirect:/registration";
     private static final String SITES_LOGIN = "sites/login";
+    private static final String REDIRECT_LOGIN = "redirect:/login";
     private static final String SITES_RESERVATION = "sites/reservation";
-    private static final String REDIRECT_RESERVATION = "redirect:/reservation";
     private static final String SITES_AUDIT = "sites/audit";
     private static final String REDIRECT_AUDIT = "redirect:/audit";
 
@@ -68,10 +67,10 @@ public class WebController {
     @PostMapping("/index")
     public String indexHandler(@ModelAttribute("messageForm") Message messageForm, Model model) {
         String username = securityService.findLoggedInUsername();
-        logger.info(getSourcedMessage("POST_INFO", new Object[]{"message", username}));
+        logger.info(getSourcedMessage("Info.Post", new Object[]{"message", username}));
         messageService.save(messageForm, username, model);
         model.addAttribute("css", "success");
-        model.addAttribute("message", getSourcedMessage("MESSAGE_SENT"));
+        model.addAttribute("message", getSourcedMessage("Sent.Message"));
         return INDEX;
     }
 
@@ -84,29 +83,28 @@ public class WebController {
     @PostMapping("/registration")
     public String registrationHandler(@ModelAttribute("userForm") User userForm, Model model, BindingResult bindingResult) {
         Object[] params = new Object[]{"registration", securityService.findLoggedInUsername()};
-        logger.info(getSourcedMessage("POST_INFO", params));
+        logger.info(getSourcedMessage("Info.Post", params));
 
-        boolean hasErrors = userService.createOrUpdate(userForm, bindingResult);
-        if (hasErrors) {
-            return SITES_REGISTRATION;
+        boolean success = userService.createOrUpdate(userForm, bindingResult);
+        if (success) {
+            if (securityService.isAutenticated()) {
+                securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
+                return REDIRECT_INDEX;
+            }
+            model.addAttribute("css", "success");
+            model.addAttribute("message", getSourcedMessage("Success.Registration"));
         }
-        if(securityService.isAutenticated()) {
-            securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
-            return REDIRECT_INDEX;
-        }
-        model.addAttribute("css", "success");
-        model.addAttribute("message", getSourcedMessage("THE_USER_WAS_REGISTERED"));
         return SITES_REGISTRATION;
     }
 
     @GetMapping("/login")
     public String loginHandler(Model model, String error, String logout) {
         Object[] params = new Object[]{"login", securityService.findLoggedInUsername()};
-        logger.info(getSourcedMessage("GET_INFO", params));
+        logger.info(getSourcedMessage("Info.Get", params));
 
         if (error != null) {
             model.addAttribute("css", "danger");
-            model.addAttribute("message", getSourcedMessage("YOUR_USERNAME_AND_PASSWORD_IS_INVALID"));
+            model.addAttribute("message", getSourcedMessage("Invalid.UsernameOrPassword"));
         }
         return SITES_LOGIN;
     }
@@ -121,7 +119,7 @@ public class WebController {
     public String reservationHandler(@ModelAttribute("reservationForm") Reservation reservationForm,
                                      BindingResult bindingResult, Model model) {
         String username = securityService.findLoggedInUsername();
-        logger.info(getSourcedMessage("POST_INFO", new Object[]{"reservation", username}));
+        logger.info(getSourcedMessage("Info.Post", new Object[]{"reservation", username}));
 
         reservationService.createOrUpdate(reservationForm, username, bindingResult, model, messageSource);
 
@@ -129,9 +127,9 @@ public class WebController {
     }
 
     @GetMapping({"/audit"})
-    public String auditnHandler(Model model) {
+    public String auditHandler(Model model) {
         Object[] params = new Object[]{"audit", securityService.findLoggedInUsername()};
-        logger.info(getSourcedMessage("GET_INFO", params));
+        logger.info(getSourcedMessage("Info.Get", params));
 
         List<Message> messages = messageService.findAllMessages();
         model.addAttribute("messages", messages);
@@ -146,33 +144,33 @@ public class WebController {
     }
 
     @PostMapping("/message/{id}/delete")
-    public String deleteMessage(@PathVariable("id") Long id, Model model) {
+    public String messageDeleteHandler(@PathVariable("id") Long id, Model model) {
         Object[] params = new Object[]{"audit", securityService.findLoggedInUsername()};
-        logger.info(getSourcedMessage("POST_INFO", params));
+        logger.info(getSourcedMessage("Info.Post", params));
         messageService.deleteMessage(id);
         return REDIRECT_AUDIT;
     }
 
     @PostMapping("/reservation/{id}/delete")
-    public String deleteReservation(@PathVariable("id") Long id, Model model) {
+    public String reservationDeleteHandler(@PathVariable("id") Long id, Model model) {
         Object[] params = new Object[]{"audit", securityService.findLoggedInUsername()};
-        logger.info(getSourcedMessage("POST_INFO", params));
+        logger.info(getSourcedMessage("Info.Post", params));
         reservationService.deleteReservation(id);
         return REDIRECT_AUDIT;
     }
 
     @PostMapping("/user/{id}/delete")
-    public String deleteUser(@PathVariable("id") Long id, Model model) {
+    public String userDeleteHandler(@PathVariable("id") Long id, Model model) {
         Object[] params = new Object[]{"audit", securityService.findLoggedInUsername()};
-        logger.info(getSourcedMessage("POST_INFO", params));
+        logger.info(getSourcedMessage("Info.Post", params));
         userService.deleteUser(id);
         return REDIRECT_AUDIT;
     }
 
-    @RequestMapping(value="/reservation/{id}/update", method = RequestMethod.GET)
-    public String updateReservation(@PathVariable("id") Long id, Model model) {
+    @GetMapping("/reservation/{id}/update")
+    public String reservationUpdateHandler(@PathVariable("id") Long id, Model model) {
         Object[] params = new Object[]{"audit", securityService.findLoggedInUsername()};
-        logger.info(getSourcedMessage("GET_INFO", params));
+        logger.info(getSourcedMessage("Info.Get", params));
 
         Reservation reservation = reservationService.findById(id);
         model.addAttribute("reservationForm", reservation);
@@ -180,15 +178,67 @@ public class WebController {
         return SITES_RESERVATION;
     }
 
-    @RequestMapping(value="/user/{username}/update", method = RequestMethod.GET)
-    public String updateUser(@PathVariable("username") String username, Model model) {
-        Object[] params = new Object[]{"audit", securityService.findLoggedInUsername()};
-        logger.info(getSourcedMessage("GET_INFO", params));
+    @GetMapping("/user/password")
+    public String userPasswordHandler(Model model) {
+        Object[] params = new Object[]{"login", securityService.findLoggedInUsername()};
+        logger.info(getSourcedMessage("Info.Post", params));
+        model.addAttribute("passwordForm", new PasswordForm());
+        return SITES_LOGIN;
+    }
 
-        User user = userService.findByUsername(username);
-        model.addAttribute("userForm", user);
+    @PostMapping("/user/password/update")
+    public String userPasswordUpdateHandler(@ModelAttribute("passwordForm") PasswordForm passwordForm, Model model) {
+        Object[] params = new Object[]{"login", securityService.findLoggedInUsername()};
+        logger.info(getSourcedMessage("Info.Post", params));
 
-        return SITES_REGISTRATION;
+        if (!passwordForm.getNewPassword().equals(passwordForm.getPasswordConfirm())) {
+            model.addAttribute("css", "danger");
+            model.addAttribute("message", getSourcedMessage("Diff.userForm.passwordConfirm"));
+            return SITES_LOGIN;
+        }
+
+        boolean success = userService.updatePassword(passwordForm.getUsername(), passwordForm.getNewPassword(), passwordForm.getOldPassword());
+        if (!success) {
+            model.addAttribute("css", "danger");
+            model.addAttribute("message", getSourcedMessage("Invalid.UsernameOrPassword"));
+        }
+        return REDIRECT_LOGIN;
+    }
+
+    private static class PasswordForm {
+        private String username, oldPassword, newPassword, passwordConfirm;
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getOldPassword() {
+            return oldPassword;
+        }
+
+        public void setOldPassword(String oldPassword) {
+            this.oldPassword = oldPassword;
+        }
+
+        public String getNewPassword() {
+            return newPassword;
+        }
+
+        public void setNewPassword(String newPassword) {
+            this.newPassword = newPassword;
+        }
+
+        public String getPasswordConfirm() {
+            return passwordConfirm;
+        }
+
+        public void setPasswordConfirm(String passwordConfirm) {
+            this.passwordConfirm = passwordConfirm;
+        }
     }
 
     private String getSourcedMessage(String s) {
