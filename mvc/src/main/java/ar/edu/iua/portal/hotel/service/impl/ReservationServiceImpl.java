@@ -6,13 +6,10 @@ import ar.edu.iua.portal.hotel.service.ReservationService;
 import ar.edu.iua.portal.hotel.validator.ReservationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import java.util.List;
-import java.util.Locale;
 
 @Service
 @Qualifier("messageServiceImpl")
@@ -26,24 +23,16 @@ public class ReservationServiceImpl implements ReservationService {
     private ReservationValidator reservationValidator;
 
     @Override
-    public boolean createOrUpdate(Reservation reservation,
-                     String username,
-                     BindingResult bindingResult,
-                     Model model,
-                     MessageSource messageSource) {
+    public boolean createOrUpdate(Reservation reservation, String username, BindingResult bindingResult) {
 
         reservation.setUsername(username);
-
         reservationValidator.validate(reservation, bindingResult);
 
-        if (!bindingResult.hasErrors()) {
+        boolean success = !(bindingResult.hasErrors());
+        if (success) {
             reservationDao.createOrUpdateReservation(reservation);
-            model.addAttribute("css", "success");
-            model.addAttribute("message", messageSource.getMessage("Success.Reservation", null, Locale.getDefault()));
-            model.addAttribute("reservationForm", new Reservation());
-            return false;
         }
-        return true;
+        return success;
     }
 
     @Override
@@ -61,4 +50,8 @@ public class ReservationServiceImpl implements ReservationService {
         reservationDao.deleteReservationById(id);
     }
 
+    @Override
+    public List<Reservation> findReservationsByUsername(String username) {
+        return reservationDao.findByUsername(username);
+    }
 }

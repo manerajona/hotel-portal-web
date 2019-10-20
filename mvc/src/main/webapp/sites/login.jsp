@@ -16,10 +16,10 @@
 <div class="login-form">
     <c:choose>
         <c:when test="${passwordForm != null}">
-            <jsp:include page="fragments/password-form.jsp" />
+            <jsp:include page="fragments/forms/password-form.jsp" />
         </c:when>
         <c:otherwise>
-            <jsp:include page="fragments/login-form.jsp" />
+            <jsp:include page="fragments/forms/login-form.jsp" />
         </c:otherwise>
     </c:choose>
     <p class="text-center">¿Todavía no estás registrado?</p>

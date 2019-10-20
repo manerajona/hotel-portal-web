@@ -12,6 +12,8 @@ public interface ReservationDao {
 
     List<Reservation> getAllReservations();
 
+    List<Reservation> findByUsername(String username);
+
     Reservation updateReservation(Long id, Date checkIn, Date checkOut, Integer guests, String roomType);
 
     Reservation createOrUpdateReservation(Reservation reservation);

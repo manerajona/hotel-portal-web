@@ -12,13 +12,6 @@ h6 {
   font-weight: 700;
 }
 
-navbar {
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-  width: 100%;
-}
-
 header.masthead {
   position: relative;
   background-color: #343a40;

@@ -53,4 +53,9 @@ public class ReservationDaoImpl implements ReservationDao {
     public void deleteReservationById(Long id) {
         reservationRepository.deleteById(id);
     }
+
+    @Override
+    public List<Reservation> findByUsername(String username) {
+        return reservationRepository.findByUsername(username);
+    }
 }

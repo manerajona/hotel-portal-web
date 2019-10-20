@@ -14,7 +14,7 @@
 </jsp:include>
 
 <div class="site-form">
-    <jsp:include page="fragments/reservation-form.jsp" />
+    <jsp:include page="fragments/forms/reservation-form.jsp" />
 </div>
 
 <jsp:include page="fragments/footer.jsp" />

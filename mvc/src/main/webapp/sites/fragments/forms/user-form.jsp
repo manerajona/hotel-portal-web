@@ -9,10 +9,8 @@
 <spring:url value="/registration" var="registrationUrl" />
 
 <form:form method="POST" modelAttribute="userForm" class="site-form" action="${registrationUrl}">
-    <h2 class="text-center">Usuario</h2>
-    <c:if test="${passwordForm!=null}">
-
-    </c:if>
+    <h2 class="text-center">Nuevo Usuario</h2>
+    
     <div class="row">
 
         <form:hidden path="id" />

@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Locale;
 
@@ -31,6 +32,7 @@ public class WebController {
     private static final String SITES_RESERVATION = "sites/reservation";
     private static final String SITES_AUDIT = "sites/audit";
     private static final String REDIRECT_AUDIT = "redirect:/audit";
+    private static final String SITES_MY_RESERV = "sites/my-reserv";
 
     private static Logger logger = LoggerFactory.getLogger(WebController.class);
 
@@ -121,8 +123,12 @@ public class WebController {
         String username = securityService.findLoggedInUsername();
         logger.info(getSourcedMessage("Info.Post", new Object[]{"reservation", username}));
 
-        reservationService.createOrUpdate(reservationForm, username, bindingResult, model, messageSource);
-
+        boolean success = reservationService.createOrUpdate(reservationForm, username, bindingResult);
+        if(success) {
+            model.addAttribute("css", "success");
+            model.addAttribute("message", getSourcedMessage("Success.Reservation"));
+            model.addAttribute("reservationForm", new Reservation());
+        }
         return SITES_RESERVATION;
     }
 
@@ -143,28 +149,39 @@ public class WebController {
         return SITES_AUDIT;
     }
 
+    @GetMapping("/my-reserv")
+    public String myReservHandler(Model model) {
+        String username = securityService.findLoggedInUsername();
+        logger.info(getSourcedMessage("Info.Get", new Object[]{"audit", username}));
+
+        List<Reservation> reservations = reservationService.findReservationsByUsername(username);
+        model.addAttribute("reservations", reservations);
+
+        return SITES_MY_RESERV;
+    }
+
     @PostMapping("/message/{id}/delete")
-    public String messageDeleteHandler(@PathVariable("id") Long id, Model model) {
+    public String messageDeleteHandler(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
         Object[] params = new Object[]{"audit", securityService.findLoggedInUsername()};
         logger.info(getSourcedMessage("Info.Post", params));
         messageService.deleteMessage(id);
-        return REDIRECT_AUDIT;
+        return getOriginReq(request);
     }
 
     @PostMapping("/reservation/{id}/delete")
-    public String reservationDeleteHandler(@PathVariable("id") Long id, Model model) {
+    public String reservationDeleteHandler(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
         Object[] params = new Object[]{"audit", securityService.findLoggedInUsername()};
         logger.info(getSourcedMessage("Info.Post", params));
         reservationService.deleteReservation(id);
-        return REDIRECT_AUDIT;
+        return getOriginReq(request);
     }
 
     @PostMapping("/user/{id}/delete")
-    public String userDeleteHandler(@PathVariable("id") Long id, Model model) {
+    public String userDeleteHandler(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
         Object[] params = new Object[]{"audit", securityService.findLoggedInUsername()};
         logger.info(getSourcedMessage("Info.Post", params));
         userService.deleteUser(id);
-        return REDIRECT_AUDIT;
+        return getOriginReq(request);
     }
 
     @GetMapping("/reservation/{id}/update")
@@ -191,7 +208,8 @@ public class WebController {
         Object[] params = new Object[]{"login", securityService.findLoggedInUsername()};
         logger.info(getSourcedMessage("Info.Post", params));
 
-        if (!passwordForm.getNewPassword().equals(passwordForm.getPasswordConfirm())) {
+        boolean passMatches = passwordForm.getNewPassword().equals(passwordForm.getPasswordConfirm());
+        if (!passMatches) {
             model.addAttribute("css", "danger");
             model.addAttribute("message", getSourcedMessage("Diff.userForm.passwordConfirm"));
             return SITES_LOGIN;
@@ -205,8 +223,23 @@ public class WebController {
         return REDIRECT_LOGIN;
     }
 
+    private String getOriginReq(HttpServletRequest request) {
+        return "redirect:"+ request.getHeader("Referer");
+    }
+
+    private String getSourcedMessage(String s) {
+        return getSourcedMessage(s, null);
+    }
+
+    private String getSourcedMessage(String s, Object[] o) {
+        return messageSource.getMessage(s, o, Locale.getDefault());
+    }
+
     private static class PasswordForm {
-        private String username, oldPassword, newPassword, passwordConfirm;
+        String username;
+        String oldPassword;
+        String newPassword;
+        String passwordConfirm;
 
         public String getUsername() {
             return username;
@@ -239,13 +272,5 @@ public class WebController {
         public void setPasswordConfirm(String passwordConfirm) {
             this.passwordConfirm = passwordConfirm;
         }
-    }
-
-    private String getSourcedMessage(String s) {
-        return getSourcedMessage(s, null);
-    }
-
-    private String getSourcedMessage(String s, Object[] o) {
-        return messageSource.getMessage(s, o, Locale.getDefault());
     }
 }

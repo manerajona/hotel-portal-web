@@ -10,16 +10,19 @@
 <html>
 
 <jsp:include page="fragments/header.jsp">
-    <jsp:param name="title" value="Registración" />
+    <jsp:param name="title" value="Mis reservas" />
 </jsp:include>
 
-<div class="site-form">
-    <jsp:include page="fragments/forms/user-form.jsp" />
-    <p class="text-center">¿Ya estás registrado?</p>
-    <p class="text-center"><a href="login">Log in</a></p>
+<div class="container">
+
+<jsp:include page="fragments/tables/reservation-table.jsp" />
+
 </div>
 
 <jsp:include page="fragments/footer.jsp" />
+
+<script src="js/audit.js"></script>
+<script src="js/controller.js"></script>
 
 </body>
 

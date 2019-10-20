@@ -138,7 +138,7 @@
         <h2 class="mb-5">Dejanos tu mensaje</h2>
       </div>
       <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-        <jsp:include page="sites/fragments/message-form.jsp" />
+        <jsp:include page="sites/fragments/forms/message-form.jsp" />
       </div>
     </div>
   </div>

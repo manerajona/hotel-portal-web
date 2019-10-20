@@ -56,19 +56,6 @@ public class UserDaoImplTest {
     }
 
     @Test
-    public void shouldGetUserByUserAndPassword() {
-        // when
-        Mockito.doReturn(user).when(userRepository).findByUserAndPassword(anyString(), anyString());
-        User usr = userDao.findByUserAndPassword(userMockData.USER, userMockData.PASSWORD);
-        // then
-        assertNotNull(usr);
-        assertEquals(userMockData.ID, usr.getId());
-        assertEquals(userMockData.USER, usr.getUsername());
-        assertEquals(userMockData.PASSWORD, usr.getPassword());
-        assertEquals(userMockData.EMAIL, usr.getEmail());
-    }
-
-    @Test
     public void shouldGetUserByEmail() {
         // when
         Mockito.doReturn(user).when(userRepository).findByEmail(anyString());

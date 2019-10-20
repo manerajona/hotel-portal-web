@@ -26,12 +26,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User findByUserAndPassword(String username, String password) {
-        String encodedPassword = bCryptPasswordEncoder.encode(password); // FIXME diff hashcodes
-        return userRepository.findByUserAndPassword(username, encodedPassword);
-    }
-
-    @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }

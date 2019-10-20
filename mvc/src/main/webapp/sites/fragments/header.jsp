@@ -24,7 +24,8 @@
 
 <!-- Navigation -->
 <div class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="collapse navbar-collapse" id="navegacion">
+
+  <div class="collapse navbar-collapse">
     <ul class="navbar-nav">
       <li class="nav-item active">
         <a class="navbar-brand" href="${contextPath}/index">Hotel Córdoba Inc.</a>
@@ -39,22 +40,48 @@
         <a class="nav-link" href="${contextPath}/audit">Auditoría</a>
       </li>
     </ul>
-  </div>
-  <c:choose>
-    <c:when test="${pageContext.request.userPrincipal.name != null}">
-      <form id="logoutForm" method="POST" action="${contextPath}/logout">
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-        <input type="submit" onclick="document.forms['logoutForm'].submit()" class="btn btn-default btn-lg"
-          value="Logout">
-        <span class="iconify" data-icon="ant-design:user-outline" data-inline="false"></span>
-        ${pageContext.request.userPrincipal.name}
-        </input>
-      </form>
-    </c:when>
-    <c:otherwise>
-      <a class="btn btn-primary" href="${contextPath}/login">
-        <span class="iconify" data-icon="oi-account-login" data-inline="false"></span>
-        Log In</a>
-    </c:otherwise>
-  </c:choose>
+    </div>
+
+    <ul class="navbar-nav ml-auto nav-flex-icons">
+      <c:choose>
+        <c:when test="${pageContext.request.userPrincipal.name != null}">
+          <li class="nav-item">
+          <a class="nav-link waves-effect waves-light">${pageContext.request.userPrincipal.name}
+          </a>
+          </li>
+          <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false"> <i class="fas fa-user"></i>
+                  </a>
+
+                  <spring:url value="/user/password" var="passwordUrl" />
+                  <spring:url value="/my-reserv" var="reservationsUrl" />
+                  <spring:url value="document.forms['logoutForm'].submit()" var="logoutUrl" />
+
+                  <div class="dropdown-menu dropdown-menu-right dropdown-default"
+                    aria-labelledby="navbarDropdownMenuLink-333">
+                    <a class="dropdown-item" href="${passwordUrl}">Cambiar password</a>
+                    <a class="dropdown-item" href="${reservationsUrl}">Mis reservaciones</a>
+                    <form id="logoutForm" method="POST" action="${contextPath}/logout">
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                <button type="submit" onclick="${logoutUrl}" class="dropdown-item">
+                                <span class="iconify" data-icon="oi-account-logout" data-inline="false"></span> Salir</button>
+                              </form>
+                  </div>
+                </li>
+        </c:when>
+        <c:otherwise>
+          <li class="nav-item">
+            <a class="nav-link waves-effect waves-light" href="${contextPath}/registration">
+              <span class="iconify" data-icon="ant-design:user-add-outline" data-inline="false"></span> Nuevo usuario</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link waves-effect waves-light" href="${contextPath}/login">
+              <span class="iconify" data-icon="oi-account-login" data-inline="false"></span> Login</a>
+          </li>
+        </c:otherwise>
+      </c:choose>
+    </ul>
+
 </div>
+</nav>
