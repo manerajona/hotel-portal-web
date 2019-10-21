@@ -161,10 +161,8 @@ public class WebController {
     public String myReservHandler(Model model) {
         String username = securityService.findLoggedInUsername();
         logger.info(getSourcedMessage("Info.Get", new Object[]{"audit", username}));
-
         List<Reservation> reservations = reservationService.findReservationsByUsername(username);
         model.addAttribute("reservations", reservations);
-
         return SITES_MY_RESERVE;
     }
 
@@ -196,10 +194,8 @@ public class WebController {
     public String reservationUpdateHandler(@PathVariable("id") Long id, Model model) {
         Object[] params = new Object[]{"audit", securityService.findLoggedInUsername()};
         logger.info(getSourcedMessage("Info.Get", params));
-
         Reservation reservation = reservationService.findById(id);
         model.addAttribute("reservationForm", reservation);
-
         return SITES_RESERVATION;
     }
 

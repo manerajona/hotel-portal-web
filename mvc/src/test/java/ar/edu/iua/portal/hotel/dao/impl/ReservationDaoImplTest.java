@@ -11,7 +11,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Matchers.*;
@@ -33,7 +35,7 @@ public class ReservationDaoImplTest {
     }
 
     @Test
-    public void shouldGetReservation() {
+    public void shouldFindById() {
         // When
         Mockito.when(reservationRepository.findById(anyLong())).thenReturn(Optional.of(reservationMock));
         Reservation reservation = reservationDao.findById(anyLong());
@@ -70,6 +72,42 @@ public class ReservationDaoImplTest {
         Mockito.when(reservationRepository.save(any(Reservation.class))).thenReturn(reservationMock);
         Reservation reservation = reservationDao.createOrUpdateReservation(reservationMock);
         // Then
+        Assert.assertEquals(reservationMockData.ID, reservation.getId());
+        Assert.assertEquals(toSDate(reservationMockData.CHECK_IN), reservation.getCheckIn());
+        Assert.assertEquals(toSDate(reservationMockData.CHECK_OUT), reservation.getCheckOut());
+        Assert.assertEquals(reservationMockData.GUESTS, reservation.getGuests());
+        Assert.assertEquals(reservationMockData.ROOM_TIPE, reservation.getRoomType());
+        Assert.assertEquals(reservationMockData.USERNAME, reservation.getUsername());
+    }
+
+    @Test
+    public void shouldFindByUsername(){
+        // When
+        Mockito.when(reservationRepository.findByUsername(anyString())).thenReturn(Arrays.asList(reservationMock));
+        List<Reservation> reservationList = reservationDao.findByUsername(anyString());
+        // Then
+        Assert.assertNotNull(reservationList);
+        Assert.assertFalse(reservationList.isEmpty());
+
+        Reservation reservation = reservationList.get(0);
+        Assert.assertEquals(reservationMockData.ID, reservation.getId());
+        Assert.assertEquals(toSDate(reservationMockData.CHECK_IN), reservation.getCheckIn());
+        Assert.assertEquals(toSDate(reservationMockData.CHECK_OUT), reservation.getCheckOut());
+        Assert.assertEquals(reservationMockData.GUESTS, reservation.getGuests());
+        Assert.assertEquals(reservationMockData.ROOM_TIPE, reservation.getRoomType());
+        Assert.assertEquals(reservationMockData.USERNAME, reservation.getUsername());
+    }
+
+    @Test
+    public void shouldGetAllReservation(){
+        // When
+        Mockito.when(reservationRepository.findAll()).thenReturn(Arrays.asList(reservationMock));
+        List<Reservation> reservationList = reservationDao.getAllReservations();
+        // Then
+        Assert.assertNotNull(reservationList);
+        Assert.assertFalse(reservationList.isEmpty());
+
+        Reservation reservation = reservationList.get(0);
         Assert.assertEquals(reservationMockData.ID, reservation.getId());
         Assert.assertEquals(toSDate(reservationMockData.CHECK_IN), reservation.getCheckIn());
         Assert.assertEquals(toSDate(reservationMockData.CHECK_OUT), reservation.getCheckOut());

@@ -27,7 +27,7 @@
             <a href="${contextPath}/audit">Administración</a>
           </li>
         </ul>
-        <p class="text-muted small mb-4 mb-lg-0">Hotel Córdoba Inc. 2019. Todos los derechos reservados.</p>
+        <p class="text-muted small mb-4 mb-lg-0">Hotel Córdoba & Spa Inc. 2019. Todos los derechos reservados.</p>
       </div>
       <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
         <ul class="list-inline mb-0">
@@ -72,12 +72,10 @@
             <p class="lead mb-0">(0351) 4220033</p>
           </div>
           <div class="col-xl-6 my-auto showcase-text">
-            <p>La estratégica ubicación del Hotel le permite un acceso inmediato a
-              los centros comerciales y culturales más destacados de la ciudad
-              de Córdoba. Tiendas de diseño y antigüedades, artesanías,
-              museos y el arroyo La Cañada, son parte del paisaje que lo rodea.
-              Disfrutar desde sus ventanales, con vista al arroyo La Cañada, le
-              otorga un sentido de identidad al hotel y a la capital mediterránea.</p>
+            <p>La estratégica ubicación del Hotel le permite un acceso inmediato a los centros comerciales 
+            y culturales más destacados de la ciudad de Córdoba. Tiendas de diseño y antigüedades, artesanías,  
+            museos y el arroyo La Cañada, son parte del paisaje que lo rodea. Disfrutar desde sus  ventanales, 
+            con vista al arroyo La Cañada, le otorga un sentido de identidad al hotel y a la capital mediterránea.</p>
           </div>
         </div>
       </div>

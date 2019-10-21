@@ -63,7 +63,7 @@
             <i class="icon-screen-desktop m-auto text-primary"></i>
           </div>
           <h3>Reservas Online</h3>
-          <p class="lead mb-0">Crea un usuario, reserva on-line y disfruta beneficios exclusivos.</p>
+          <p class="lead mb-0">Crea un usuario y hace tu reserva on-line.</p>
         </div>
       </div>
       <div class="col-lg-4">
@@ -72,7 +72,7 @@
             <i class="icon-layers m-auto text-primary"></i>
           </div>
           <h3>Desayuno incluido</h3>
-          <p class="lead mb-0">Con tu reserva incuimos desayuno de 8:00 a 11:00 am.</p>
+          <p class="lead mb-0">Desayuno buffet de 8:00 a 11:00 am.</p>
         </div>
       </div>
       <div class="col-lg-4">
@@ -81,8 +81,7 @@
             <i class="icon-check m-auto text-primary"></i>
           </div>
           <h3>Check late</h3>
-          <p class="lead mb-0">Reserva on-line y el día de tu partida te permitimos seguir disfrutando de nuestras
-            instalacciones hasta las 18:00 hs.</p>
+          <p class="lead mb-0">El día de tu partida te permitimos seguir disfrutando de nuestras instalacciones hasta las 18:00 hs.</p>
         </div>
       </div>
     </div>
