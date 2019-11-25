@@ -1,25 +1,13 @@
 # Overview
  
-- Backend: Spring Boot, Spring Security, JPA, Hibernate, MySQL, Maven, Java 1.8.
-- Frontend: JSP, jslt, Spring Framework, Bootstrap, HTML5, CSS, javascript.
+- Backend: Spring Boot, Spring Security, JPA, Hibernate, MySQL, Maven, Docker, Java 1.8.
+- Frontend: JSP, jslt, Bootstrap, HTML5, CSS, javascript.
 
-### Crear esquema
+## Build & run
 
-Crear una base de datos Mysql, por ejemplo ```hoteldb```:
+### Local run
 
-```CREATE DATABASE hoteldb;```
- 
-Agregar ```username``` y ```password``` para ```hoteldb``` en ```resources/aplication.properties```. Debería quedar algo así:
-
-```sh
-spring.datasource.url=jdbc:mysql://localhost:3306/hoteldb?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
-spring.datasource.username=root
-spring.datasource.password=root_pass
-```
-
-### Build & run
-
-Verificar que la versión de Apache Maven sea 3.6.+ y java 1.8.
+Verificar que la versión de Apache Maven sea 3.6.+ y java 1.8.+
 
 ```sh
 $ mvn -v 
@@ -37,6 +25,44 @@ $ mvn clean spring-boot:run
 Ingresar en el browser:
 
 ```http://localhost:8081/index``` 
+
+### Docker run
+
+Verificar que la versión de Apache Maven sea 3.6.+
+
+```sh
+$ mvn -v  
+```
+
+Generar .war:
+
+```sh
+$ cd mvc
+$ mvn clean package
+```
+Verificar que la versión de Docker sea 19.03.+
+
+```sh
+$ docker version
+```
+
+Levantar base de datos en Docker
+
+```sh
+$ docker pull mysql:8.0
+$ docker docker run --name mysql-standalone -e MYSQL_ROOT_PASSWORD=admin -e MYSQL_DATABASE=HOTEL -e MYSQL_PASSWORD=admin -d mysql:8.0
+```
+
+Ejecutar en terminal:
+
+```sh
+$ docker build . -t hotel-web
+$ docker run -p 8086:8086 --name hotel-web --link mysql-standalone:mysql -d hotel-web
+```
+
+Ingresar en el browser:
+
+```http://localhost:8086/index``` 
 
 ## Modo Admin
 
