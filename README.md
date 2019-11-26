@@ -19,7 +19,7 @@ Ejecutar en terminal:
 ```sh
 $ cd mvc
 $ mvn compile
-$ mvn clean spring-boot:run
+$ mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
 Ingresar en el browser:
@@ -50,7 +50,7 @@ Levantar base de datos en Docker
 
 ```sh
 $ docker pull mysql:8.0
-$ docker docker run --name mysql-standalone -e MYSQL_ROOT_PASSWORD=admin -e MYSQL_DATABASE=HOTEL -e MYSQL_PASSWORD=admin -d mysql:8.0
+$ docker run --name mysql-standalone -e MYSQL_ROOT_PASSWORD=admin -e MYSQL_DATABASE=HOTEL -e MYSQL_PASSWORD=admin -d mysql:8.0
 ```
 
 Ejecutar en terminal:
@@ -66,7 +66,7 @@ Ingresar en el browser:
 
 ## Modo Admin
 
-Para ingresar en modo admin acceder a http://localhost:8081/login con las siguientes credenciales:
+Para ingresar en modo admin acceder a Login con las siguientes credenciales:
 
 | Username | Password |
 | -------- | -------- |
