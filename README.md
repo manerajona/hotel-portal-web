@@ -14,7 +14,7 @@ $ mvn -v
 $ java -version 
 ```
 
-Ejecutar en terminal:
+Ejecutar como spring-boot aplication en dev
 
 ```sh
 $ cd mvc
@@ -53,7 +53,7 @@ $ docker pull mysql:8.0
 $ docker run --name mysql-standalone -e MYSQL_ROOT_PASSWORD=admin -e MYSQL_DATABASE=HOTEL -e MYSQL_PASSWORD=admin -d mysql:8.0
 ```
 
-Ejecutar en terminal:
+Buildear imagen en Docker y ejecutar el contenedor
 
 ```sh
 $ docker build . -t hotel-web
