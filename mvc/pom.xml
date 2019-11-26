@@ -67,6 +67,11 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
@@ -81,6 +86,24 @@
             <version>9.0.24</version>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <activatedProperties>dev</activatedProperties>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>docker</id>
+            <properties>
+                <activatedProperties>docker</activatedProperties>
+            </properties>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
