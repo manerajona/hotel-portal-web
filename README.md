@@ -34,7 +34,7 @@ Verificar que la versión de Apache Maven sea 3.6.+
 $ mvn -v  
 ```
 
-Generar .war:
+Generar .war
 
 ```sh
 $ cd mvc
