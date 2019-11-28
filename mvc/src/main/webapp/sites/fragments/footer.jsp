@@ -90,5 +90,7 @@
 <script src="${contextPath}/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="${contextPath}/vendor/popper/umd/popper.min.js"></script>
 <script src="${contextPath}/vendor/iconify/dist/iconify.min.js"></script>
-
-</div>
+<script src="${contextPath}/vendor/pickadate/lib/picker.js"></script>
+<script src="${contextPath}/vendor/pickadate/lib/picker.date.js"></script>
+<script src="${contextPath}/vendor/pickadate/lib/legacy.js"></script>
+<script src="${contextPath}/js/datepicker.js"></script>

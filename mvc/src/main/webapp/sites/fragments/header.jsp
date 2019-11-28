@@ -17,6 +17,10 @@
   <!-- Custom fonts for this template -->
   <link href="${contextPath}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
   <link href="${contextPath}/vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+
+  <!-- datepicker -->
+  <link rel="stylesheet" href="${contextPath}/vendor/pickadate/lib/themes/classic.css">
+  <link rel="stylesheet" href="${contextPath}/vendor/pickadate/lib/themes/classic.date.css">
 </head>
 
 <spring:url value="/index" var="urlHome" />
@@ -92,6 +96,4 @@
       </c:otherwise>
     </c:choose>
   </ul>
-
 </div>
-</nav>

@@ -35,11 +35,11 @@
         <form name="reservationForm" method="post" onsubmit="return OnSubmitReservationForm();">
           <div class="form-row">
             <div class="col-12 col-md-4 mb-2 mb-md-0">
-              <input type="date" name="dateIn" id="dateIn" pattern="dd/MM/yyyy" class="form-control form-control-lg"
+              <input type="text" name="dateIn" id="dateIn" class="form-control form-control-lg datepicker"
                 placeholder="Check in">
             </div>
             <div class="col-12 col-md-4 mb-2 mb-md-0">
-              <input type="date" name="dateOut" id="dateOut" pattern="dd/MM/yyyy" class="form-control form-control-lg"
+              <input type="text" name="dateOut" id="dateOut" class="form-control form-control-lg datepicker"
                 placeholder="Check out">
             </div>
             <div class="col-12 col-md-4">

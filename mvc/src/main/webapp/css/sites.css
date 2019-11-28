@@ -77,3 +77,11 @@
 .has-error {
     color: red
 }
+
+.holder {
+    position: relative;
+    z-index: 10000;
+}
+.datepicker {
+    display: block;
+}

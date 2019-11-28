@@ -25,8 +25,8 @@
         <spring:bind path="checkIn">
             <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
                 <label>Fecha de Check in</label>
-                <form:input path="checkIn" type="date" class="form-control form-control-lg" placeholder="Check in"
-                    pattern="dd/MM/yyyy" required="required" autofocus="true" />
+                <form:input path="checkIn" type="text" class="form-control form-control-lg datepicker" placeholder="Check in"
+                    required="required" autofocus="true" />
                 <strong>
                     <form:errors path="checkIn"></form:errors>
                 </strong>
@@ -35,8 +35,8 @@
         <spring:bind path="checkOut">
             <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
                 <label>Fecha de Check out</label>
-                <form:input path="checkOut" type="date" class="form-control form-control-lg" placeholder="Check out"
-                    pattern="dd/MM/yyyy" required="required" />
+                <form:input path="checkOut" type="text" class="form-control form-control-lg datepicker" placeholder="Check out"
+                    required="required" />
                 <strong>
                     <form:errors path="checkOut"></form:errors>
                 </strong>

@@ -31,6 +31,14 @@ public class ReservationValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "roomType", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
 
+        if(reservation.getCheckIn()==null){
+            errors.rejectValue("checkIn", "NotEmpty");
+        }
+
+        if(reservation.getCheckOut()==null){
+            errors.rejectValue("checkOut", "NotEmpty");
+        }
+
         if (reservation.getCheckIn().after(reservation.getCheckOut())) {
             errors.rejectValue("checkIn", "Incorrect.userForm.checkIn.before.checkOut");
         }
