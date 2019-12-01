@@ -53,7 +53,7 @@ $ docker pull mysql:8.0
 $ docker run --name mysql-standalone -e MYSQL_ROOT_PASSWORD=admin -e MYSQL_DATABASE=HOTEL -e MYSQL_PASSWORD=admin -d mysql:8.0
 ```
 
-Buildear imagen en Docker y ejecutar el contenedor
+Buildear imagen en Docker y ejecutar el contenedor vinculado a la base de datos que acabamos de levantar
 
 ```sh
 $ docker build . -t hotel-web
