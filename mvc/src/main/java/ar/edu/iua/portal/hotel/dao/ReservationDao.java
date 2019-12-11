@@ -19,4 +19,6 @@ public interface ReservationDao {
     Reservation createOrUpdateReservation(Reservation reservation);
 
     void deleteReservationById(Long id);
+
+    List<Reservation> findByCheckInAndCheckOutAndRoomType(Date checkIn, Date checkOut, String roomType);
 }

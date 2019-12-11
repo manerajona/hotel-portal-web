@@ -1,8 +1,9 @@
 package ar.edu.iua.portal.hotel.validator;
 
-import ar.edu.iua.portal.hotel.dao.ReservationDao;
 import ar.edu.iua.portal.hotel.entity.Reservation;
+import ar.edu.iua.portal.hotel.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -14,7 +15,8 @@ import java.sql.Date;
 public class ReservationValidator implements Validator {
 
     @Autowired
-    private ReservationDao reservationDao;
+    @Qualifier("reservationServiceImpl")
+    private ReservationService reservationService;
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -39,6 +41,10 @@ public class ReservationValidator implements Validator {
         }
         if (reservation.getGuests() < 1) {
             errors.rejectValue("guests", "Incorrect.userForm.guests.zero");
+        }
+        if(!reservationService.findByCheckInAndCheckOutAndRoomType(
+                reservation.getCheckIn(), reservation.getCheckOut(), reservation.getRoomType()).isEmpty()) {
+            errors.rejectValue("checkIn", "Duplicate.reservation");
         }
     }
 }

@@ -7,7 +7,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <jsp:include page="sites/fragments/header.jsp">
   <jsp:param name="title" value="Home" />

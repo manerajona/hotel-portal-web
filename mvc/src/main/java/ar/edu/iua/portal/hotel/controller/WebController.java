@@ -229,7 +229,7 @@ public class WebController {
         }
         model.addAttribute("css", css);
         model.addAttribute("message", getSourcedMessage(messageKey));
-        return SITES_LOGIN;
+        return REDIRECT_INDEX;
     }
 
     private String getOriginReq(HttpServletRequest request) {

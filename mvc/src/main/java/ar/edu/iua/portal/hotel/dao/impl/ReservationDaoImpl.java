@@ -55,6 +55,11 @@ public class ReservationDaoImpl implements ReservationDao {
     }
 
     @Override
+    public List<Reservation> findByCheckInAndCheckOutAndRoomType(Date checkIn, Date checkOut, String roomType) {
+        return reservationRepository.findByCheckInAndCheckOutAndRoomType(checkIn, checkOut, roomType);
+    }
+
+    @Override
     public List<Reservation> findByUsername(String username) {
         return reservationRepository.findByUsername(username);
     }

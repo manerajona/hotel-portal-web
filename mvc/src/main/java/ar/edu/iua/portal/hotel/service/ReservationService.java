@@ -3,6 +3,7 @@ package ar.edu.iua.portal.hotel.service;
 import ar.edu.iua.portal.hotel.entity.Reservation;
 import org.springframework.validation.BindingResult;
 
+import java.sql.Date;
 import java.util.List;
 
 public interface ReservationService {
@@ -16,5 +17,7 @@ public interface ReservationService {
     void deleteReservation(Long id);
 
     List<Reservation> findReservationsByUsername(String username);
+
+    List<Reservation> findByCheckInAndCheckOutAndRoomType(Date checkIn, Date checkOut, String roomType);
     
 }

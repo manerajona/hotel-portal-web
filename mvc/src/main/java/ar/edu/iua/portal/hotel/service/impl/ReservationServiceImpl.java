@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -54,4 +55,11 @@ public class ReservationServiceImpl implements ReservationService {
     public List<Reservation> findReservationsByUsername(String username) {
         return reservationDao.findByUsername(username);
     }
+
+    @Override
+    public List<Reservation> findByCheckInAndCheckOutAndRoomType(Date checkIn, Date checkOut, String roomType) {
+        return reservationDao.findByCheckInAndCheckOutAndRoomType(checkIn, checkOut, roomType);
+    }
+
+
 }
