@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/audit/**").hasAuthority("ADMIN").anyRequest()
                 .authenticated().and().csrf().disable().formLogin()
-                .loginPage("/login").failureUrl("/login?error=true").successForwardUrl("/index")
+                .loginPage("/login").failureUrl("/login?error=true")
                 .defaultSuccessUrl("/index")
                 .usernameParameter("username")
                 .passwordParameter("password")

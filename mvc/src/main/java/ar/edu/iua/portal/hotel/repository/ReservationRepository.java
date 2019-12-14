@@ -13,6 +13,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     List<Reservation> findByUsername(String username);
 
-    @Query("SELECT r FROM Reservation r where r.checkIn = ?1 AND r.checkOut = ?2 AND r.roomType = ?3")
+    @Query("SELECT r FROM Reservation r where r.roomType = ?3 AND (r.checkIn BETWEEN ?1 AND ?2 OR r.checkOut BETWEEN ?1 AND ?2)")
     List<Reservation> findByCheckInAndCheckOutAndRoomType(Date checkIn, Date checkOut, String roomType);
 }

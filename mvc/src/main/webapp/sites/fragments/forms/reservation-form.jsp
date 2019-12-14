@@ -49,10 +49,12 @@
                 <label>Tipo de habitación</label>
                 <form:select path="roomType" class="form-control form-control-lg" id="default-select">
                     <option data-display="Room type"> </option>
-                    <form:option value="Laxaries">Laxaries Rooms</form:option>
-                    <form:option value="Deluxe">Deluxe Room</form:option>
-                    <form:option value="Signature">Signature Room</form:option>
-                    <form:option value="Couple">Couple Room</form:option>
+                    <form:option value="Mercury">Mercury Suite</form:option>
+                    <form:option value="Jagger">Jagger Suite</form:option>
+                    <form:option value="Bowie">Bowie Suite</form:option>
+                    <form:option value="Madonna">Madonna Suite</form:option>
+                    <form:option value="Elvis">Elvis Suite</form:option>
+                    <form:option value="Beyoncé">Prince Suite</form:option>
                 </form:select>
                 <strong>
                     <form:errors path="roomType"></form:errors>
