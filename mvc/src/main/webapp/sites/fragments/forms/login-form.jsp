@@ -24,7 +24,7 @@
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
     <div class="col-xl-12 my-3">
-        <a href="#" class="pull-left">Olvidé mi contraseña</a>
+        <a href="${contextPath}/user/password/forgot" target="_blank" class="pull-left">Olvidé mi contraseña</a>
     </div>
 
 </form>

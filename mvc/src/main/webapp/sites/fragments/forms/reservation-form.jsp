@@ -24,7 +24,7 @@
 
         <spring:bind path="checkIn">
             <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
-                <label>Fecha de Check in</label>
+                <label>* Fecha de Check in</label>
                 <form:input path="checkIn" type="date" class="form-control form-control-lg" placeholder="Check in"
                     pattern="dd/MM/yyyy" required="required" autofocus="true" />
                 <strong>
@@ -34,7 +34,7 @@
         </spring:bind>
         <spring:bind path="checkOut">
             <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
-                <label>Fecha de Check out</label>
+                <label>* Fecha de Check out</label>
                 <form:input path="checkOut" type="date" class="form-control form-control-lg" placeholder="Check out"
                     pattern="dd/MM/yyyy" required="required" />
                 <strong>
@@ -46,7 +46,7 @@
     <div class="row">
         <spring:bind path="roomType">
             <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
-                <label>Tipo de habitación</label>
+                <label>* Tipo de habitación</label>
                 <form:select path="roomType" class="form-control form-control-lg" id="default-select">
                     <option data-display="Room type"> </option>
                     <form:option value="Mercury">Mercury Suite</form:option>
@@ -54,7 +54,7 @@
                     <form:option value="Bowie">Bowie Suite</form:option>
                     <form:option value="Madonna">Madonna Suite</form:option>
                     <form:option value="Elvis">Elvis Suite</form:option>
-                    <form:option value="Beyoncé">Prince Suite</form:option>
+                    <form:option value="Prince">Prince Suite</form:option>
                 </form:select>
                 <strong>
                     <form:errors path="roomType"></form:errors>
@@ -63,7 +63,7 @@
         </spring:bind>
         <spring:bind path="guests">
             <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
-                <label>Húespedes</label>
+                <label>* Húespedes</label>
                 <form:select path="guests" class="form-control form-control-lg" id="default-select">
                     <option data-display="Adultos">0</option>
                     <form:option value="1">1</form:option>

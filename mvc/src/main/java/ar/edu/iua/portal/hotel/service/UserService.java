@@ -9,6 +9,8 @@ public interface UserService {
 
     boolean createOrUpdate(User user, BindingResult bindingResult);
 
+    boolean create(User user);
+
     User findByUsername(String username);
 
     User findByEmail(String email);

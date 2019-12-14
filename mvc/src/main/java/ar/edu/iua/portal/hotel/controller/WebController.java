@@ -1,9 +1,12 @@
 package ar.edu.iua.portal.hotel.controller;
 
+import ar.edu.iua.portal.hotel.entity.ConfirmationToken;
 import ar.edu.iua.portal.hotel.entity.Message;
 import ar.edu.iua.portal.hotel.entity.Reservation;
 import ar.edu.iua.portal.hotel.entity.User;
 import ar.edu.iua.portal.hotel.security.SecurityService;
+import ar.edu.iua.portal.hotel.service.ConfirmationTokenService;
+import ar.edu.iua.portal.hotel.service.EmailSenderService;
 import ar.edu.iua.portal.hotel.service.MessageService;
 import ar.edu.iua.portal.hotel.service.ReservationService;
 import ar.edu.iua.portal.hotel.service.UserService;
@@ -12,10 +15,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
@@ -32,6 +43,8 @@ public class WebController {
     private static final String SITES_RESERVATION = "sites/reservation";
     private static final String SITES_AUDIT = "sites/audit";
     private static final String SITES_MY_RESERVE = "sites/reservation-me";
+    private static final String SITES_FORGOT_PASS = "sites/forgot-password";
+    private static final String SITES_RESET_PASS = "sites/reset-password";
 
     private static Logger logger = LoggerFactory.getLogger(WebController.class);
 
@@ -52,6 +65,12 @@ public class WebController {
 
     @Autowired
     private MessageSource messageSource;
+
+    @Autowired
+    private ConfirmationTokenService confirmationTokenService;
+
+    @Autowired
+    private EmailSenderService emailSenderService;
 
     @GetMapping("/")
     public String redirectIndex() {
@@ -160,7 +179,7 @@ public class WebController {
     @GetMapping("/reservation/me")
     public String myReservHandler(Model model) {
         String username = securityService.findLoggedInUsername();
-        logger.info(getSourcedMessage("Info.Get", new Object[]{"audit", username}));
+        logger.info(getSourcedMessage("Info.Get", new Object[]{"reservation/me", username}));
         List<Reservation> reservations = reservationService.findReservationsByUsername(username);
         model.addAttribute("reservations", reservations);
         return SITES_MY_RESERVE;
@@ -168,7 +187,7 @@ public class WebController {
 
     @PostMapping("/message/{id}/delete")
     public String messageDeleteHandler(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
-        Object[] params = new Object[]{"audit", securityService.findLoggedInUsername()};
+        Object[] params = new Object[]{"message/"+id+"/delete", securityService.findLoggedInUsername()};
         logger.info(getSourcedMessage("Info.Post", params));
         messageService.deleteMessage(id);
         return getOriginReq(request);
@@ -176,7 +195,7 @@ public class WebController {
 
     @PostMapping("/reservation/{id}/delete")
     public String reservationDeleteHandler(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
-        Object[] params = new Object[]{"audit", securityService.findLoggedInUsername()};
+        Object[] params = new Object[]{"reservation/"+id+"/delete", securityService.findLoggedInUsername()};
         logger.info(getSourcedMessage("Info.Post", params));
         reservationService.deleteReservation(id);
         return getOriginReq(request);
@@ -184,7 +203,7 @@ public class WebController {
 
     @PostMapping("/user/{id}/delete")
     public String userDeleteHandler(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
-        Object[] params = new Object[]{"audit", securityService.findLoggedInUsername()};
+        Object[] params = new Object[]{"user/"+id+"/delete", securityService.findLoggedInUsername()};
         logger.info(getSourcedMessage("Info.Post", params));
         userService.deleteUser(id);
         return getOriginReq(request);
@@ -192,7 +211,7 @@ public class WebController {
 
     @GetMapping("/reservation/{id}/update")
     public String reservationUpdateHandler(@PathVariable("id") Long id, Model model) {
-        Object[] params = new Object[]{"audit", securityService.findLoggedInUsername()};
+        Object[] params = new Object[]{"reservation/{id}/update", securityService.findLoggedInUsername()};
         logger.info(getSourcedMessage("Info.Get", params));
         Reservation reservation = reservationService.findById(id);
         model.addAttribute("reservationForm", reservation);
@@ -201,15 +220,15 @@ public class WebController {
 
     @GetMapping("/user/password")
     public String userPasswordHandler(Model model) {
-        Object[] params = new Object[]{"login", securityService.findLoggedInUsername()};
-        logger.info(getSourcedMessage("Info.Post", params));
+        Object[] params = new Object[]{"user/password", securityService.findLoggedInUsername()};
+        logger.info(getSourcedMessage("Info.Get", params));
         model.addAttribute("passwordForm", new PasswordForm());
         return SITES_LOGIN;
     }
 
     @PostMapping("/user/password/update")
     public String userPasswordUpdateHandler(@ModelAttribute("passwordForm") PasswordForm passwordForm, Model model) {
-        Object[] params = new Object[]{"login", securityService.findLoggedInUsername()};
+        Object[] params = new Object[]{"user/password/update", securityService.findLoggedInUsername()};
         logger.info(getSourcedMessage("Info.Post", params));
 
         boolean success;
@@ -232,6 +251,87 @@ public class WebController {
         return REDIRECT_INDEX;
     }
 
+    @RequestMapping(value="/user/password/forgot", method=RequestMethod.GET)
+    public String displayResetPassword(Model model) {
+        Object[] params = new Object[]{"user/password/forgot", securityService.findLoggedInUsername()};
+        logger.info(getSourcedMessage("Info.Get", params));
+        model.addAttribute("userForm", new User());
+        return SITES_FORGOT_PASS;
+    }
+
+    @RequestMapping(value="/user/password/forgot", method=RequestMethod.POST)
+    public String forgotUserPassword(@ModelAttribute("userForm") User userForm, HttpServletRequest request, Model model) {
+        Object[] params = new Object[]{"user/password/forgot", securityService.findLoggedInUsername()};
+        logger.info(getSourcedMessage("Info.Post", params));
+        User existingUser = userService.findByEmail(userForm.getEmail());
+
+        boolean success = existingUser != null;
+        if(success) {
+            ConfirmationToken confirmationToken = new ConfirmationToken(existingUser);
+
+            confirmationTokenService.create(confirmationToken);
+
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            mailMessage.setTo(existingUser.getEmail());
+
+            String subject = getSourcedMessage("Email.subject");
+            mailMessage.setSubject(subject);
+
+            String from = getSourcedMessage("Email.from");
+            mailMessage.setFrom(from);
+
+            String link = request.getContextPath() + "/user/password/reset?token=" + confirmationToken.getConfirmationToken();
+            String content = getSourcedMessage("Email.content")  + link;
+            mailMessage.setText(content);
+
+            emailSenderService.sendEmail(mailMessage);
+
+            model.addAttribute("css", "success");
+            model.addAttribute("message", getSourcedMessage("Success.Send.Email"));
+        } else {
+            model.addAttribute("css", "danger");
+            model.addAttribute("message", getSourcedMessage("Invalid.Email"));
+        }
+        return SITES_FORGOT_PASS;
+    }
+
+    @RequestMapping(value = "/user/password/reset", method = {RequestMethod.GET, RequestMethod.POST})
+    public String validateResetToken(Model model, @RequestParam("token") String confirmationToken) {
+        ConfirmationToken token = confirmationTokenService.findByConfirmationToken(confirmationToken);
+
+        if (token != null) {
+            PasswordForm passwordForm = new PasswordForm();
+            passwordForm.setEmail(token.getUser().getEmail());
+            model.addAttribute("passwordForm", passwordForm);
+            confirmationTokenService.deleteToken(token);
+        }
+
+        return SITES_RESET_PASS;
+    }
+
+    @RequestMapping(value = "/user/password/reset", method = RequestMethod.POST)
+    public String resetUserPassword(@ModelAttribute("passwordForm") PasswordForm passwordForm, Model model) {
+
+        boolean success;
+        String ret = SITES_LOGIN;
+
+        String email = passwordForm.getEmail();
+        String newPassword = passwordForm.getNewPassword();
+        success = email != null && newPassword != null;
+
+        if(success) {
+            User user = userService.findByEmail(email);
+            success = user != null && userService.updatePassword(user.getUsername(), newPassword, user.getPassword());
+        }
+
+        if(!success) {
+            model.addAttribute("css", "danger");
+            model.addAttribute("message", getSourcedMessage("Invalid.UsernameOrPassword"));
+            ret = SITES_RESET_PASS;
+        }
+        return ret;
+    }
+
     private String getOriginReq(HttpServletRequest request) {
         return "redirect:"+ request.getHeader("Referer");
     }
@@ -249,6 +349,7 @@ public class WebController {
         String oldPassword;
         String newPassword;
         String passwordConfirm;
+        String email;
 
         public String getUsername() {
             return username;
@@ -280,6 +381,14 @@ public class WebController {
 
         public void setPasswordConfirm(String passwordConfirm) {
             this.passwordConfirm = passwordConfirm;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
         }
     }
 }

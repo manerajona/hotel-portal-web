@@ -17,7 +17,7 @@
 
         <spring:bind path="firstName">
             <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
-                <label>Nombre</label>
+                <label>* Nombre</label>
                 <form:input path="firstName" type="text" class="form-control" autofocus="true" />
                 <strong>
                     <form:errors path="firstName"></form:errors>
@@ -27,7 +27,7 @@
 
         <spring:bind path="lastName">
             <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
-                <label>Apellido</label>
+                <label>* Apellido</label>
                 <form:input path="lastName" type="text" class="form-control" />
                 <strong>
                     <form:errors path="lastName"></form:errors>
@@ -37,7 +37,7 @@
 
         <spring:bind path="username">
             <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
-                <label>Username</label>
+                <label>* Username</label>
                 <form:input path="username" type="text" class="form-control" />
                 <strong>
                     <form:errors path="username"></form:errors>
@@ -47,7 +47,7 @@
 
         <spring:bind path="email">
             <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
-                <label>Correo electrónico</label>
+                <label>* Correo electrónico</label>
                 <form:input path="email" type="email" class="form-control" />
                 <strong>
                     <form:errors path="email"></form:errors>
@@ -57,7 +57,7 @@
 
         <spring:bind path="password">
             <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
-                <label>Nuevo password</label>
+                <label>* Nuevo password</label>
                 <form:input path="password" type="password" class="form-control" />
                 <strong>
                     <form:errors path="password"></form:errors>
@@ -67,7 +67,7 @@
 
         <spring:bind path="passwordConfirm">
             <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
-                <label>Confirmar password</label>
+                <label>* Confirmar password</label>
                 <form:input path="passwordConfirm" type="password" class="form-control" />
                 <strong>
                     <form:errors path="passwordConfirm"></form:errors>

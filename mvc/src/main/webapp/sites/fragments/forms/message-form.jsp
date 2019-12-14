@@ -12,27 +12,27 @@
   <div class="form-row">
     <div class="col-12 col-md-12 mb-2 mb-md-0">
       <spring:bind path="name">
-        <label class="mt-3">Nombre y Apellido</label>
+        <label class="mt-3">* Nombre y Apellido</label>
         <form:input path="name" id="name" class="form-control form-control-md" type="text" required="required" />
       </spring:bind>
 
       <spring:bind path="subject">
-        <label class="mt-3">Asunto</label>
+        <label class="mt-3">* Asunto</label>
         <form:input path="subject" id="subject" class="form-control form-control-md" type="text" required="required" />
       </spring:bind>
 
       <spring:bind path="email">
-        <label class="mt-3">Correo Electrónico</label>
+        <label class="mt-3">* Correo Electrónico</label>
         <form:input path="email" id="email" class="form-control form-control-md" type="email" required="required" />
       </spring:bind>
 
       <spring:bind path="phone">
-        <label class="mt-3">Teléfono de contacto</label>
+        <label class="mt-3">* Teléfono de contacto</label>
         <form:input path="phone" id="phone" class="form-control form-control-md" type="text" required="required" />
       </spring:bind>
 
       <spring:bind path="content">
-        <label class="mt-3">Mensaje</label>
+        <label class="mt-3">* Mensaje</label>
         <form:textarea path="content" id="content" class="form-control form-control-md" cols="50" rows="5"
           maxlength="250" required="required" />
       </spring:bind>
