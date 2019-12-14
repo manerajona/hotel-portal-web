@@ -16,24 +16,29 @@
         <form:hidden path="id" />
 
         <spring:bind path="firstName">
-            <div class="col-xl-6 mt-3">
+            <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
                 <label>Nombre</label>
-                <form:input path="firstName" type="text" class="form-control" required="required" autofocus="true" />
+                <form:input path="firstName" type="text" class="form-control" autofocus="true" />
+                <strong>
+                    <form:errors path="firstName"></form:errors>
+                </strong>
             </div>
         </spring:bind>
 
         <spring:bind path="lastName">
-            <div class="col-xl-6 mt-3">
+            <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
                 <label>Apellido</label>
+                <form:input path="lastName" type="text" class="form-control" />
                 <strong>
-                    <form:input path="lastName" type="text" class="form-control" required="required" /></strong>
+                    <form:errors path="lastName"></form:errors>
+                </strong>
             </div>
         </spring:bind>
 
         <spring:bind path="username">
             <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
                 <label>Username</label>
-                <form:input path="username" type="text" class="form-control" required="required" />
+                <form:input path="username" type="text" class="form-control" />
                 <strong>
                     <form:errors path="username"></form:errors>
                 </strong>
@@ -43,7 +48,7 @@
         <spring:bind path="email">
             <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
                 <label>Correo electrónico</label>
-                <form:input path="email" type="email" class="form-control" required="required" />
+                <form:input path="email" type="email" class="form-control" />
                 <strong>
                     <form:errors path="email"></form:errors>
                 </strong>
@@ -53,7 +58,7 @@
         <spring:bind path="password">
             <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
                 <label>Nuevo password</label>
-                <form:input path="password" type="password" class="form-control" required="required" />
+                <form:input path="password" type="password" class="form-control" />
                 <strong>
                     <form:errors path="password"></form:errors>
                 </strong>
@@ -63,7 +68,7 @@
         <spring:bind path="passwordConfirm">
             <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
                 <label>Confirmar password</label>
-                <form:input path="passwordConfirm" type="password" class="form-control" required="required" />
+                <form:input path="passwordConfirm" type="password" class="form-control" />
                 <strong>
                     <form:errors path="passwordConfirm"></form:errors>
                 </strong>

@@ -20,10 +20,10 @@
         </c:when>
         <c:otherwise>
             <jsp:include page="fragments/forms/login-form.jsp" />
+            <p class="text-center">¿Todavía no estás registrado?</p>
+            <p class="text-center"><a href="${contextPath}/registration">Nuevo usuario</a></p>
         </c:otherwise>
     </c:choose>
-    <p class="text-center">¿Todavía no estás registrado?</p>
-    <p class="text-center"><a href="${contextPath}/registration">Nuevo usuario</a></p>
 </div>
 
 <jsp:include page="fragments/footer.jsp" />

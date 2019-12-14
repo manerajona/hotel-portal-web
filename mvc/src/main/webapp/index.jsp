@@ -81,7 +81,8 @@
             <i class="icon-check m-auto text-primary"></i>
           </div>
           <h3>Check late</h3>
-          <p class="lead mb-0">El día de tu partida te permitimos seguir disfrutando de nuestras instalacciones hasta las 18:00 hs.</p>
+          <p class="lead mb-0">El día de tu partida te permitimos seguir disfrutando de nuestras instalacciones hasta
+            las 18:00 hs.</p>
         </div>
       </div>
     </div>

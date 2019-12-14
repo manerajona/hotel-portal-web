@@ -33,17 +33,17 @@
 
       <spring:bind path="content">
         <label class="mt-3">Mensaje</label>
-        <form:textarea path="content" id="content" class="form-control form-control-md" cols="50" rows="5" maxlength="250"
-          required="required" />
+        <form:textarea path="content" id="content" class="form-control form-control-md" cols="50" rows="5"
+          maxlength="250" required="required" />
       </spring:bind>
 
-    <div class="form-group">
-    <div class="col-xl-6 mx-auto my-3">
-      <div class="btn-group">
-      <input type="submit" class="btn btn-lg btn-primary" value="Enviar">
-      <a class="btn btn-lg btn-primary" onClick="clearMessageFields();">
-                  <span class="iconify" data-icon="entypo:erase" data-inline="true"></span></a>
+      <div class="form-group">
+        <div class="col-xl-6 mx-auto my-3">
+          <div class="btn-group">
+            <input type="submit" class="btn btn-lg btn-primary" value="Enviar">
+            <a class="btn btn-lg btn-primary" onClick="clearMessageFields();">
+              <span class="iconify" data-icon="entypo:erase" data-inline="true"></span></a>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 </form:form>
