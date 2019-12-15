@@ -2,7 +2,7 @@ function OnSubmitReservationForm()
 {
    var dateIn = $('#dateIn').val();
    var dateOut = $('#dateOut').val();
-   document.reservationForm.action="reservation/"+dateIn+"/"+dateOut;
+   $('#reservationForm').attr('action', "reservation/"+dateIn+"/"+dateOut);
    return true;
 }
 

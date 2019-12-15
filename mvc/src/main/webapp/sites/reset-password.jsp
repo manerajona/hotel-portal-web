@@ -27,33 +27,39 @@
                 <strong>${message}</strong>
             </div>
         </c:if>
+        <c:choose>
+            <c:when test="${css != 'success'}">
+                <spring:bind path="username">
+                    <form:input path="username" placeholder="Username" type="text" class="form-control"
+                        readonly="true" />
+                </spring:bind>
 
-        <c:if test="${css != 'success'}">
-            <spring:bind path="username">
-                <form:input path="username" placeholder="Username" type="text" class="form-control" readonly="true" />
-            </spring:bind>
+                <spring:bind path="newPassword">
+                    <div class="${status.error ? 'has-error' : ''}">
+                        <form:input path="newPassword" placeholder="Nuevo password" type="password" class="form-control"
+                            required="required" />
+                        <strong>
+                            <form:errors path="newPassword"></form:errors>
+                        </strong>
+                    </div>
+                </spring:bind>
 
-            <spring:bind path="newPassword">
-                <div class="${status.error ? 'has-error' : ''}">
-                    <form:input path="newPassword" placeholder="Nuevo password" type="password" class="form-control"
-                        required="required" />
-                    <strong>
-                        <form:errors path="newPassword"></form:errors>
-                    </strong>
-                </div>
-            </spring:bind>
+                <spring:bind path="passwordConfirm">
+                    <div class="${status.error ? 'has-error' : ''}">
+                        <form:input path="passwordConfirm" placeholder="Confirmar password" type="password"
+                            class="form-control" required="required" />
+                        <strong>
+                            <form:errors path="passwordConfirm"></form:errors>
+                        </strong>
+                    </div>
+                </spring:bind>
+                <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+            </c:when>
+            <c:otherwise>
+                <p class="text-center"><a href="${contextPath}/login">Log In</a></p>
+            </c:otherwise>
+        </c:choose>
 
-            <spring:bind path="passwordConfirm">
-                <div class="${status.error ? 'has-error' : ''}">
-                    <form:input path="passwordConfirm" placeholder="Confirmar password" type="password"
-                        class="form-control" required="required" />
-                    <strong>
-                        <form:errors path="passwordConfirm"></form:errors>
-                    </strong>
-                </div>
-            </spring:bind>
-            <button type="submit" class="btn btn-primary btn-block">Guardar</button>
-        </c:if>
     </form:form>
 
 </div>

@@ -11,16 +11,15 @@
 	<jsp:param name="title" value="Error" />
 </jsp:include>
 
-<div class="container">
+<div class="site-container">
 
 	<h1>Algo salió mal :´(</h1>
 
-	<p>${exception.message}</p>
+	<h2>${exception.message}</h2>
 
 	<c:forEach items="${exception.stackTrace}" var="stackTrace">
 		${stackTrace}
 	</c:forEach>
-
 
 </div>
 

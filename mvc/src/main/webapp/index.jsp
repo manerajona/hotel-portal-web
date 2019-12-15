@@ -32,15 +32,15 @@
         <h1 class="mb-5">Bienvenido!</h1>
       </div>
       <div class="col-md-12 col-lg-8 col-xl-7 mx-auto">
-        <form name="reservationForm" method="post" onsubmit="return OnSubmitReservationForm();">
+        <form id="reservationForm" name="reservationForm" method="post" onsubmit="return OnSubmitReservationForm();">
           <div class="form-row">
             <div class="col-12 col-md-4 mb-2 mb-md-0">
               <input type="date" name="dateIn" id="dateIn" pattern="dd/MM/yyyy" class="form-control form-control-lg"
-                placeholder="Check in">
+                placeholder="Check in" required="required">
             </div>
             <div class="col-12 col-md-4 mb-2 mb-md-0">
               <input type="date" name="dateOut" id="dateOut" pattern="dd/MM/yyyy" class="form-control form-control-lg"
-                placeholder="Check out">
+                placeholder="Check out" required="required">
             </div>
             <div class="col-12 col-md-4">
               <input type="submit" class="btn btn-block btn-lg btn-primary" value="Reservar">

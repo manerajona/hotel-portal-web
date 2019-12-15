@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
@@ -222,10 +220,21 @@ public class WebController {
     }
 
     @GetMapping("/user/password")
-    public String userPasswordHandler(Model model) {
-        Object[] params = new Object[]{"user/password", securityService.findLoggedInUsername()};
+    public String userPasswordHandler(Model model, HttpServletRequest request) {
+        String username = securityService.findLoggedInUsername();
+        Object[] params = new Object[]{"user/password", username};
         logger.info(getSourcedMessage("Info.Get", params));
-        model.addAttribute("passwordForm", new PasswordForm());
+        try {
+            User user = userService.findByUsername(username);
+            if (user == null) {
+                throw new RuntimeException(HttpStatus.FORBIDDEN.getReasonPhrase());
+            }
+            PasswordForm passwordForm = new PasswordForm();
+            passwordForm.setUsername(user.getUsername());
+            model.addAttribute("passwordForm", passwordForm);
+        } catch (Exception e) {
+            return getReturnToDefaultErrorView(model, request, e);
+        }
         return SITES_LOGIN;
     }
 
@@ -252,7 +261,7 @@ public class WebController {
         model.addAttribute("css", css);
         model.addAttribute("message", getSourcedMessage(messageKey));
 
-        return REDIRECT_INDEX;
+        return SITES_LOGIN;
     }
 
     @RequestMapping(value="/user/password/forgot", method=RequestMethod.GET)
@@ -298,18 +307,18 @@ public class WebController {
     public String validateResetToken(Model model, HttpServletRequest request, @RequestParam("token") String confirmationToken) {
         Object[] params = new Object[]{"user/password/reset", securityService.findLoggedInUsername()};
         logger.info(getSourcedMessage("Info.Get", params));
-
-        ConfirmationToken token = confirmationTokenService.findByConfirmationToken(confirmationToken);
         try {
+            ConfirmationToken token = confirmationTokenService.findByConfirmationToken(confirmationToken);
+            if (token == null) {
+                throw new RuntimeException(HttpStatus.NOT_FOUND.getReasonPhrase());
+            }
             PasswordForm passwordForm = new PasswordForm();
             passwordForm.setUsername(token.getUser().getUsername());
             model.addAttribute("passwordForm", passwordForm);
             // Once used the token is deleted
             confirmationTokenService.deleteToken(token);
         } catch (Exception e) {
-            model.addAttribute("exception", e);
-            model.addAttribute("url", request);
-            return GlobalExceptionHandler.DEFAULT_ERROR_VIEW;
+            return getReturnToDefaultErrorView(model, request, e);
         }
         return SITES_RESET_PASS;
     }
@@ -353,6 +362,12 @@ public class WebController {
 
     private String getSourcedMessage(String s, Object[] o) {
         return messageSource.getMessage(s, o, Locale.getDefault());
+    }
+
+    private String getReturnToDefaultErrorView(Model model, HttpServletRequest request, Exception e) {
+        model.addAttribute("exception", e);
+        model.addAttribute("url", request);
+        return GlobalExceptionHandler.DEFAULT_ERROR_VIEW;
     }
 
     private static class PasswordForm {
