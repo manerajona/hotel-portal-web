@@ -15,7 +15,8 @@
 
 <div class="login-form">
 
-    <form:form method="POST" modelAttribute="passwordForm" action="${contextPath}/user/password/reset" class="form-signin">
+    <form:form method="POST" modelAttribute="passwordForm" action="${contextPath}/user/password/reset"
+        class="form-signin">
 
         <h4 class="text-center">Cambiar mi contraseña</h4>
         <c:if test="${not empty message}">
@@ -27,7 +28,12 @@
             </div>
         </c:if>
 
-         <spring:bind path="newPassword">
+        <c:if test="${css != 'success'}">
+            <spring:bind path="username">
+                <form:input path="username" placeholder="Username" type="text" class="form-control" readonly="true" />
+            </spring:bind>
+
+            <spring:bind path="newPassword">
                 <div class="${status.error ? 'has-error' : ''}">
                     <form:input path="newPassword" placeholder="Nuevo password" type="password" class="form-control"
                         required="required" />
@@ -39,15 +45,15 @@
 
             <spring:bind path="passwordConfirm">
                 <div class="${status.error ? 'has-error' : ''}">
-                    <form:input path="passwordConfirm" placeholder="Confirmar password" type="password" class="form-control"
-                        required="required" />
+                    <form:input path="passwordConfirm" placeholder="Confirmar password" type="password"
+                        class="form-control" required="required" />
                     <strong>
                         <form:errors path="passwordConfirm"></form:errors>
                     </strong>
                 </div>
             </spring:bind>
             <button type="submit" class="btn btn-primary btn-block">Guardar</button>
-
+        </c:if>
     </form:form>
 
 </div>

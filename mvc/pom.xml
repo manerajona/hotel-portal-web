@@ -102,9 +102,9 @@
             </activation>
         </profile>
         <profile>
-            <id>docker</id>
+            <id>prod</id>
             <properties>
-                <activatedProperties>docker</activatedProperties>
+                <activatedProperties>prod</activatedProperties>
             </properties>
         </profile>
     </profiles>

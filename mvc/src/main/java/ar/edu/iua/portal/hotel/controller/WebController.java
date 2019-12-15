@@ -1,5 +1,6 @@
 package ar.edu.iua.portal.hotel.controller;
 
+import ar.edu.iua.portal.hotel.GlobalExceptionHandler;
 import ar.edu.iua.portal.hotel.entity.ConfirmationToken;
 import ar.edu.iua.portal.hotel.entity.Message;
 import ar.edu.iua.portal.hotel.entity.Reservation;
@@ -15,7 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -105,8 +107,9 @@ public class WebController {
         Object[] params = new Object[]{"registration", securityService.findLoggedInUsername()};
         logger.info(getSourcedMessage("Info.Post", params));
 
-        boolean success = userService.createOrUpdate(userForm, bindingResult);
+        boolean success = userService.createOrUpdateAndValidate(userForm, bindingResult);
         if (success) {
+            // Auto login user
             if (securityService.isAutenticated()) {
                 securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
                 return REDIRECT_INDEX;
@@ -248,6 +251,7 @@ public class WebController {
         }
         model.addAttribute("css", css);
         model.addAttribute("message", getSourcedMessage(messageKey));
+
         return REDIRECT_INDEX;
     }
 
@@ -263,28 +267,21 @@ public class WebController {
     public String forgotUserPassword(@ModelAttribute("userForm") User userForm, HttpServletRequest request, Model model) {
         Object[] params = new Object[]{"user/password/forgot", securityService.findLoggedInUsername()};
         logger.info(getSourcedMessage("Info.Post", params));
-        User existingUser = userService.findByEmail(userForm.getEmail());
 
-        boolean success = existingUser != null;
+        User user = userService.findByEmail(userForm.getEmail());
+        boolean success = user != null;
         if(success) {
-            ConfirmationToken confirmationToken = new ConfirmationToken(existingUser);
-
+            ConfirmationToken confirmationToken = new ConfirmationToken(user);
             confirmationTokenService.create(confirmationToken);
+            String token = confirmationToken.getConfirmationToken();
 
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setTo(existingUser.getEmail());
-
+            String email = user.getEmail();
             String subject = getSourcedMessage("Email.subject");
-            mailMessage.setSubject(subject);
-
             String from = getSourcedMessage("Email.from");
-            mailMessage.setFrom(from);
+            String link = request.getLocalAddr() + ":" + request.getLocalPort() + "/user/password/reset?token=" + token;
+            String content = getSourcedMessage("Email.content", new Object[] {link});
 
-            String link = request.getContextPath() + "/user/password/reset?token=" + confirmationToken.getConfirmationToken();
-            String content = getSourcedMessage("Email.content")  + link;
-            mailMessage.setText(content);
-
-            emailSenderService.sendEmail(mailMessage);
+            emailSenderService.sendEmail(email, subject, from, content);
 
             model.addAttribute("css", "success");
             model.addAttribute("message", getSourcedMessage("Success.Send.Email"));
@@ -295,41 +292,55 @@ public class WebController {
         return SITES_FORGOT_PASS;
     }
 
-    @RequestMapping(value = "/user/password/reset", method = {RequestMethod.GET, RequestMethod.POST})
-    public String validateResetToken(Model model, @RequestParam("token") String confirmationToken) {
+
+
+    @RequestMapping(value = "/user/password/reset", method = RequestMethod.GET)
+    public String validateResetToken(Model model, HttpServletRequest request, @RequestParam("token") String confirmationToken) {
+        Object[] params = new Object[]{"user/password/reset", securityService.findLoggedInUsername()};
+        logger.info(getSourcedMessage("Info.Get", params));
+
         ConfirmationToken token = confirmationTokenService.findByConfirmationToken(confirmationToken);
-
-        if (token != null) {
+        try {
             PasswordForm passwordForm = new PasswordForm();
-            passwordForm.setEmail(token.getUser().getEmail());
+            passwordForm.setUsername(token.getUser().getUsername());
             model.addAttribute("passwordForm", passwordForm);
+            // Once used the token is deleted
             confirmationTokenService.deleteToken(token);
+        } catch (Exception e) {
+            model.addAttribute("exception", e);
+            model.addAttribute("url", request);
+            return GlobalExceptionHandler.DEFAULT_ERROR_VIEW;
         }
-
         return SITES_RESET_PASS;
     }
 
     @RequestMapping(value = "/user/password/reset", method = RequestMethod.POST)
     public String resetUserPassword(@ModelAttribute("passwordForm") PasswordForm passwordForm, Model model) {
+        Object[] params = new Object[]{"user/password/reset", securityService.findLoggedInUsername()};
+        logger.info(getSourcedMessage("Info.Post", params));
 
         boolean success;
-        String ret = SITES_LOGIN;
+        String css = "success";
+        String messageKey = "Success.password.change";
 
-        String email = passwordForm.getEmail();
+        String username = passwordForm.getUsername();
         String newPassword = passwordForm.getNewPassword();
-        success = email != null && newPassword != null;
+        String passwordConfirm = passwordForm.getPasswordConfirm();
 
-        if(success) {
-            User user = userService.findByEmail(email);
-            success = user != null && userService.updatePassword(user.getUsername(), newPassword, user.getPassword());
+        success = !newPassword.isEmpty() && newPassword.equals(passwordConfirm);
+        if (success) {
+            User user = userService.findByUsername(username);
+            user.setPassword(newPassword);
+            userService.createOrUpdate(user);
+        } else {
+            css = "danger";
+            messageKey = "Diff.userForm.passwordConfirm";
         }
 
-        if(!success) {
-            model.addAttribute("css", "danger");
-            model.addAttribute("message", getSourcedMessage("Invalid.UsernameOrPassword"));
-            ret = SITES_RESET_PASS;
-        }
-        return ret;
+        model.addAttribute("css", css);
+        model.addAttribute("message", getSourcedMessage(messageKey));
+
+        return SITES_RESET_PASS;
     }
 
     private String getOriginReq(HttpServletRequest request) {
@@ -349,7 +360,6 @@ public class WebController {
         String oldPassword;
         String newPassword;
         String passwordConfirm;
-        String email;
 
         public String getUsername() {
             return username;
@@ -383,12 +393,5 @@ public class WebController {
             this.passwordConfirm = passwordConfirm;
         }
 
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
     }
 }

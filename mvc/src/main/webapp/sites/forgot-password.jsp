@@ -26,12 +26,15 @@
                 <strong>${message}</strong>
             </div>
         </c:if>
-        <label>Ingresa tu email y te enviaremos un correo para cambiar tu contraseña,</label>
-        <spring:bind path="email">
-            <form:input path="email" name="email" type="email" class="form-control" placeholder="email@something.com"
-                required="required" autofocus="true" />
-        </spring:bind>
-        <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+
+        <c:if test="${css != 'success'}">
+            <label>Ingresa tu email y te enviaremos un correo para cambiar tu contraseña,</label>
+            <spring:bind path="email">
+                <form:input path="email" name="email" type="email" class="form-control"
+                    placeholder="email@something.com" required="required" autofocus="true" />
+            </spring:bind>
+            <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+        </c:if>
 
     </form:form>
 

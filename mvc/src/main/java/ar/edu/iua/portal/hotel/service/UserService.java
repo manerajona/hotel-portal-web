@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface UserService {
 
-    boolean createOrUpdate(User user, BindingResult bindingResult);
+    boolean createOrUpdateAndValidate(User user, BindingResult bindingResult);
 
-    boolean create(User user);
+    void createOrUpdate(User user);
 
     User findByUsername(String username);
 

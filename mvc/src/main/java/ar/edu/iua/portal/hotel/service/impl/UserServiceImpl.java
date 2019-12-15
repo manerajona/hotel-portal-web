@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public boolean createOrUpdate(User user, BindingResult bindingResult) {
+    public boolean createOrUpdateAndValidate(User user, BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
         boolean success = !(bindingResult.hasErrors());
         if(success) {
@@ -37,8 +37,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean create(User user) {
-        return userDao.createOrUpdateUser(user) != null;
+    public void createOrUpdate(User user) {
+        userDao.createOrUpdateUser(user);
     }
 
     @Override
