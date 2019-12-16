@@ -57,7 +57,7 @@
 
         <spring:bind path="password">
             <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
-                <label>* Nuevo password</label>
+                <label>* Nueva Contraseña</label>
                 <form:input path="password" type="password" class="form-control" />
                 <strong>
                     <form:errors path="password"></form:errors>
@@ -67,7 +67,7 @@
 
         <spring:bind path="passwordConfirm">
             <div class="col-xl-6 mt-3 ${status.error ? 'has-error' : ''}">
-                <label>* Confirmar password</label>
+                <label>* Confirmar contraseña</label>
                 <form:input path="passwordConfirm" type="password" class="form-control" />
                 <strong>
                     <form:errors path="passwordConfirm"></form:errors>

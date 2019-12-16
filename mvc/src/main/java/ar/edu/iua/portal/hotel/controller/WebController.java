@@ -300,9 +300,7 @@ public class WebController {
         }
         return SITES_FORGOT_PASS;
     }
-
-
-
+    
     @RequestMapping(value = "/user/password/reset", method = RequestMethod.GET)
     public String validateResetToken(Model model, HttpServletRequest request, @RequestParam("token") String confirmationToken) {
         Object[] params = new Object[]{"user/password/reset", securityService.findLoggedInUsername()};
@@ -324,31 +322,35 @@ public class WebController {
     }
 
     @RequestMapping(value = "/user/password/reset", method = RequestMethod.POST)
-    public String resetUserPassword(@ModelAttribute("passwordForm") PasswordForm passwordForm, Model model) {
+    public String resetUserPassword(Model model, HttpServletRequest request, @ModelAttribute("passwordForm") PasswordForm passwordForm) {
         Object[] params = new Object[]{"user/password/reset", securityService.findLoggedInUsername()};
         logger.info(getSourcedMessage("Info.Post", params));
+        try {
+            boolean success;
+            String css = "success";
+            String messageKey = "Success.password.change";
 
-        boolean success;
-        String css = "success";
-        String messageKey = "Success.password.change";
+            String username = passwordForm.getUsername();
+            String newPassword = passwordForm.getNewPassword();
+            String passwordConfirm = passwordForm.getPasswordConfirm();
 
-        String username = passwordForm.getUsername();
-        String newPassword = passwordForm.getNewPassword();
-        String passwordConfirm = passwordForm.getPasswordConfirm();
-
-        success = !newPassword.isEmpty() && newPassword.equals(passwordConfirm);
-        if (success) {
-            User user = userService.findByUsername(username);
-            user.setPassword(newPassword);
-            userService.createOrUpdate(user);
-        } else {
-            css = "danger";
-            messageKey = "Diff.userForm.passwordConfirm";
+            success = !newPassword.isEmpty() && newPassword.equals(passwordConfirm);
+            if (success) {
+                User user = userService.findByUsername(username);
+                if (user == null) {
+                    throw new RuntimeException(HttpStatus.FORBIDDEN.getReasonPhrase());
+                }
+                user.setPassword(newPassword);
+                userService.createOrUpdate(user);
+            } else {
+                css = "danger";
+                messageKey = "Diff.userForm.passwordConfirm";
+            }
+            model.addAttribute("css", css);
+            model.addAttribute("message", getSourcedMessage(messageKey));
+        } catch (Exception e) {
+            return getReturnToDefaultErrorView(model, request, e);
         }
-
-        model.addAttribute("css", css);
-        model.addAttribute("message", getSourcedMessage(messageKey));
-
         return SITES_RESET_PASS;
     }
 
