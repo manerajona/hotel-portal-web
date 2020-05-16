@@ -1,8 +1,8 @@
 package ar.edu.iua.portal.hotel.security.impl;
 
-import ar.edu.iua.portal.hotel.entity.Role;
-import ar.edu.iua.portal.hotel.entity.User;
-import ar.edu.iua.portal.hotel.repository.UserRepository;
+import ar.edu.iua.portal.hotel.model.entities.Role;
+import ar.edu.iua.portal.hotel.model.entities.User;
+import ar.edu.iua.portal.hotel.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
