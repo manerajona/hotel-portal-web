@@ -1,13 +1,13 @@
 ## Overview
  
-- Backend: Spring Boot, Spring Security, JPA, Hibernate, MySQL, Maven, Java 1.8.
+- Backend: Spring Boot 2.2.2, JPA, Hibernate, MySQL, Maven, Java 11.
 - Frontend: JSP, jslt, Bootstrap, HTML5, CSS, javascript.
 
 ## Build & run
 
 ### Local run
 
-Verificar que la versión de Apache Maven sea 3.6.+ y java 1.8.+
+Verificar que la versión de Apache Maven sea 3.6.+ y java 11+
 
 ```sh
 $ mvn -v 
