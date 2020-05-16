@@ -6,6 +6,8 @@ import ar.edu.iua.portal.hotel.services.ConfirmationTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
 
@@ -14,7 +16,7 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
 
     @Override
     public boolean create(ConfirmationToken token) {
-        return confirmationTokenRepository.save(token) != null;
+        return Objects.nonNull(confirmationTokenRepository.save(token));
     }
 
     @Override

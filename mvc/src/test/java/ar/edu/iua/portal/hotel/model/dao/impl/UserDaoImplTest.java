@@ -3,7 +3,6 @@ package ar.edu.iua.portal.hotel.model.dao.impl;
 import ar.edu.iua.portal.hotel.model.entities.User;
 import ar.edu.iua.portal.hotel.model.repository.RoleRepository;
 import ar.edu.iua.portal.hotel.model.repository.UserRepository;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,13 +16,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-
 
 public class UserDaoImplTest {
 
@@ -139,12 +136,12 @@ public class UserDaoImplTest {
     }
 
     private User newUser() {
-        User user = new User();
-        user.setId(userMockData.ID);
-        user.setUsername(userMockData.USER);
-        user.setPassword(userMockData.PASSWORD);
-        user.setEmail(userMockData.EMAIL);
-        return user;
+        return User.builder()
+                .id(userMockData.ID)
+                .username(userMockData.USER)
+                .password(userMockData.PASSWORD)
+                .email(userMockData.EMAIL)
+                .build();
     }
 
     protected interface userMockData {

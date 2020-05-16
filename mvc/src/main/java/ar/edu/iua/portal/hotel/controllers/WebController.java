@@ -1,16 +1,19 @@
 package ar.edu.iua.portal.hotel.controllers;
 
 import ar.edu.iua.portal.hotel.GlobalExceptionHandler;
+import ar.edu.iua.portal.hotel.email.EmailSender;
 import ar.edu.iua.portal.hotel.model.entities.ConfirmationToken;
 import ar.edu.iua.portal.hotel.model.entities.Message;
 import ar.edu.iua.portal.hotel.model.entities.Reservation;
 import ar.edu.iua.portal.hotel.model.entities.User;
 import ar.edu.iua.portal.hotel.security.SecurityService;
 import ar.edu.iua.portal.hotel.services.ConfirmationTokenService;
-import ar.edu.iua.portal.hotel.email.EmailSender;
 import ar.edu.iua.portal.hotel.services.MessageService;
 import ar.edu.iua.portal.hotel.services.ReservationService;
 import ar.edu.iua.portal.hotel.services.UserService;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -153,7 +156,7 @@ public class WebController {
         logger.info(getSourcedMessage("Info.Post", new Object[]{"reservation", username}));
 
         boolean success = reservationService.createOrUpdate(reservationForm, username, bindingResult);
-        if(success) {
+        if (success) {
             model.addAttribute("css", "success");
             model.addAttribute("message", getSourcedMessage("Success.Reservation"));
             model.addAttribute("reservationForm", new Reservation());
@@ -189,7 +192,7 @@ public class WebController {
 
     @PostMapping("/message/{id}/delete")
     public String messageDeleteHandler(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
-        Object[] params = new Object[]{"message/"+id+"/delete", securityService.findLoggedInUsername()};
+        Object[] params = new Object[]{"message/" + id + "/delete", securityService.findLoggedInUsername()};
         logger.info(getSourcedMessage("Info.Post", params));
         messageService.deleteMessage(id);
         return getOriginReq(request);
@@ -197,7 +200,7 @@ public class WebController {
 
     @PostMapping("/reservation/{id}/delete")
     public String reservationDeleteHandler(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
-        Object[] params = new Object[]{"reservation/"+id+"/delete", securityService.findLoggedInUsername()};
+        Object[] params = new Object[]{"reservation/" + id + "/delete", securityService.findLoggedInUsername()};
         logger.info(getSourcedMessage("Info.Post", params));
         reservationService.deleteReservation(id);
         return getOriginReq(request);
@@ -205,7 +208,7 @@ public class WebController {
 
     @PostMapping("/user/{id}/delete")
     public String userDeleteHandler(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
-        Object[] params = new Object[]{"user/"+id+"/delete", securityService.findLoggedInUsername()};
+        Object[] params = new Object[]{"user/" + id + "/delete", securityService.findLoggedInUsername()};
         logger.info(getSourcedMessage("Info.Post", params));
         userService.deleteUser(id);
         return getOriginReq(request);
@@ -230,8 +233,10 @@ public class WebController {
             if (user == null) {
                 throw new RuntimeException(HttpStatus.FORBIDDEN.getReasonPhrase());
             }
-            PasswordForm passwordForm = new PasswordForm();
-            passwordForm.setUsername(user.getUsername());
+            PasswordForm passwordForm = PasswordForm.builder()
+                    .username(user.getUsername())
+                    .build();
+
             model.addAttribute("passwordForm", passwordForm);
         } catch (Exception e) {
             return getReturnToDefaultErrorView(model, request, e);
@@ -265,7 +270,7 @@ public class WebController {
         return SITES_LOGIN;
     }
 
-    @RequestMapping(value="/user/password/forgot", method=RequestMethod.GET)
+    @RequestMapping(value = "/user/password/forgot", method = RequestMethod.GET)
     public String displayResetPassword(Model model) {
         Object[] params = new Object[]{"user/password/forgot", securityService.findLoggedInUsername()};
         logger.info(getSourcedMessage("Info.Get", params));
@@ -273,14 +278,14 @@ public class WebController {
         return SITES_FORGOT_PASS;
     }
 
-    @RequestMapping(value="/user/password/forgot", method=RequestMethod.POST)
+    @RequestMapping(value = "/user/password/forgot", method = RequestMethod.POST)
     public String forgotUserPassword(@ModelAttribute("userForm") User userForm, HttpServletRequest request, Model model) {
         Object[] params = new Object[]{"user/password/forgot", securityService.findLoggedInUsername()};
         logger.info(getSourcedMessage("Info.Post", params));
 
         User user = userService.findByEmail(userForm.getEmail());
         boolean success = user != null;
-        if(success) {
+        if (success) {
             ConfirmationToken confirmationToken = new ConfirmationToken(user);
             confirmationTokenService.create(confirmationToken);
             String token = confirmationToken.getConfirmationToken();
@@ -289,7 +294,7 @@ public class WebController {
             String subject = getSourcedMessage("Email.subject");
             String from = getSourcedMessage("Email.from");
             String link = request.getLocalAddr() + ":" + request.getLocalPort() + "/user/password/reset?token=" + token;
-            String content = getSourcedMessage("Email.content", new Object[] {link});
+            String content = getSourcedMessage("Email.content", new Object[]{link});
 
             emailSender.sendEmail(email, subject, from, content);
 
@@ -301,7 +306,7 @@ public class WebController {
         }
         return SITES_FORGOT_PASS;
     }
-    
+
     @RequestMapping(value = "/user/password/reset", method = RequestMethod.GET)
     public String validateResetToken(Model model, HttpServletRequest request, @RequestParam("token") String confirmationToken) {
         Object[] params = new Object[]{"user/password/reset", securityService.findLoggedInUsername()};
@@ -311,8 +316,9 @@ public class WebController {
             if (token == null) {
                 throw new RuntimeException(HttpStatus.NOT_FOUND.getReasonPhrase());
             }
-            PasswordForm passwordForm = new PasswordForm();
-            passwordForm.setUsername(token.getUser().getUsername());
+            PasswordForm passwordForm = PasswordForm.builder()
+                    .username(token.getUser().getUsername())
+                    .build();
             model.addAttribute("passwordForm", passwordForm);
             // Once used the token is deleted
             confirmationTokenService.deleteToken(token);
@@ -356,7 +362,7 @@ public class WebController {
     }
 
     private String getOriginReq(HttpServletRequest request) {
-        return "redirect:"+ request.getHeader("Referer");
+        return "redirect:" + request.getHeader("Referer");
     }
 
     private String getSourcedMessage(String s) {
@@ -373,43 +379,13 @@ public class WebController {
         return GlobalExceptionHandler.DEFAULT_ERROR_VIEW;
     }
 
+    @Setter
+    @Getter
+    @Builder
     private static class PasswordForm {
         String username;
         String oldPassword;
         String newPassword;
         String passwordConfirm;
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public String getOldPassword() {
-            return oldPassword;
-        }
-
-        public void setOldPassword(String oldPassword) {
-            this.oldPassword = oldPassword;
-        }
-
-        public String getNewPassword() {
-            return newPassword;
-        }
-
-        public void setNewPassword(String newPassword) {
-            this.newPassword = newPassword;
-        }
-
-        public String getPasswordConfirm() {
-            return passwordConfirm;
-        }
-
-        public void setPasswordConfirm(String passwordConfirm) {
-            this.passwordConfirm = passwordConfirm;
-        }
-
     }
 }

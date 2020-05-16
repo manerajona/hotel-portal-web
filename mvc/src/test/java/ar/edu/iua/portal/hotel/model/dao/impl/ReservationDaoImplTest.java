@@ -2,7 +2,6 @@ package ar.edu.iua.portal.hotel.model.dao.impl;
 
 import ar.edu.iua.portal.hotel.model.entities.Reservation;
 import ar.edu.iua.portal.hotel.model.repository.ReservationRepository;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -49,7 +48,7 @@ public class ReservationDaoImplTest {
         assertEquals(toSDate(reservationMockData.CHECK_IN), reservation.getCheckIn());
         assertEquals(toSDate(reservationMockData.CHECK_OUT), reservation.getCheckOut());
         assertEquals(reservationMockData.GUESTS, reservation.getGuests());
-        assertEquals(reservationMockData.ROOM_TIPE, reservation.getRoomType());
+        assertEquals(reservationMockData.ROOM_TYPE, reservation.getRoomType());
         assertEquals(reservationMockData.USERNAME, reservation.getUsername());
     }
 
@@ -61,13 +60,13 @@ public class ReservationDaoImplTest {
         // When
         Mockito.when(reservationRepository.findById(any(Long.class))).thenReturn(Optional.of(reservationMock));
         Mockito.when(reservationRepository.save(any(Reservation.class))).thenReturn(reservationMock);
-        Reservation reservation = reservationDao.updateReservation(reservationMockData.ID.longValue(), in, out, reservationMockData.GUESTS, reservationMockData.ROOM_TIPE);
+        Reservation reservation = reservationDao.updateReservation(reservationMockData.ID.longValue(), in, out, reservationMockData.GUESTS, reservationMockData.ROOM_TYPE);
         // Then
         assertEquals(reservationMockData.ID, reservation.getId());
         assertEquals(in, reservation.getCheckIn());
         assertEquals(out, reservation.getCheckOut());
         assertEquals(reservationMockData.GUESTS, reservation.getGuests());
-        assertEquals(reservationMockData.ROOM_TIPE, reservation.getRoomType());
+        assertEquals(reservationMockData.ROOM_TYPE, reservation.getRoomType());
         assertEquals(reservationMockData.USERNAME, reservation.getUsername());
     }
 
@@ -81,7 +80,7 @@ public class ReservationDaoImplTest {
         assertEquals(toSDate(reservationMockData.CHECK_IN), reservation.getCheckIn());
         assertEquals(toSDate(reservationMockData.CHECK_OUT), reservation.getCheckOut());
         assertEquals(reservationMockData.GUESTS, reservation.getGuests());
-        assertEquals(reservationMockData.ROOM_TIPE, reservation.getRoomType());
+        assertEquals(reservationMockData.ROOM_TYPE, reservation.getRoomType());
         assertEquals(reservationMockData.USERNAME, reservation.getUsername());
     }
 
@@ -99,7 +98,7 @@ public class ReservationDaoImplTest {
         assertEquals(toSDate(reservationMockData.CHECK_IN), reservation.getCheckIn());
         assertEquals(toSDate(reservationMockData.CHECK_OUT), reservation.getCheckOut());
         assertEquals(reservationMockData.GUESTS, reservation.getGuests());
-        assertEquals(reservationMockData.ROOM_TIPE, reservation.getRoomType());
+        assertEquals(reservationMockData.ROOM_TYPE, reservation.getRoomType());
         assertEquals(reservationMockData.USERNAME, reservation.getUsername());
     }
 
@@ -117,26 +116,26 @@ public class ReservationDaoImplTest {
         assertEquals(toSDate(reservationMockData.CHECK_IN), reservation.getCheckIn());
         assertEquals(toSDate(reservationMockData.CHECK_OUT), reservation.getCheckOut());
         assertEquals(reservationMockData.GUESTS, reservation.getGuests());
-        assertEquals(reservationMockData.ROOM_TIPE, reservation.getRoomType());
+        assertEquals(reservationMockData.ROOM_TYPE, reservation.getRoomType());
         assertEquals(reservationMockData.USERNAME, reservation.getUsername());
     }
 
     private Reservation newReservation() {
-        Reservation reservation = new Reservation();
-        reservation.setId(reservationMockData.ID);
-        reservation.setCheckIn(toSDate(reservationMockData.CHECK_IN));
-        reservation.setCheckOut(toSDate(reservationMockData.CHECK_OUT));
-        reservation.setGuests(reservationMockData.GUESTS);
-        reservation.setUsername(reservationMockData.USERNAME);
-        reservation.setRoomType(reservationMockData.ROOM_TIPE);
-        return reservation;
+        return Reservation.builder()
+                .id(reservationMockData.ID)
+                .checkIn(toSDate(reservationMockData.CHECK_IN))
+                .checkOut(toSDate(reservationMockData.CHECK_OUT))
+                .guests(reservationMockData.GUESTS)
+                .username(reservationMockData.USERNAME)
+                .roomType(reservationMockData.ROOM_TYPE)
+                .build();
     }
 
     protected interface reservationMockData {
         Long ID = 1L;
         String CHECK_IN = "2020-04-26";
         String CHECK_OUT = "2020-04-27";
-        String ROOM_TIPE = "Laxaries Room";
+        String ROOM_TYPE = "Laxaries Room";
         Integer GUESTS = 3;
         String USERNAME = "myUser";
     }
