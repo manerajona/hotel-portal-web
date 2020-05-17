@@ -14,7 +14,7 @@ $ mvn -v
 $ java -version 
 ```
 
-Ejecutar como spring-boot aplication en dev
+Ejecutar con maven spring-boot run con profile "dev"
 
 ```sh
 $ cd mvc
