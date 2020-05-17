@@ -1,5 +1,9 @@
 package ar.edu.iua.portal.hotel.model.entities;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,13 +17,16 @@ import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.UUID;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class ConfirmationToken {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="token_id")
-	private long tokenid;
+	private long tokenId;
 
 	@Column(name="confirmation_token")
 	private String confirmationToken;
@@ -31,44 +38,9 @@ public class ConfirmationToken {
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 	
-	public ConfirmationToken() {
-	}
-	
 	public ConfirmationToken(User user) {
 		this.user = user;
 		createdDate = new Date();
 		confirmationToken = UUID.randomUUID().toString();
-	}
-
-	public String getConfirmationToken() {
-		return confirmationToken;
-	}
-
-	public void setConfirmationToken(String confirmationToken) {
-		this.confirmationToken = confirmationToken;
-	}
-
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public long getTokenid() {
-		return tokenid;
-	}
-
-	public void setTokenid(long tokenid) {
-		this.tokenid = tokenid;
 	}
 }
