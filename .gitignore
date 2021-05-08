@@ -22,3 +22,6 @@ mvc/.springBeans
 *.iws
 *.iml
 *.ipr
+
+*.flattened-pom.xml
+*.DS_Store

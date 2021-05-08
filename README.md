@@ -17,8 +17,8 @@ $ java -version
 Ejecutar con maven spring-boot run con profile "dev"
 
 ```sh
-$ cd mvc
-$ mvn clean package
+$ mvn clean install
+$ cd web-module
 $ mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
