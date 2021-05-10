@@ -19,6 +19,17 @@
         <module>web-module</module>
     </modules>
 
+    <organization>
+        <name>IUA</name>
+    </organization>
+
+    <developers>
+        <developer>
+            <name>Jonathan Manera</name>
+            <organization>IUA</organization>
+        </developer>
+    </developers>
+
     <properties>
         <revision>0.0.1-SNAPSHOT</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,6 +38,18 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
