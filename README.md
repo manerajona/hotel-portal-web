@@ -1,7 +1,7 @@
 ## Overview
  
-- Backend: Spring Boot 2.2.2, JPA, Lombok, Hibernate, MySQL, Maven, Java 11.
-- Frontend: JSP, jslt, Bootstrap, HTML5, CSS, javascript.
+- jpa-module: Spring, JPA, Lombok, Hibernate, MySQL.
+- web-module: Spring, Lombok, JSP, jslt, Bootstrap, HTML5, CSS, javascript.
 
 ## Build & run
 
